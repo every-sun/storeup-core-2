@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>599122353739-u0cb9bcmg96o8g7oeqfpi4qej1tjoadh.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.599122353739-u0cb9bcmg96o8g7oeqfpi4qej1tjoadh</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>599122353739-0m3kblg0lf2fe3h06s3juvqpf7es12qp.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAWd6JYPlZZVyQLdKZJYdTaXYw-Ehekgtk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>599122353739</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>kr.storeup.userCore</string>
+	<key>PROJECT_ID</key>
+	<string>storeup-9afa5</string>
+	<key>STORAGE_BUCKET</key>
+	<string>storeup-9afa5.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:599122353739:ios:edc8b8a243147117adf7ce</string>
+	<key>DATABASE_URL</key>
+	<string>https://storeup-9afa5-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>
