@@ -4,7 +4,7 @@ class Language {
   Language({required this.ko, this.en});
 
   factory Language.fromJson(Map<String, dynamic> json) =>
-      Language(ko: json['ko'] ?? json['en'], en: json['en']);
+      Language(ko: json['ko'] ?? (json['en'] ?? ''), en: json['en']);
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> body = Map<String, dynamic>();

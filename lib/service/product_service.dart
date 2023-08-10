@@ -8,7 +8,7 @@ class ProductServices2 {
       groupId, orderBy, direction, page) async {
     var response = await http.get(
       Uri.parse(
-          '${ServiceAPI().baseUrl}/products/group/$groupId?orderBy=$orderBy&direction=$direction&count=20&page=$page'),
+          '${ServiceAPI().baseUrl}/products/group/$groupId?order_by=$orderBy&direction=$direction&count=20&page=$page'),
       headers: ServiceAPI().headerInfo,
     );
     print(jsonDecode(response.body));

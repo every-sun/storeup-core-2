@@ -1,17 +1,9 @@
 import 'package:get/get.dart';
 
 class ProductController2 extends GetxController {
-  var isLoading = false.obs;
   var sortValue = 'created_at'.obs;
   var sortDescending = 'DESC'.obs; // ASC: 오름차순, DESC: 내림차순
-  var productCount = 0.obs;
   var page = 1.obs;
-
-  @override
-  void onClose() {
-    isLoading.value = false;
-    super.onClose();
-  }
 
   void sortProducts(value) {
     if (value == '최신순') {
