@@ -30,12 +30,12 @@ class Product {
   String description;
   dynamic noticeInformation; // TODO
   dynamic detailContents; // TODO
-  String taxType;
-  String taxRate;
+  String? taxType;
+  String? taxRate;
   bool isOnline;
   bool isDelivery;
   bool isNow;
-  AdditionalInfo online;
+  AdditionalInfo? online;
   AdditionalInfo? now;
 
   Product(
@@ -66,7 +66,9 @@ class Product {
       isOnline: json['is_online'] == 1 ? true : false,
       isDelivery: json['is_delivery'] == 1 ? true : false,
       isNow: json['is_now'] == 1 ? true : false,
-      online: AdditionalInfo.fromJson(json['online']),
+      online: json['online'] != null
+          ? AdditionalInfo.fromJson(json['online'])
+          : null,
       now: json['now'] != null ? AdditionalInfo.fromJson(json['now']) : null);
 }
 
@@ -119,14 +121,15 @@ class ProductCollectionResponse {
 }
 
 class ProductCollectionData {
-  List<ProductCollection> data;
+  List<ProductCollection> productCollections;
   int total;
-  ProductCollectionData({required this.data, required this.total});
+  ProductCollectionData(
+      {required this.productCollections, required this.total});
   factory ProductCollectionData.fromJson(Map<String, dynamic> json) =>
       ProductCollectionData(
-          data: json['data'] != null
+          productCollections: json['data'] != null
               ? List<ProductCollection>.from(
-                  json['data'].map((x) => Product.fromJson(x)))
+                  json['data'].map((x) => ProductCollection.fromJson(x)))
               : [],
           total: json['total'] ?? 0);
 }
@@ -151,7 +154,8 @@ class ProductCollection {
             ? Language.fromJson(json['description']).ko
             : '',
         products: json['products'] != null
-            ? List<Product>.from(json['data'].map((x) => Product.fromJson(x)))
+            ? List<Product>.from(
+                json['products'].map((x) => Product.fromJson(x)))
             : [],
         total: json['total'] ?? 0,
       );
