@@ -36,8 +36,7 @@ class Product {
   bool isDelivery;
   bool isNow;
   AdditionalInfo? online;
-  AdditionalInfo? now;
-
+  ProductData? data;
   Product(
       {required this.id,
       required this.globalId,
@@ -51,7 +50,7 @@ class Product {
       required this.isDelivery,
       required this.isNow,
       required this.online,
-      required this.now});
+      required this.data});
   factory Product.fromJson(Map<String, dynamic> json) => Product(
       id: json['id'],
       globalId: json['global_id'],
@@ -69,7 +68,15 @@ class Product {
       online: json['online'] != null
           ? AdditionalInfo.fromJson(json['online'])
           : null,
-      now: json['now'] != null ? AdditionalInfo.fromJson(json['now']) : null);
+      data: json['data'] != null ? ProductData.fromJson(json['data']) : null);
+}
+
+class ProductData {
+  Map<String, dynamic>? thumbnail;
+  Map<String, dynamic>? images;
+  ProductData({this.thumbnail, this.images});
+  factory ProductData.fromJson(Map<String, dynamic> json) =>
+      ProductData(thumbnail: json['thumbnail'], images: json['images']);
 }
 
 class AdditionalInfo {

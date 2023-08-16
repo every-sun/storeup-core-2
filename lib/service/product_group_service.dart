@@ -9,7 +9,15 @@ class ProductGroupServices2 {
       Uri.parse('${ServiceAPI().baseUrl}/groups?brand_id=$brandId'),
       headers: ServiceAPI().headerInfo,
     );
-    print(jsonDecode(response.body));
     return ProductGroupResponse.fromJson(jsonDecode(response.body));
+  }
+
+  /* 단일 상품그룹 조회 */
+  static Future<ProductGroup> getProductGroup(groupId) async {
+    var response = await http.get(
+      Uri.parse('${ServiceAPI().baseUrl}/groups/$groupId'),
+      headers: ServiceAPI().headerInfo,
+    );
+    return ProductGroup.fromJson(jsonDecode(response.body)['data']);
   }
 }

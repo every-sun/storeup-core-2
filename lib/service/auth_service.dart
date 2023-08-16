@@ -10,7 +10,6 @@ class AuthServices2 {
         Uri.parse('${ServiceAPI().baseUrl}/auth/register'),
         body: jsonEncode(body.toJson()),
         headers: ServiceAPI().headerInfo);
-    print(jsonDecode(response.body));
     return RegisterResponse.fromJson(jsonDecode(response.body));
   }
 
@@ -19,7 +18,6 @@ class AuthServices2 {
         Uri.parse('${ServiceAPI().baseUrl}/auth/login'),
         body: jsonEncode(body.toJson()),
         headers: ServiceAPI().headerInfo);
-    print(jsonDecode(response.body));
 
     return LoginResponse.fromJson(jsonDecode(response.body));
   }
@@ -28,7 +26,6 @@ class AuthServices2 {
       name, contact, brandId) async {
     var response = await http.get(Uri.parse(
         '${ServiceAPI().baseUrl}/auth/check/customer?name=$name&contact=$contact&brand_id=$brandId'));
-    print(jsonDecode(response.body));
     return UserExistResponse.fromJson(jsonDecode(response.body));
   }
 
@@ -37,7 +34,6 @@ class AuthServices2 {
     var response = await http.get(
         Uri.parse('${ServiceAPI().baseUrl}/auth/validate/email?email=$email'));
     var value = BasicResponse.fromJson(jsonDecode(response.body));
-    print(jsonDecode(response.body));
     if (value.status) {
       return BasicResponse(message: '사용 가능한 이메일입니다.', status: true);
     } else {
@@ -64,7 +60,6 @@ class AuthServices2 {
           "password": password,
           "password_confirmation": password
         }));
-    print(jsonDecode(response.body));
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
 }

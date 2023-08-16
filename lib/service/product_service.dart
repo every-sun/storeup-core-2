@@ -23,19 +23,17 @@ class ProductServices2 {
           '${ServiceAPI().baseUrl}/products/collection/$collectionId&order_by=$orderBy&direction=$direction&count=20&page=$page'),
       headers: ServiceAPI().headerInfo,
     );
-    print(jsonDecode(response.body));
     return ProductResponse.fromJson(jsonDecode(response.body));
   }
 
+  /* 메인에서 상품 컬렉션 출력 */
   static Future<ProductCollectionResponse> getProductCollections(
-      /* 메인에서 상품 컬렉션 출력 */
       brandId) async {
     var response = await http.get(
       Uri.parse(
           '${ServiceAPI().baseUrl}/collections/main?brand_id=$brandId&page=1'),
       headers: ServiceAPI().headerInfo,
     );
-    print(jsonDecode(response.body));
     return ProductCollectionResponse.fromJson(jsonDecode(response.body));
   }
 }
