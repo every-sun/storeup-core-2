@@ -37,6 +37,7 @@ class Product {
   bool isNow;
   AdditionalInfo? online;
   ProductData? data;
+  List<ProductOption> options;
   Product(
       {required this.id,
       required this.globalId,
@@ -50,7 +51,8 @@ class Product {
       required this.isDelivery,
       required this.isNow,
       required this.online,
-      required this.data});
+      required this.data,
+      required this.options});
   factory Product.fromJson(Map<String, dynamic> json) => Product(
       id: json['id'],
       globalId: json['global_id'],
@@ -68,7 +70,48 @@ class Product {
       online: json['online'] != null
           ? AdditionalInfo.fromJson(json['online'])
           : null,
-      data: json['data'] != null ? ProductData.fromJson(json['data']) : null);
+      data: json['data'] != null ? ProductData.fromJson(json['data']) : null,
+      options: json['options'] != null
+          ? List<ProductOption>.from(
+              json['options'].map((x) => ProductOption.fromJson(x)))
+          : []);
+}
+
+class ProductOption {
+  dynamic id;
+  String optionType;
+  dynamic optionId;
+  String name;
+  String description;
+  int min;
+  int max;
+  bool isParent;
+  int optionPrice;
+  Map<dynamic, dynamic> pivot; // TODO
+  ProductOption(
+      {required this.id,
+      required this.optionType,
+      required this.optionId,
+      required this.name,
+      required this.description,
+      required this.min,
+      required this.max,
+      required this.isParent,
+      required this.optionPrice,
+      required this.pivot});
+  factory ProductOption.fromJson(Map<String, dynamic> json) => ProductOption(
+      id: json['id'],
+      optionType: json['option_type'],
+      optionId: json['option_id'],
+      name: json['name'] != null ? Language.fromJson(json['name']).ko : '',
+      description: json['description'] != null
+          ? Language.fromJson(json['description']).ko
+          : '',
+      min: json['min'],
+      max: json['max'],
+      isParent: json['is_parent'] == 1 ? true : false,
+      optionPrice: json['option_price'],
+      pivot: json['pivot']);
 }
 
 class ProductData {

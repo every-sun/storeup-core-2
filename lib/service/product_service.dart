@@ -36,4 +36,13 @@ class ProductServices2 {
     );
     return ProductCollectionResponse.fromJson(jsonDecode(response.body));
   }
+
+  /* 상품 단일 조회 */
+  static Future<Product> getProduct(productId) async {
+    var response = await http.get(
+      Uri.parse('${ServiceAPI().baseUrl}/products/$productId'),
+      headers: ServiceAPI().headerInfo,
+    );
+    return Product.fromJson(jsonDecode(response.body)['data']);
+  }
 }
