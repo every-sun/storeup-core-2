@@ -35,7 +35,7 @@ class Product {
   bool isOnline;
   bool isDelivery;
   bool isNow;
-  AdditionalInfo? online;
+  AdditionalInfo online;
   ProductData? data;
   List<ProductOption> options;
   Product(
@@ -67,9 +67,7 @@ class Product {
       isOnline: json['is_online'] == 1 ? true : false,
       isDelivery: json['is_delivery'] == 1 ? true : false,
       isNow: json['is_now'] == 1 ? true : false,
-      online: json['online'] != null
-          ? AdditionalInfo.fromJson(json['online'])
-          : null,
+      online: AdditionalInfo.fromJson(json['online']),
       data: json['data'] != null ? ProductData.fromJson(json['data']) : null,
       options: json['options'] != null
           ? List<ProductOption>.from(

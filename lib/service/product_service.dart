@@ -38,9 +38,9 @@ class ProductServices2 {
   }
 
   /* 상품 단일 조회 */
-  static Future<Product> getProduct(productId) async {
+  static Future<Product> getProduct(productId, type) async {
     var response = await http.get(
-      Uri.parse('${ServiceAPI().baseUrl}/products/$productId'),
+      Uri.parse('${ServiceAPI().baseUrl}/products/$productId?type=$type'),
       headers: ServiceAPI().headerInfo,
     );
     return Product.fromJson(jsonDecode(response.body)['data']);
