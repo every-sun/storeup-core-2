@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:user_core2/model/language.dart';
 import 'package:user_core2/model/shipping_address.dart';
 import 'package:user_core2/service/service.dart';
 
@@ -13,5 +14,40 @@ class ShippingAddressServices2 {
     );
     return List<ShippingAddress>.from(jsonDecode(response.body)['data']
         .map((x) => ShippingAddress.fromJson(x)));
+  }
+
+  static Future<BasicResponse> storeShippingAddress(
+      ShippingAddressRequestBody body) async {
+    var response = await http.post(
+      Uri.parse('${ServiceAPI().baseUrl}/address/store'),
+      headers: ServiceAPI().headerInfo,
+      body: jsonEncode(body.toJson()),
+    );
+    return BasicResponse.fromJson(jsonDecode(response.body));
+  }
+
+  static Future<BasicResponse> editShippingAddress(
+      addressId, ShippingAddressRequestBody body) async {
+    var response = await http.post(
+      Uri.parse('${ServiceAPI().baseUrl}/address/edit/$addressId'),
+      headers: ServiceAPI().headerInfo,
+      body: jsonEncode(body.toJson()),
+    );
+    return BasicResponse.fromJson(jsonDecode(response.body));
+  }
+
+  static Future<BasicResponse> setDefaultShippingAddress(addressId) async {
+    var response = await http.post(
+      Uri.parse('${ServiceAPI().baseUrl}/address/default/edit/$addressId'),
+      headers: ServiceAPI().headerInfo,
+    );
+    return BasicResponse.fromJson(jsonDecode(response.body));
+  }
+
+  static Future<BasicResponse> deleteShippingAddress(addressId) async {
+    var response = await http.delete(
+        Uri.parse('${ServiceAPI().baseUrl}/address/delete/$addressId'),
+        headers: ServiceAPI().headerInfo);
+    return BasicResponse.fromJson(jsonDecode(response.body));
   }
 }

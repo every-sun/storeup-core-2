@@ -35,9 +35,10 @@ class Product {
   bool isOnline;
   bool isDelivery;
   bool isNow;
-  AdditionalInfo online;
+  ProductOnline online;
   ProductData? data;
   List<ProductOption> options;
+  Map<String, dynamic> store;
   Product(
       {required this.id,
       required this.globalId,
@@ -52,7 +53,8 @@ class Product {
       required this.isNow,
       required this.online,
       required this.data,
-      required this.options});
+      required this.options,
+      required this.store});
   factory Product.fromJson(Map<String, dynamic> json) => Product(
       id: json['id'],
       globalId: json['global_id'],
@@ -64,15 +66,16 @@ class Product {
       detailContents: json['detail_contents'],
       taxType: json['tax_type'],
       taxRate: json['tax_rate'],
-      isOnline: json['is_online'] == 1 ? true : false,
-      isDelivery: json['is_delivery'] == 1 ? true : false,
-      isNow: json['is_now'] == 1 ? true : false,
-      online: AdditionalInfo.fromJson(json['online']),
+      isOnline: json['is_online'] == 1,
+      isDelivery: json['is_delivery'] == 1,
+      isNow: json['is_now'] == 1,
+      online: ProductOnline.fromJson(json['online']),
       data: json['data'] != null ? ProductData.fromJson(json['data']) : null,
       options: json['options'] != null
           ? List<ProductOption>.from(
               json['options'].map((x) => ProductOption.fromJson(x)))
-          : []);
+          : [],
+      store: json['store'] ?? {});
 }
 
 class ProductOption {
@@ -107,7 +110,7 @@ class ProductOption {
           : '',
       min: json['min'],
       max: json['max'],
-      isParent: json['is_parent'] == 1 ? true : false,
+      isParent: json['is_parent'] == 1,
       optionPrice: json['option_price'],
       pivot: json['pivot']);
 }
@@ -120,7 +123,7 @@ class ProductData {
       ProductData(thumbnail: json['thumbnail'], images: json['images']);
 }
 
-class AdditionalInfo {
+class ProductOnline {
   dynamic id;
   dynamic productId;
   int price;
@@ -130,7 +133,13 @@ class AdditionalInfo {
   bool isManageStock;
   int stockQuantity;
   int safetyInventory;
-  AdditionalInfo(
+  String discountType;
+  int discountPrice;
+  int discountAmount;
+  int discountPercentage;
+  int purchasableQuantityMin;
+  int purchasableQuantityMax;
+  ProductOnline(
       {required this.id,
       required this.productId,
       required this.price,
@@ -139,20 +148,31 @@ class AdditionalInfo {
       required this.isTemporarySoldOut,
       required this.isManageStock,
       required this.stockQuantity,
-      required this.safetyInventory});
-  factory AdditionalInfo.fromJson(Map<String, dynamic> json) => AdditionalInfo(
-        id: json['id'],
-        productId: json['product_id'],
-        price: json['price'],
-        description: json['description'] != null
-            ? Language.fromJson(json['description']).ko
-            : '',
-        isPurchasable: json['is_purchasable'] == 1 ? true : false,
-        isTemporarySoldOut: json['is_temporary_sold_out'] == 1 ? true : false,
-        isManageStock: json['is_manage_stock'] == 1 ? true : false,
-        stockQuantity: json['stock_quantity'],
-        safetyInventory: json['safety_inventory'],
-      );
+      required this.safetyInventory,
+      required this.discountType,
+      required this.discountPrice,
+      required this.discountAmount,
+      required this.discountPercentage,
+      required this.purchasableQuantityMin,
+      required this.purchasableQuantityMax});
+  factory ProductOnline.fromJson(Map<String, dynamic> json) => ProductOnline(
+      id: json['id'],
+      productId: json['product_id'],
+      price: json['price'],
+      description: json['description'] != null
+          ? Language.fromJson(json['description']).ko
+          : '',
+      isPurchasable: json['is_purchasable'] == 1,
+      isTemporarySoldOut: json['is_temporary_sold_out'] == 1,
+      isManageStock: json['is_manage_stock'] == 1,
+      stockQuantity: json['stock_quantity'],
+      safetyInventory: json['safety_inventory'],
+      discountType: json['discount_type'],
+      discountPrice: json['discount_price'],
+      discountAmount: json['discount_amount'],
+      discountPercentage: json['discount_percentage'],
+      purchasableQuantityMin: json['purchasable_quantity_min'],
+      purchasableQuantityMax: json['purchasable_quantity_max']);
 }
 
 /* -----상품---- */

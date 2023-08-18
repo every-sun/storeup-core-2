@@ -1,6 +1,15 @@
 import 'package:get/get.dart';
 
 class ProductController2 extends GetxController {
+  var isHeaderFixed = false.obs;
+  RxString currentTab = '주문안내'.obs;
+
+  @override
+  void onClose() {
+    isHeaderFixed.value = false;
+    super.onClose();
+  }
+
   var sortValue = 'created_at'.obs;
   var sortDescending = 'DESC'.obs; // ASC: 오름차순, DESC: 내림차순
   var page = 1.obs;
