@@ -26,6 +26,17 @@ class ProductServices2 {
     return ProductResponse.fromJson(jsonDecode(response.body));
   }
 
+  /* 상품 검색 */
+  static Future<ProductResponse> getProductsBySearch(
+      keyWord, brandId, orderBy, direction, page) async {
+    var response = await http.get(
+      Uri.parse(
+          '${ServiceAPI().baseUrl}/products/search?key_word=$keyWord&brand_id=$brandId&direction=$direction&order_by=$orderBy&count=20&page=$page'),
+      headers: ServiceAPI().headerInfo,
+    );
+    return ProductResponse.fromJson(jsonDecode(response.body));
+  }
+
   /* 메인에서 상품 컬렉션 출력 */
   static Future<ProductCollectionResponse> getProductCollections(
       brandId) async {

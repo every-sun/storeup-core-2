@@ -29,6 +29,7 @@ class ShippingAddressController extends GetxController {
       isLoading.value = false;
       if (response.status) {
         initAddresses();
+        getAddresses();
         // await ShippingAddressServices2.getShippingAddresses(
         //         customerId, page.value)
         //     .then((res) async {
@@ -59,10 +60,7 @@ class ShippingAddressController extends GetxController {
       isLoading.value = false;
       if (response.status) {
         initAddresses();
-        // addresses.clear();
-        // await getAddresses();
-        // await getDefaultAddress();
-        // isLoading.value = false;
+        getAddresses();
         Get.back();
         showBasicAlertDialog(response.message);
       } else {
@@ -121,6 +119,7 @@ class ShippingAddressController extends GetxController {
       if (response.status) {
         userDefaultAddress.value = address;
         initAddresses();
+        getAddresses();
       } else {
         showBasicAlertDialog(response.message);
       }
@@ -141,6 +140,7 @@ class ShippingAddressController extends GetxController {
       isLoading.value = false;
       if (response.status) {
         initAddresses();
+        getAddresses();
       } else {
         showBasicAlertDialog(response.message);
       }
