@@ -3,11 +3,14 @@ import 'package:user_core2/model/language.dart';
 /* 상품 */
 class ProductResponse {
   bool status;
-  ProductResponseData? data;
-  ProductResponse({required this.status, required this.data});
+  String message;
+  ProductResponseData data;
+  ProductResponse(
+      {required this.status, required this.message, required this.data});
   factory ProductResponse.fromJson(Map<String, dynamic> json) =>
       ProductResponse(
           status: json['status'],
+          message: json['message'] ?? '',
           data: ProductResponseData.fromJson(json['data']));
 }
 

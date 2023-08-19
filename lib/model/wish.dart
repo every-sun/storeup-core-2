@@ -1,14 +1,27 @@
 import 'package:user_core2/model/product.dart';
 
 class WishResponse {
-  int total;
-  List<Wish> data;
-  WishResponse({required this.total, required this.data});
+  bool status;
+  String message;
+  WishResponseData data;
+  WishResponse(
+      {required this.status, required this.message, required this.data});
   factory WishResponse.fromJson(Map<String, dynamic> json) => WishResponse(
-      total: json['total'],
-      data: json['data'] != null
-          ? List<Wish>.from(json['data'].map((x) => Wish.fromJson(x)))
-          : []);
+      status: json['status'],
+      message: json['message'] ?? '',
+      data: WishResponseData.fromJson(json['data']));
+}
+
+class WishResponseData {
+  List<Wish> data;
+  int total;
+  WishResponseData({required this.data, required this.total});
+  factory WishResponseData.fromJson(Map<String, dynamic> json) =>
+      WishResponseData(
+          data: json['data'] != null
+              ? List<Wish>.from(json['data'].map((x) => Wish.fromJson(x)))
+              : [],
+          total: json['total'] ?? 0);
 }
 
 class Wish {

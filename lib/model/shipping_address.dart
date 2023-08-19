@@ -1,3 +1,29 @@
+class ShippingAddressResponse {
+  bool status;
+  String message;
+  ShippingAddressResponseData data;
+  ShippingAddressResponse(
+      {required this.status, required this.message, required this.data});
+  factory ShippingAddressResponse.fromJson(Map<String, dynamic> json) =>
+      ShippingAddressResponse(
+          status: json['status'],
+          message: json['message'] ?? '',
+          data: ShippingAddressResponseData.fromJson(json['data']));
+}
+
+class ShippingAddressResponseData {
+  List<ShippingAddress> data;
+  int total;
+  ShippingAddressResponseData({required this.data, required this.total});
+  factory ShippingAddressResponseData.fromJson(Map<String, dynamic> json) =>
+      ShippingAddressResponseData(
+          data: json['data'] != null
+              ? List<ShippingAddress>.from(
+                  json['data'].map((x) => ShippingAddress.fromJson(x)))
+              : [],
+          total: json['total'] ?? 0);
+}
+
 class ShippingAddress {
   dynamic id;
   String alias;
@@ -31,8 +57,8 @@ class ShippingAddress {
           zipcode: json['zipcode'],
           address1: json['address1'],
           address2: json['address2'],
-          gpsLat: json['gps_lat'],
-          gpsLon: json['gps_lon'],
+          gpsLat: json['gps_lat'] ?? '',
+          gpsLon: json['gps_lon'] ?? '',
           receiverName: json['receiver_name'],
           receiverContact: json['receiver_contact'],
           regionChargingFee: json['region_charging_fee'],
@@ -41,7 +67,7 @@ class ShippingAddress {
 }
 
 class ShippingAddressRequestBody {
-  String? customerId; // 배송지 추가시 null 아님/수정시 null
+  dynamic customerId; // 배송지 추가시 != null/수정시 == null
   String alias;
   String zipcode;
   String address1;
@@ -72,4 +98,19 @@ class ShippingAddressRequestBody {
     body['is_default_address'] = isDefaultAddress;
     return body;
   }
+}
+
+class DefaultShippingAddressResponse {
+  bool status;
+  String message;
+  ShippingAddress? data;
+  DefaultShippingAddressResponse(
+      {required this.status, required this.message, required this.data});
+  factory DefaultShippingAddressResponse.fromJson(Map<String, dynamic> json) =>
+      DefaultShippingAddressResponse(
+          status: json['status'],
+          message: json['message'] ?? '',
+          data: json['data'] != null
+              ? ShippingAddress.fromJson(json['data'])
+              : null);
 }

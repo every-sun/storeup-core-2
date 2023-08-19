@@ -52,6 +52,7 @@ class AuthController2 extends GetxController {
       registerRequestBody.value!.data.brandId =
           Get.find<AppController2>().appInfo.value!.brandId;
       var result = await AuthServices2.register(registerRequestBody.value!);
+      isLoading.value = false;
       if (!result.status) {
         showBasicAlertDialog(result.message);
       } else {
@@ -59,7 +60,6 @@ class AuthController2 extends GetxController {
         Get.to(() => Get.find<AppController2>().appInfo.value!.loginPage);
         showBasicAlertDialog(result.message);
       }
-      isLoading.value = false;
       return result.status;
     } catch (err) {
       showErrorDialog();
@@ -104,8 +104,8 @@ class AuthController2 extends GetxController {
     try {
       isLoading.value = true;
       var result = await AuthServices2.findId(name, contact);
-      showBasicAlertDialog(result.message);
       isLoading.value = false;
+      showBasicAlertDialog(result.message);
       return result;
     } catch (err) {
       showErrorDialog();
@@ -118,6 +118,7 @@ class AuthController2 extends GetxController {
     try {
       isLoading.value = true;
       var result = await AuthServices2.resetPassword(email, password);
+      isLoading.value = false;
       if (result.status) {
         await Get.find<UserController2>().deleteInfo(appName, true);
         Get.offAll(() => Get.find<AppController2>().appInfo.value!.loginPage);
@@ -125,7 +126,6 @@ class AuthController2 extends GetxController {
       } else {
         showBasicAlertDialog(result.message);
       }
-      isLoading.value = false;
       return;
     } catch (err) {
       showErrorDialog();

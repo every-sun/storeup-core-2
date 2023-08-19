@@ -5,15 +5,15 @@ import 'package:user_core2/model/shipping_address.dart';
 import 'package:user_core2/service/service.dart';
 
 class ShippingAddressServices2 {
-  static Future<List<ShippingAddress>> getShippingAddresses(
+  static Future<ShippingAddressResponse> getShippingAddresses(
       customerId, page) async {
     var response = await http.get(
       Uri.parse(
           '${ServiceAPI().baseUrl}/address?customer_id=$customerId&page=$page'),
       headers: ServiceAPI().headerInfo,
     );
-    return List<ShippingAddress>.from(jsonDecode(response.body)['data']
-        .map((x) => ShippingAddress.fromJson(x)));
+    print(jsonDecode(response.body));
+    return ShippingAddressResponse.fromJson(jsonDecode(response.body));
   }
 
   static Future<BasicResponse> storeShippingAddress(
@@ -23,24 +23,18 @@ class ShippingAddressServices2 {
       headers: ServiceAPI().headerInfo,
       body: jsonEncode(body.toJson()),
     );
+    print(jsonDecode(response.body));
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
 
   static Future<BasicResponse> editShippingAddress(
       addressId, ShippingAddressRequestBody body) async {
-    var response = await http.post(
+    var response = await http.put(
       Uri.parse('${ServiceAPI().baseUrl}/address/edit/$addressId'),
       headers: ServiceAPI().headerInfo,
       body: jsonEncode(body.toJson()),
     );
-    return BasicResponse.fromJson(jsonDecode(response.body));
-  }
-
-  static Future<BasicResponse> setDefaultShippingAddress(addressId) async {
-    var response = await http.post(
-      Uri.parse('${ServiceAPI().baseUrl}/address/default/edit/$addressId'),
-      headers: ServiceAPI().headerInfo,
-    );
+    print(jsonDecode(response.body));
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
 
@@ -48,6 +42,27 @@ class ShippingAddressServices2 {
     var response = await http.delete(
         Uri.parse('${ServiceAPI().baseUrl}/address/delete/$addressId'),
         headers: ServiceAPI().headerInfo);
+    print(jsonDecode(response.body));
     return BasicResponse.fromJson(jsonDecode(response.body));
+  }
+
+  static Future<BasicResponse> setDefaultShippingAddress(addressId) async {
+    var response = await http.put(
+      Uri.parse('${ServiceAPI().baseUrl}/address/default/edit/$addressId'),
+      headers: ServiceAPI().headerInfo,
+    );
+    print(jsonDecode(response.body));
+    return BasicResponse.fromJson(jsonDecode(response.body));
+  }
+
+  static Future<DefaultShippingAddressResponse> getDefaultShippingAddress(
+      customerId) async {
+    var response = await http.put(
+      Uri.parse(
+          '${ServiceAPI().baseUrl}/address/default?customer_id=$customerId'),
+      headers: ServiceAPI().headerInfo,
+    );
+    print(jsonDecode(response.body));
+    return DefaultShippingAddressResponse.fromJson(jsonDecode(response.body));
   }
 }

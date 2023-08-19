@@ -31,15 +31,13 @@ class WishController2 extends GetxController {
         response = await WishServices2.storeWish(
             Get.find<UserController2>().customer.value!.id, productId);
       }
+      isLoading.value = false;
       if (response.status) {
         isExist.value = !isExist.value;
-        isLoading.value = false;
-        return true;
       } else {
-        isLoading.value = false;
         showBasicAlertDialog(response.message);
-        return false;
       }
+      return response.status;
     } catch (err) {
       showErrorDialog();
       isLoading.value = false;

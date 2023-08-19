@@ -3,11 +3,14 @@ import 'package:user_core2/model/language.dart';
 /* 장보기 카테고리 */
 class ProductGroupResponse {
   bool status;
+  String message;
   List<ProductGroup> data;
-  ProductGroupResponse({required this.status, required this.data});
+  ProductGroupResponse(
+      {required this.status, required this.message, required this.data});
   factory ProductGroupResponse.fromJson(Map<String, dynamic> json) =>
       ProductGroupResponse(
           status: json['status'],
+          message: json['message'] ?? '',
           data: json['data'] != null
               ? List<ProductGroup>.from(
                   json['data'].map((x) => ProductGroup.fromJson(x)))
