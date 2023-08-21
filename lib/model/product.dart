@@ -91,7 +91,7 @@ class ProductOption {
   int max;
   bool isParent;
   int optionPrice;
-  Map<dynamic, dynamic> pivot; // TODO
+  List<ProductOption> childrenOptions;
   ProductOption(
       {required this.id,
       required this.optionType,
@@ -102,7 +102,7 @@ class ProductOption {
       required this.max,
       required this.isParent,
       required this.optionPrice,
-      required this.pivot});
+      required this.childrenOptions});
   factory ProductOption.fromJson(Map<String, dynamic> json) => ProductOption(
       id: json['id'],
       optionType: json['option_type'],
@@ -113,17 +113,36 @@ class ProductOption {
           : '',
       min: json['min'],
       max: json['max'],
-      isParent: json['is_parent'] == 1,
+      isParent: json['is_parent'],
       optionPrice: json['option_price'],
-      pivot: json['pivot']);
+      childrenOptions: json['children_options'] != null
+          ? List<ProductOption>.from(
+              json['children_options'].map((x) => ProductOption.fromJson(x)))
+          : []);
+
+  factory ProductOption.clone(ProductOption productOption) {
+    return ProductOption(
+        id: productOption.id,
+        optionType: productOption.optionType,
+        optionId: productOption.optionId,
+        name: productOption.name,
+        description: productOption.description,
+        min: productOption.min,
+        max: productOption.max,
+        isParent: productOption.isParent,
+        optionPrice: productOption.optionPrice,
+        childrenOptions: productOption.childrenOptions);
+  }
 }
 
 class ProductData {
-  Map<String, dynamic>? thumbnail;
+  String thumbnail;
   Map<String, dynamic>? images;
-  ProductData({this.thumbnail, this.images});
-  factory ProductData.fromJson(Map<String, dynamic> json) =>
-      ProductData(thumbnail: json['thumbnail'], images: json['images']);
+  ProductData({required this.thumbnail, this.images});
+  factory ProductData.fromJson(Map<String, dynamic> json) => ProductData(
+      thumbnail:
+          json['thumbnail'] != null ? json['thumbnail'].values.toList()[0] : '',
+      images: json['images']);
 }
 
 class ProductOnline {
