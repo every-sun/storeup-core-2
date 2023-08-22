@@ -7,9 +7,9 @@ import 'package:user_core2/service/cart_service.dart';
 import 'package:user_core2/util/dialog.dart';
 
 class CartController2 extends GetxController {
-  var isLoading = false.obs;
   UserController2 userController = Get.put(UserController2());
-
+  var isLoading = false.obs;
+  var selectedCarts = <Cart>[].obs;
   @override
   void onClose() {
     isLoading.value = false;
@@ -31,10 +31,11 @@ class CartController2 extends GetxController {
   }
 
   /* 장바구니 담을 때 필수옵션이 다 선택되었는지 확인 */
-  bool checkRequiredOptions(List<ProductOption> selectRequiredOptions) {
+  bool checkRequiredOptions(List<ProductOption> requiredOptions,
+      List<CartOption> selectRequiredOptions) {
     bool result = true;
-    for (var i = 0; i < selectRequiredOptions.length; i++) {
-      if (selectRequiredOptions[i].min >
+    for (var i = 0; i < requiredOptions.length; i++) {
+      if (requiredOptions[i].min >
           selectRequiredOptions[i].childrenOptions.length) {
         result = false;
         break;
@@ -71,6 +72,19 @@ class CartController2 extends GetxController {
     }
   }
 
+  /* 장바구니 담을 때 필수옵션이 다 선택되었는지 확인 */
+  bool isCheckRequiredSelected(List<ProductOption> options, requiredOptions) {
+    for (var i = 0; i < options.length; i++) {
+      if (requiredOptions
+              .where((child) => child.parentId == options[i].id)
+              .length <
+          options[i].min) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   Future<bool> saveCartItem(CartRequestBody body) async {
     if (userController.customer.value == null) return false;
     try {
@@ -83,27 +97,28 @@ class CartController2 extends GetxController {
       }
       return response.status;
     } catch (err) {
-      print(err);
       showErrorDialog();
       isLoading.value = false;
       return false;
     }
   }
 
-  Future<void> deleteCartItem(cartId) async {
-    return;
-  }
-
-  /* 장바구니 담을 때 필수옵션이 다 선택되었는지 확인 */
-  bool isCheckRequiredSelected(List<ProductOption> options, requiredOptions) {
-    for (var i = 0; i < options.length; i++) {
-      if (requiredOptions
-              .where((child) => child.parentId == options[i].id)
-              .length <
-          options[i].min) {
-        return false;
+  Future<bool> deleteCarts(List<dynamic> cartIdList) async {
+    if (userController.customer.value == null) return false;
+    try {
+      isLoading.value = true;
+      BasicResponse response = await CartServices2.deleteCarts(
+          userController.customer.value!.id, cartIdList);
+      isLoading.value = false;
+      if (!response.status) {
+        showBasicAlertDialog(response.message);
       }
+      return response.status;
+    } catch (err) {
+      print(err);
+      showErrorDialog();
+      isLoading.value = false;
+      return false;
     }
-    return true;
   }
 }

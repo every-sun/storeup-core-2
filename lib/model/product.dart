@@ -69,9 +69,9 @@ class Product {
       detailContents: json['detail_contents'],
       taxType: json['tax_type'],
       taxRate: json['tax_rate'],
-      isOnline: json['is_online'] == 1,
-      isDelivery: json['is_delivery'] == 1,
-      isNow: json['is_now'] == 1,
+      isOnline: json['is_online'],
+      isDelivery: json['is_delivery'],
+      isNow: json['is_now'],
       online: ProductOnline.fromJson(json['online']),
       data: json['data'] != null ? ProductData.fromJson(json['data']) : null,
       options: json['options'] != null
@@ -119,20 +119,6 @@ class ProductOption {
           ? List<ProductOption>.from(
               json['children_options'].map((x) => ProductOption.fromJson(x)))
           : []);
-
-  factory ProductOption.clone(ProductOption productOption) {
-    return ProductOption(
-        id: productOption.id,
-        optionType: productOption.optionType,
-        optionId: productOption.optionId,
-        name: productOption.name,
-        description: productOption.description,
-        min: productOption.min,
-        max: productOption.max,
-        isParent: productOption.isParent,
-        optionPrice: productOption.optionPrice,
-        childrenOptions: productOption.childrenOptions);
-  }
 }
 
 class ProductData {
@@ -184,16 +170,18 @@ class ProductOnline {
       description: json['description'] != null
           ? Language.fromJson(json['description']).ko
           : '',
-      isPurchasable: json['is_purchasable'] == 1,
-      isTemporarySoldOut: json['is_temporary_sold_out'] == 1,
-      isManageStock: json['is_manage_stock'] == 1,
+      isPurchasable: json['is_purchasable'],
+      isTemporarySoldOut: json['is_temporary_sold_out'],
+      isManageStock: json['is_manage_stock'],
       stockQuantity: json['stock_quantity'],
       safetyInventory: json['safety_inventory'],
       discountType: json['discount_type'],
       discountPrice: json['discount_price'],
       discountAmount: json['discount_amount'],
       discountPercentage: json['discount_percentage'],
-      purchasableQuantityMin: json['purchasable_quantity_min'],
+      purchasableQuantityMin: json['purchasable_quantity_min'] == 0
+          ? 1
+          : json['purchasable_quantity_min'],
       purchasableQuantityMax: json['purchasable_quantity_max']);
 }
 

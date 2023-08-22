@@ -111,11 +111,8 @@ class RegisterResponse {
 class Customer {
   Map<String, dynamic>? privacy;
   String email;
-  dynamic userId;
-  dynamic brandId;
   String name;
   String contact;
-  String globalId;
   dynamic id;
   String? deviceToken;
   dynamic refundAccount;
@@ -123,22 +120,16 @@ class Customer {
   Customer(
       {required this.privacy,
       required this.email,
-      required this.userId,
-      required this.brandId,
       required this.name,
       required this.contact,
-      required this.globalId,
       required this.id,
       this.deviceToken,
       this.refundAccount});
   factory Customer.fromJson(Map<String, dynamic> json) => Customer(
       privacy: json['privacy'] != null ? jsonDecode(json['privacy']) : null,
       email: json['email'] ?? '',
-      userId: json['user_id'],
-      brandId: json['brand_id'],
       name: json['name'] ?? '',
       contact: json['contact'] ?? '',
-      globalId: json['global_id'],
       id: json['id'],
       deviceToken: json['device_token'],
       refundAccount: json['refund_account'] // TODO 환불계좌정보
@@ -146,13 +137,12 @@ class Customer {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
     data['email'] = email;
-    data['user_id'] = userId;
-    data['brand_id'] = brandId;
     data['name'] = name;
     data['contact'] = contact;
-    data['global_id'] = globalId;
     data['id'] = id;
-    data['device_token'] = deviceToken;
+    if (deviceToken != null) {
+      data['device_token'] = deviceToken;
+    }
     return data;
   }
 }

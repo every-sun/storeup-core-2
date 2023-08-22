@@ -27,7 +27,7 @@ class CartRequestBody {
 class CartOption {
   dynamic id;
   String name;
-  List<Map<dynamic, dynamic>> childrenOptions; // id, name, price
+  List<dynamic> childrenOptions; // id, name, price
   CartOption(
       {required this.id, required this.name, required this.childrenOptions});
 
@@ -42,7 +42,7 @@ class CartOption {
   factory CartOption.fromJson(Map<String, dynamic> json) => CartOption(
       id: json['id'],
       name: json['name'],
-      childrenOptions: json['child_options']);
+      childrenOptions: json['children_options'] ?? []);
 }
 
 /* 카트 리스트 */
@@ -102,6 +102,6 @@ class Cart {
       productPrice: json['product_price'],
       optionPrice: json['option_price'],
       quantity: json['quantity'],
-      isPurchasable: json['is_purchasable'] == 1,
+      isPurchasable: json['is_purchasable'],
       product: Product.fromJson(json['product']));
 }

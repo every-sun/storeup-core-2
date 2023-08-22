@@ -57,7 +57,7 @@ class ShippingAddressServices2 {
 
   static Future<DefaultShippingAddressResponse> getDefaultShippingAddress(
       customerId) async {
-    var response = await http.put(
+    var response = await http.get(
       Uri.parse(
           '${ServiceAPI().baseUrl}/address/default?customer_id=$customerId'),
       headers: ServiceAPI().headerInfo,

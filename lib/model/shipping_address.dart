@@ -62,8 +62,8 @@ class ShippingAddress {
           receiverName: json['receiver_name'],
           receiverContact: json['receiver_contact'],
           regionChargingFee: json['region_charging_fee'],
-          isAvailableRegion: json['is_available_region'] == 1,
-          isDefaultAddress: json['is_default_address'] == 1);
+          isAvailableRegion: json['is_available_region'],
+          isDefaultAddress: json['is_default_address']);
 }
 
 class ShippingAddressRequestBody {
