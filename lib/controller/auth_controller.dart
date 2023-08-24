@@ -55,13 +55,10 @@ class AuthController2 extends GetxController {
       isLoading.value = false;
       if (!result.status) {
         showBasicAlertDialog(result.message);
-      } else {
-        initRegisterRequestBody();
-        Get.to(() => Get.find<AppController2>().appInfo.value!.loginPage);
-        showBasicAlertDialog(result.message);
       }
       return result.status;
     } catch (err) {
+      print(err);
       showErrorDialog();
       isLoading.value = false;
       return false;

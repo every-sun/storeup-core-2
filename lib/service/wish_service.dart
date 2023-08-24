@@ -29,4 +29,15 @@ class WishServices2 {
     );
     return WishResponse.fromJson(jsonDecode(response.body));
   }
+
+  static Future<bool> checkWish(customerId, productId) async {
+    print('customer_id=$customerId&product_id=$productId');
+    var response = await http.get(
+      Uri.parse(
+          '${ServiceAPI().baseUrl}/wish/item?customer_id=$customerId&product_id=$productId'),
+      headers: ServiceAPI().headerInfo,
+    );
+    print('data:${jsonDecode(response.body)}');
+    return jsonDecode(response.body)['data'] ?? false;
+  }
 }

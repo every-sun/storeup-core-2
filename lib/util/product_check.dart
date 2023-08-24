@@ -3,14 +3,15 @@ import 'package:user_core2/model/product.dart';
 
 /* 상품 리스트 */
 String productOutOfStockType(Product product) {
-  if (product.online.isTemporarySoldOut) {
+  if (product.online!.isTemporarySoldOut) {
     return '일시품절';
   }
-  if (product.online.isManageStock) {
-    if (product.online.stockQuantity == 0) {
+  if (product.online!.isManageStock) {
+    if (product.online!.stockQuantity == 0) {
       return '품절';
-    } else if (product.online.purchasableQuantityMin > 1 &&
-        product.online.stockQuantity < product.online.purchasableQuantityMin) {
+    } else if (product.online!.purchasableQuantityMin > 1 &&
+        product.online!.stockQuantity <
+            product.online!.purchasableQuantityMin) {
       return '재고부족';
     }
   }
@@ -21,8 +22,8 @@ String productOutOfStockType(Product product) {
 String cartOutOfStockType(Cart cart) {
   String result = productOutOfStockType(cart.product);
   if (result == '') {
-    if (cart.product.online.isManageStock &&
-        cart.product.online.stockQuantity < cart.quantity) {
+    if (cart.product.online!.isManageStock &&
+        cart.product.online!.stockQuantity < cart.quantity) {
       result = '재고부족';
     } else if (!cart.isPurchasable) {
       result = '구매불가';

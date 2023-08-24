@@ -10,6 +10,7 @@ class AuthServices2 {
         Uri.parse('${ServiceAPI().baseUrl}/auth/register'),
         body: jsonEncode(body.toJson()),
         headers: ServiceAPI().headerInfo);
+    print(jsonDecode(response.body));
     return RegisterResponse.fromJson(jsonDecode(response.body));
   }
 

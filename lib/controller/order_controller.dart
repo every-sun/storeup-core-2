@@ -13,6 +13,10 @@ class OrderController2 extends GetxController {
   var paymentMethod = "card".obs;
   var ePayCard = "TOSSPAY".obs;
   var orderType = "S".obs;
+  var shippingMessage = ''.obs;
+
+  var startDate = DateTime(DateTime.now().year, DateTime.now().month - 1).obs;
+  var endDate = DateTime.now().obs;
 
   @override
   void onClose() {
@@ -30,6 +34,7 @@ class OrderController2 extends GetxController {
       }
       return response.status;
     } catch (err) {
+      print(err);
       showErrorDialog();
       isLoading.value = false;
       return false;

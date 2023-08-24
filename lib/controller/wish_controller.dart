@@ -6,12 +6,11 @@ import 'package:user_core2/util/dialog.dart';
 
 class WishController2 extends GetxController {
   var isLoading = false.obs;
-  var isExist = false.obs; // 상품 상세페이지에 접속시 상품이 찜한 상품인지 여부
+  var isExist = false.obs;
 
   @override
   void onClose() {
     isLoading.value = false;
-    isExist.value = false;
     super.onClose();
   }
 
@@ -42,6 +41,21 @@ class WishController2 extends GetxController {
       showErrorDialog();
       isLoading.value = false;
       return false;
+    }
+  }
+
+  /* 상품 상세페이지에서 찜하기 버튼 색깔  */
+  Future<void> checkWish(productId) async {
+    if (Get.find<UserController2>().customer.value == null) {
+      isExist.value = false;
+    } else {
+      try {
+        bool value = await WishServices2.checkWish(
+            Get.find<UserController2>().customer.value!.id, productId);
+        isExist.value = value;
+      } catch (err) {
+        isExist.value = false;
+      }
     }
   }
 }

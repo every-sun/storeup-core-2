@@ -1,15 +1,9 @@
 import 'package:get/get.dart';
+import 'package:user_core2/model/product.dart';
+import 'package:user_core2/service/product_service.dart';
+import 'package:user_core2/util/dialog.dart';
 
 class ProductController2 extends GetxController {
-  var isHeaderFixed = false.obs;
-  RxString currentTab = '주문안내'.obs;
-
-  @override
-  void onClose() {
-    isHeaderFixed.value = false;
-    super.onClose();
-  }
-
   var sortValue = 'created_at'.obs;
   var sortDescending = 'DESC'.obs; // ASC: 오름차순, DESC: 내림차순
   var page = 1.obs;
@@ -27,6 +21,17 @@ class ProductController2 extends GetxController {
     } else if (value == '높은가격순') {
       sortValue.value = 'price';
       sortDescending.value = 'DESC';
+    }
+  }
+
+  Future<Product?> getProduct(productId) async {
+    try {
+      Product product = await ProductServices2.getProduct(productId, 'O');
+      return product;
+    } catch (err) {
+      Get.back();
+      showBasicAlertDialog('상품 정보를 불러올 수 없습니다.');
+      return null;
     }
   }
 }

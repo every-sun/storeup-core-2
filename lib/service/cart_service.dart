@@ -46,14 +46,11 @@ class CartServices2 {
 
   static Future<BasicResponse> deleteCarts(
       customerId, List<dynamic> cartIdList) async {
-    print(jsonEncode(cartIdList));
-
     var response = await http.delete(
       Uri.parse('${ServiceAPI().baseUrl}/customers/$customerId/carts'),
       headers: ServiceAPI().headerInfo,
       body: jsonEncode({'id_list': cartIdList}),
     );
-    print(jsonDecode(response.body));
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
 }

@@ -10,6 +10,7 @@ class CartController2 extends GetxController {
   UserController2 userController = Get.put(UserController2());
   var isLoading = false.obs;
   var selectedCarts = <Cart>[].obs;
+
   @override
   void onClose() {
     isLoading.value = false;
@@ -70,19 +71,6 @@ class CartController2 extends GetxController {
         }
       }
     }
-  }
-
-  /* 장바구니 담을 때 필수옵션이 다 선택되었는지 확인 */
-  bool isCheckRequiredSelected(List<ProductOption> options, requiredOptions) {
-    for (var i = 0; i < options.length; i++) {
-      if (requiredOptions
-              .where((child) => child.parentId == options[i].id)
-              .length <
-          options[i].min) {
-        return false;
-      }
-    }
-    return true;
   }
 
   Future<bool> saveCartItem(CartRequestBody body) async {

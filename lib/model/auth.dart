@@ -109,7 +109,8 @@ class RegisterResponse {
 }
 
 class Customer {
-  Map<String, dynamic>? privacy;
+  // CustomerPrivacy? privacy;
+  dynamic privacy;
   String email;
   String name;
   String contact;
@@ -118,7 +119,7 @@ class Customer {
   dynamic refundAccount;
 
   Customer(
-      {required this.privacy,
+      {this.privacy,
       required this.email,
       required this.name,
       required this.contact,
@@ -126,7 +127,10 @@ class Customer {
       this.deviceToken,
       this.refundAccount});
   factory Customer.fromJson(Map<String, dynamic> json) => Customer(
-      privacy: json['privacy'] != null ? jsonDecode(json['privacy']) : null,
+      // privacy: json['privacy'] != null
+      //     ? CustomerPrivacy.fromJson(json['privacy'])
+      //     : null,
+      privacy: json['privacy'],
       email: json['email'] ?? '',
       name: json['name'] ?? '',
       contact: json['contact'] ?? '',
@@ -145,6 +149,27 @@ class Customer {
     }
     return data;
   }
+}
+
+class CustomerPrivacy {
+  String gender;
+  String residence1;
+  String residence2;
+  String birthday;
+
+  CustomerPrivacy({
+    required this.gender,
+    required this.residence1,
+    required this.residence2,
+    required this.birthday,
+  });
+  factory CustomerPrivacy.fromJson(Map<String, dynamic> json) =>
+      CustomerPrivacy(
+        gender: json['gender'] ?? '',
+        residence1: json['residence1'] ?? '',
+        residence2: json['residence2'] ?? '',
+        birthday: json['birthday'],
+      );
 }
 
 class RegisterResponseError {

@@ -38,7 +38,7 @@ class Product {
   bool isOnline;
   bool isDelivery;
   bool isNow;
-  ProductOnline online;
+  ProductOnline? online; // 주문 아이템 안에는 null
   ProductData? data;
   List<ProductOption> options;
   Map<String, dynamic> store;
@@ -72,7 +72,9 @@ class Product {
       isOnline: json['is_online'],
       isDelivery: json['is_delivery'],
       isNow: json['is_now'],
-      online: ProductOnline.fromJson(json['online']),
+      online: json['online'] != null
+          ? ProductOnline.fromJson(json['online'])
+          : null,
       data: json['data'] != null ? ProductData.fromJson(json['data']) : null,
       options: json['options'] != null
           ? List<ProductOption>.from(
@@ -141,8 +143,8 @@ class ProductOnline {
   bool isManageStock;
   int stockQuantity;
   int safetyInventory;
-  String discountType;
-  int discountPrice;
+  String discountType; // F ->discountAmount, P ->discountPercentage
+  int discountPrice; // is_discount = true 이면
   int discountAmount;
   int discountPercentage;
   int purchasableQuantityMin;

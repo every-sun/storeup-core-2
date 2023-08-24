@@ -6,6 +6,7 @@ import 'package:user_core2/service/service.dart';
 class ProductServices2 {
   static Future<ProductResponse> getProductsByGroup(
       groupId, orderBy, direction, page) async {
+    print(direction);
     var response = await http.get(
       Uri.parse(
           '${ServiceAPI().baseUrl}/products/group/$groupId?order_by=$orderBy&direction=$direction&count=20&page=$page'),
@@ -29,11 +30,14 @@ class ProductServices2 {
   /* 상품 검색 */
   static Future<ProductResponse> getProductsBySearch(
       keyWord, brandId, orderBy, direction, page) async {
+    print(
+        'key_word=$keyWord&brand_id=$brandId&direction=$direction&order_by=$orderBy&count=20&page=$page');
     var response = await http.get(
       Uri.parse(
           '${ServiceAPI().baseUrl}/products/search?key_word=$keyWord&brand_id=$brandId&direction=$direction&order_by=$orderBy&count=20&page=$page'),
       headers: ServiceAPI().headerInfo,
     );
+    print(jsonDecode(response.body));
     return ProductResponse.fromJson(jsonDecode(response.body));
   }
 
@@ -54,6 +58,7 @@ class ProductServices2 {
       Uri.parse('${ServiceAPI().baseUrl}/products/$productId?type=$type'),
       headers: ServiceAPI().headerInfo,
     );
+    print(jsonDecode(response.body)['data']);
     return Product.fromJson(jsonDecode(response.body)['data']);
   }
 }
