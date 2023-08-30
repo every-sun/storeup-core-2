@@ -1,6 +1,7 @@
 import 'package:user_core2/model/auth.dart';
 import 'package:user_core2/model/cart.dart';
 import 'package:user_core2/model/product.dart';
+import 'package:user_core2/model/review.dart';
 import 'package:user_core2/model/store.dart';
 
 /* 주문 생성 */
@@ -35,13 +36,13 @@ class OrderRequestBodyData {
   String orderType;
   String orderMethod;
   int orderShippingFee;
-  int orderPriceAmount;
+  int orderPriceAmount; // 상품,옵션 판매 금액
   bool isUseDiscountCoupon;
   int orderDiscountAmount;
   int orderCouponDiscountAmount;
   int orderCustomDiscountAmount;
   int orderAdditionalPaymentAmount;
-  int orderPaymentAmount;
+  int orderPaymentAmount; // 할인,배송비를 합산한 최종 결제 (예상)금액
   bool isOnline;
   Map<dynamic, dynamic> orderRequest;
 
@@ -76,6 +77,18 @@ class OrderRequestBodyData {
     body['order_request'] = orderRequest;
     return body;
   }
+}
+
+// 주문생성 post 요청 응답데이터
+class OrderRequestResponse {
+  bool status;
+  String message;
+  Map<dynamic, dynamic>? data;
+  OrderRequestResponse(
+      {required this.status, required this.message, required this.data});
+  factory OrderRequestResponse.fromJson(Map<String, dynamic> json) =>
+      OrderRequestResponse(
+          status: json['status'], message: json['message'], data: json['data']);
 }
 
 class OrderRequestItem {
@@ -124,6 +137,7 @@ class OrderResponseData {
 
 class Order {
   dynamic id;
+  dynamic globalId;
   String orderNo;
   String orderType;
   String orderStatus;
@@ -147,7 +161,8 @@ class Order {
   DateTime createdAt;
   OrderShippingDetail? shippingDetail;
   Order(
-      {this.id,
+      {required this.id,
+      required this.globalId,
       required this.orderNo,
       required this.orderType,
       required this.orderStatus,
@@ -172,6 +187,7 @@ class Order {
       required this.shippingDetail});
   factory Order.fromJson(Map<String, dynamic> json) => Order(
       id: json['id'],
+      globalId: json['global_id'],
       orderNo: json['order_no'],
       orderType: json['order_type'],
       orderStatus: json['order_status'],
@@ -224,6 +240,8 @@ class OrderShippingDetail {
 
 class OrderItem {
   dynamic id;
+  dynamic orderId;
+  dynamic globalId;
   String itemNo;
   String orderNo;
   String orderStatus;
@@ -247,8 +265,11 @@ class OrderItem {
   bool isReviewed;
   Product? product;
   Store? store;
+  Review? review;
   OrderItem(
       {required this.id,
+      required this.orderId,
+      required this.globalId,
       required this.itemNo,
       required this.orderNo,
       required this.orderStatus,
@@ -271,9 +292,12 @@ class OrderItem {
       required this.optionsPrice,
       required this.isReviewed,
       required this.product,
-      required this.store});
+      required this.store,
+      required this.review});
   factory OrderItem.fromJson(Map<String, dynamic> json) => OrderItem(
       id: json['id'],
+      orderId: json['order_id'],
+      globalId: json['global_id'],
       itemNo: json['item_no'],
       orderNo: json['order_no'],
       orderStatus: json['order_status'],
@@ -302,5 +326,6 @@ class OrderItem {
       isReviewed: json['is_reviewed'],
       product:
           json['product'] != null ? Product.fromJson(json['product']) : null,
-      store: json['store'] != null ? Store.fromJson(json['store']) : null);
+      store: json['store'] != null ? Store.fromJson(json['store']) : null,
+      review: json['review'] != null ? Review.fromJson(json['review']) : null);
 }

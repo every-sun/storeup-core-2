@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:user_core2/controller/app_controller.dart';
+import 'package:user_core2/controller/cart_controller.dart';
 import 'package:user_core2/controller/order_controller.dart';
 import 'package:user_core2/model/brand.dart';
 import 'package:user_core2/service/brand_service.dart';
@@ -9,7 +10,7 @@ class BrandController2 extends GetxController {
   var isLoading = false.obs;
   var shippingFee = Rxn<ShippingFeeResponseData>();
   var carrier = Rxn<CarrierResponseData>();
-  OrderController2 orderController = Get.put(OrderController2());
+  CartController2 cartController = Get.put(CartController2());
 
   @override
   void onInit() {
@@ -40,11 +41,10 @@ class BrandController2 extends GetxController {
   }
 
   // 배송비 가져오기
-
   int getShippingFee() {
     if (shippingFee.value == null) return 0;
     if (shippingFee.value!.conditionType == 'P') {
-      if (orderController.selectCartSumPrice.value >=
+      if (cartController.selectedCartsSumPrice.value >=
           shippingFee.value!.condition) {
         return shippingFee.value!.conditionFee;
       } else {

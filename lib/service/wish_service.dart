@@ -7,7 +7,7 @@ import 'package:user_core2/service/service.dart';
 class WishServices2 {
   static Future<BasicResponse> storeWish(customerId, productId) async {
     var response = await http.post(
-        Uri.parse('${ServiceAPI().baseUrl}/wish/store'),
+        Uri.parse('${ServiceAPI().baseUrl}/customers/$customerId/wish/store'),
         headers: ServiceAPI().headerInfo,
         body: jsonEncode({"customer_id": customerId, "product_id": productId}));
     return BasicResponse.fromJson(jsonDecode(response.body));

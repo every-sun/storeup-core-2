@@ -1,3 +1,4 @@
+import 'package:user_core2/model/image_data.dart';
 import 'package:user_core2/model/language.dart';
 
 /* 상품 */
@@ -39,7 +40,7 @@ class Product {
   bool isDelivery;
   bool isNow;
   ProductOnline? online; // 주문 아이템 안에는 null
-  ProductData? data;
+  ImageData? data;
   List<ProductOption> options;
   Map<String, dynamic> store;
   Product(
@@ -75,7 +76,7 @@ class Product {
       online: json['online'] != null
           ? ProductOnline.fromJson(json['online'])
           : null,
-      data: json['data'] != null ? ProductData.fromJson(json['data']) : null,
+      data: json['data'] != null ? ImageData.fromJson(json['data']) : null,
       options: json['options'] != null
           ? List<ProductOption>.from(
               json['options'].map((x) => ProductOption.fromJson(x)))
@@ -123,15 +124,7 @@ class ProductOption {
           : []);
 }
 
-class ProductData {
-  String thumbnail;
-  Map<String, dynamic>? images;
-  ProductData({required this.thumbnail, this.images});
-  factory ProductData.fromJson(Map<String, dynamic> json) => ProductData(
-      thumbnail:
-          json['thumbnail'] != null ? json['thumbnail'].values.toList()[0] : '',
-      images: json['images']);
-}
+
 
 class ProductOnline {
   dynamic id;

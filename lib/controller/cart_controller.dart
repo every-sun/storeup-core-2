@@ -5,11 +5,13 @@ import 'package:user_core2/model/language.dart';
 import 'package:user_core2/model/product.dart';
 import 'package:user_core2/service/cart_service.dart';
 import 'package:user_core2/util/dialog.dart';
+import 'package:user_core2/util/product_check.dart';
 
 class CartController2 extends GetxController {
   UserController2 userController = Get.put(UserController2());
   var isLoading = false.obs;
   var selectedCarts = <Cart>[].obs;
+  var selectedCartsSumPrice = 0.obs;
 
   @override
   void onClose() {
@@ -74,6 +76,15 @@ class CartController2 extends GetxController {
     }
   }
 
+  void updatePrice() {
+    int result = 0;
+    for (var i = 0; i < selectedCarts.length; i++) {
+      result += (selectedCarts[i].optionPrice + selectedCarts[i].productPrice) *
+          selectedCarts[i].quantity;
+    }
+    selectedCartsSumPrice.value = result;
+  }
+
   Future<bool> saveCartItem(CartRequestBody body) async {
     if (userController.customer.value == null) return false;
     try {
@@ -104,10 +115,86 @@ class CartController2 extends GetxController {
       }
       return response.status;
     } catch (err) {
-      print(err);
       showErrorDialog();
       isLoading.value = false;
       return false;
+    }
+  }
+
+  void check(isAdd, Cart cart, showToast) {
+    if (cartOutOfStockType(cart) != '') {
+      showToast();
+      return;
+    }
+    if (isAdd) {
+      selectedCarts.add(cart);
+    } else {
+      selectedCarts.removeWhere((element) => element.id == cart.id);
+    }
+    updatePrice();
+  }
+
+  void checkAll(carts, showToast) {
+    if (selectedCarts.isEmpty) {
+      List<Cart> values = [];
+      for (var i = 0; i < carts.length; i++) {
+        if (cartOutOfStockType(carts[i]) == '') {
+          values.add(carts[i]);
+        }
+      }
+      if (values.length < carts.length) {
+        showToast();
+        return;
+      }
+      selectedCarts.assignAll(values);
+    } else {
+      selectedCarts.clear();
+    }
+    updatePrice();
+  }
+
+  Future<void> deleteSelectedCarts(refreshMethod) async {
+    List<dynamic> targets = [];
+    for (var i = 0; i < selectedCarts.length; i++) {
+      targets.add(selectedCarts[i].id);
+    }
+    isLoading.value = true;
+    bool isSuccess = await deleteCarts(targets);
+    isLoading.value = false;
+    if (isSuccess) {
+      refreshMethod();
+    }
+  }
+
+  Future<void> deleteUnableCarts(carts, refreshMethod) async {
+    List<dynamic> targets = [];
+    for (var i = 0; i < carts.length; i++) {
+      if (cartOutOfStockType(carts[i]) != '') {
+        targets.add(carts[i].id);
+      }
+    }
+    if (targets.isEmpty) return;
+    isLoading.value = true;
+    bool isSuccess = await deleteCarts(targets);
+    isLoading.value = false;
+    if (isSuccess) {
+      refreshMethod();
+    }
+  }
+
+  Future<void> updateQuantity(
+      isAdd, dynamic cartId, carts, quantity, successMethod) async {
+    try {
+      BasicResponse response = await CartServices2.updateQuantity(
+          Get.find<UserController2>().customer.value!.id, cartId, quantity);
+      if (response.status) {
+        successMethod();
+        updatePrice();
+      } else {
+        showBasicAlertDialog(response.message);
+      }
+    } catch (err) {
+      showErrorDialog();
     }
   }
 }
