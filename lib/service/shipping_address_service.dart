@@ -23,6 +23,7 @@ class ShippingAddressServices2 {
       headers: ServiceAPI().headerInfo,
       body: jsonEncode(body.toJson()),
     );
+    print('배송지 저장: ${jsonEncode(body.toJson())}');
     print(jsonDecode(response.body));
     return BasicResponse.fromJson(jsonDecode(response.body));
   }

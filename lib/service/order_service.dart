@@ -21,7 +21,7 @@ class OrderServices2 {
       Uri.parse(
           '${ServiceAPI().baseUrl}/orders/customer/$customerId?from=$from&to=$to&order_type=$orderType&page=$page'),
       headers: ServiceAPI().headerInfo,
-    ); // 2021-01-01
+    ); // from, to:  2021-01-01
     print(jsonDecode(response.body));
     return OrderResponse.fromJson(jsonDecode(response.body));
   }

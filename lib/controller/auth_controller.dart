@@ -100,7 +100,8 @@ class AuthController2 extends GetxController {
   Future<IdFindResponse?> findId(name, contact) async {
     try {
       isLoading.value = true;
-      var result = await AuthServices2.findId(name, contact);
+      var result = await AuthServices2.findId(
+          name, contact, Get.find<AppController2>().appInfo.value!.brandId);
       isLoading.value = false;
       showBasicAlertDialog(result.message);
       return result;

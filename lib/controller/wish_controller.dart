@@ -10,6 +10,8 @@ class WishController2 extends GetxController {
 
   @override
   void onClose() {
+    print('wish controller close');
+    isExist.value = false;
     isLoading.value = false;
     super.onClose();
   }

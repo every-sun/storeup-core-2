@@ -13,6 +13,7 @@ class CartController2 extends GetxController {
 
   @override
   void onClose() {
+    print('cart controller close');
     isLoading.value = false;
     super.onClose();
   }

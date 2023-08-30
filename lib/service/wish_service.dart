@@ -15,29 +15,37 @@ class WishServices2 {
 
   static Future<BasicResponse> deleteWish(customerId, productId) async {
     var response = await http.delete(
-        Uri.parse('${ServiceAPI().baseUrl}/wish/delete'),
+        Uri.parse('${ServiceAPI().baseUrl}/customers/$customerId/wish/delete'),
         headers: ServiceAPI().headerInfo,
-        body: jsonEncode({"customer_id": customerId, "product_id": productId}));
+        body: jsonEncode({"product_id": productId}));
+    return BasicResponse.fromJson(jsonDecode(response.body));
+  }
+
+  static Future<BasicResponse> deleteAllWish(customerId) async {
+    var response = await http.delete(
+      Uri.parse(
+          '${ServiceAPI().baseUrl}/customers/$customerId/wish/all/delete'),
+      headers: ServiceAPI().headerInfo,
+    );
+    print(jsonDecode(response.body));
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
 
   static Future<WishResponse> getWishes(customerId, page) async {
     var response = await http.get(
       Uri.parse(
-          '${ServiceAPI().baseUrl}/wish?customer_id=$customerId&page=$page'),
+          '${ServiceAPI().baseUrl}/customers/$customerId/wish?page=$page'),
       headers: ServiceAPI().headerInfo,
     );
     return WishResponse.fromJson(jsonDecode(response.body));
   }
 
   static Future<bool> checkWish(customerId, productId) async {
-    print('customer_id=$customerId&product_id=$productId');
     var response = await http.get(
       Uri.parse(
-          '${ServiceAPI().baseUrl}/wish/item?customer_id=$customerId&product_id=$productId'),
+          '${ServiceAPI().baseUrl}/customers/$customerId/wish/item?product_id=$productId'),
       headers: ServiceAPI().headerInfo,
     );
-    print('data:${jsonDecode(response.body)}');
     return jsonDecode(response.body)['data'] ?? false;
   }
 }

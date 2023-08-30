@@ -17,10 +17,15 @@ class ShippingAddressController extends GetxController {
 
   @override
   onInit() {
-    print('배송지 init');
     getDefaultAddress();
     getAddresses();
     super.onInit();
+  }
+
+  @override
+  onClose() {
+    initAddresses();
+    super.onClose();
   }
 
   Future<bool> saveAddress(ShippingAddressRequestBody body) async {
@@ -30,15 +35,9 @@ class ShippingAddressController extends GetxController {
       var response = await ShippingAddressServices2.storeShippingAddress(body);
       isLoading.value = false;
       if (response.status) {
+        await getDefaultAddress();
         initAddresses();
         getAddresses();
-        // await ShippingAddressServices2.getShippingAddresses(
-        //         customerId, page.value)
-        //     .then((res) async {
-        //   addresses.clear();
-        //   await getAddresses();
-        //   // await getDefaultAddress();
-        // });
         Get.back();
         showBasicAlertDialog(response.message);
       } else {
@@ -61,6 +60,7 @@ class ShippingAddressController extends GetxController {
           await ShippingAddressServices2.editShippingAddress(addressId, body);
       isLoading.value = false;
       if (response.status) {
+        await getDefaultAddress();
         initAddresses();
         getAddresses();
         Get.back();
@@ -163,8 +163,6 @@ class ShippingAddressController extends GetxController {
       isLoading.value = false;
       if (response.status && response.data != null) {
         userDefaultAddress.value = response.data;
-      } else {
-        showBasicAlertDialog(response.message);
       }
       return response.status;
     } catch (err) {

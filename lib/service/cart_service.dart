@@ -12,6 +12,7 @@ class CartServices2 {
       body: jsonEncode(body.toJson()),
       headers: ServiceAPI().headerInfo,
     );
+    print(jsonDecode(response.body));
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
 
@@ -19,7 +20,7 @@ class CartServices2 {
       customerId, String cartType, page) async {
     var response = await http.get(
       Uri.parse(
-          '${ServiceAPI().baseUrl}/customers/$customerId/carts?cart_type=$cartType&page=$page'),
+          '${ServiceAPI().baseUrl}/customers/$customerId/carts?cart_type=$cartType&order_by=created_at&direction=DESC&page=$page'),
       headers: ServiceAPI().headerInfo,
     );
     return CartResponse.fromJson(jsonDecode(response.body));
