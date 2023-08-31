@@ -15,7 +15,6 @@ class UserController2 extends GetxController {
 
   /* 사용자 정보 삭제 */
   deleteInfo(String appName, bool isLogout) async {
-    if (customer.value == null) return;
     FlutterSecureStorage storage = const FlutterSecureStorage();
     await storage.delete(key: '$appName-customer');
     await storage.delete(key: '$appName-token');

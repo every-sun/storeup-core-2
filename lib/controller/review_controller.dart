@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
 import 'package:user_core2/controller/image_controller.dart';
@@ -8,9 +7,9 @@ import 'package:user_core2/service/review_service.dart';
 import 'package:user_core2/service/service.dart';
 import 'package:user_core2/util/dialog.dart';
 import 'package:user_core2/model/language.dart';
-import 'package:user_core2/model/order.dart';
 import 'package:user_core2/model/review.dart';
 import 'package:http/http.dart' as http;
+import 'package:user_core2/util/state.dart';
 
 class ReviewController extends GetxController {
   UserController2 userController = Get.put(UserController2());
@@ -28,7 +27,9 @@ class ReviewController extends GetxController {
       if (isLoading.value) return false;
       isLoading.value = true;
       var request = http.MultipartRequest(
-          "POST", Uri.parse('${ServiceAPI().baseUrl}/review/store'));
+          "POST",
+          Uri.parse(
+              '${ServiceAPI().baseUrl}/customers/${State1.customerId}/review/store'));
       request.headers.addAll(ServiceAPI().headerInfo);
       request.fields.addAll(body.toJson());
       for (var i = 0; i < imageController.images.length; i++) {
@@ -56,6 +57,7 @@ class ReviewController extends GetxController {
       }
       return response.status;
     } catch (err) {
+      print(err);
       isLoading.value = false;
       showErrorDialog();
       return false;
