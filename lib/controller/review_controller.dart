@@ -83,62 +83,6 @@ class ReviewController extends GetxController {
     }
   }
 
-  Future<bool> updateReview(content, reviewId) async {
-    try {
-      if (isLoading.value) return false;
-      isLoading.value = true;
-      var request = http.MultipartRequest(
-          "POST", Uri.parse('${ServiceAPI().baseUrl}/review/$reviewId'));
-      request.headers.addAll(ServiceAPI().headerInfo);
-      request.fields.addAll({
-        '_method': 'PUT',
-        'content': content,
-      });
-      if (imageController.existingImages.isNotEmpty) {
-        for (var i = 0; i < imageController.existingImages.length; i++) {
-          // media_url: 기존의 남아있는 이미지
-          request.fields['media_url[$i]'] = imageController.existingImages[i];
-        }
-      } else {
-        request.fields['media_url'] = null.toString();
-      }
-      if (imageController.images.isNotEmpty) {
-        for (var i = 0; i < imageController.images.length; i++) {
-          // 새로 추가되는 이미지
-          var filePath = imageController.images[i].path;
-          var lastIndex = filePath.lastIndexOf(RegExp(r'jp'));
-          var split = filePath.substring(0, (lastIndex - 1));
-          var outPath = '${split}_out${filePath.substring(lastIndex - 1)}';
-
-          var result = await FlutterImageCompress.compressAndGetFile(
-              filePath, outPath,
-              minHeight: 600, minWidth: 600, quality: 70);
-
-          var file =
-              await http.MultipartFile.fromPath('images[$i]', result!.path);
-          request.files.add(file);
-        }
-      }
-      var result = await request.send();
-
-      final resultResponse = await http.Response.fromStream(result);
-      BasicResponse message =
-          BasicResponse.fromJson(jsonDecode(resultResponse.body));
-      if (message.status) {
-        isLoading.value = false;
-        return true;
-      }
-      showBasicAlertDialog(message.message);
-      isLoading.value = false;
-      return false;
-    } catch (err) {
-      print(err);
-      isLoading.value = false;
-      showErrorDialog();
-      return false;
-    }
-  }
-
   Future<void> deleteReview(id, successMethod) async {
     try {
       isLoading.value = true;

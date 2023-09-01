@@ -32,3 +32,38 @@ class RefundResponseData {
           refundShippingFee: json['refund_shipping_fee'],
           chargingShippingFee: json['charging_shipping_fee']);
 }
+
+class ClaimRequestBody {
+  dynamic orderId;
+  bool isCancelAll;
+  dynamic itemId;
+  String claimType;
+  String claimReasonType;
+  String claimSubject;
+  int quantity;
+  Map<String, String>? pickup;
+  Map<String, String>? reShippingData;
+
+  ClaimRequestBody(
+      {required this.orderId,
+      required this.isCancelAll,
+      required this.itemId,
+      required this.claimType,
+      required this.claimReasonType,
+      required this.claimSubject,
+      required this.quantity,
+      required this.pickup});
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> body = Map<String, dynamic>();
+    body['order_id'] = orderId;
+    body['is_cancel_all'] = isCancelAll;
+    body['item_id'] = itemId;
+    body['claim_type'] = claimType;
+    body['claim_reason_type'] = claimReasonType;
+    body['claim_subject'] = claimSubject;
+    body['quantity'] = quantity;
+    body['pickup'] = pickup;
+    body['re_shipping_data'] = reShippingData;
+    return body;
+  }
+}

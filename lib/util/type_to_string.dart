@@ -1,4 +1,3 @@
-
 getInquiryType(str) {
   switch (str) {
     case '상품문의':
@@ -35,14 +34,26 @@ getInquiryValue(type) {
   return '상품문의';
 }
 
+getClaimReasonType(str) {
+  if (str == '단순 변심') return 'A';
+  if (str == '상품 불량') return 'B';
+  if (str == '서비스 불만족') return 'C';
+  if (str == '포장 불량') return 'D';
+  if (str == '배송오류') return 'E';
+  if (str == '배송지연') return 'F';
+  if (str == '상품 정보 변경') return 'G';
+  if (str == '상품 품절') return 'H';
+  return '';
+}
+
 getClaimReasonValue(type) {
   if (type == 'A') return '단순 변심';
-  if (type =='B') return '상품 불량';
+  if (type == 'B') return '상품 불량';
   if (type == 'C') return '서비스 불만족';
   if (type == 'D') return '포장 불량';
-  if (type == 'F') return '배송오류';
-  if (type == 'G') return '배송지연';
-  if (type == 'H') return '상품 정보 변경';
-  if (type == 'I') return '상품 품절';
+  if (type == 'E') return '배송오류';
+  if (type == 'F') return '배송지연';
+  if (type == 'G') return '상품 정보 변경';
+  if (type == 'H') return '상품 품절';
   return '';
 }

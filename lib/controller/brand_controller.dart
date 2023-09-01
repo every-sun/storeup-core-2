@@ -9,6 +9,7 @@ class BrandController2 extends GetxController {
   var isLoading = false.obs;
   var shippingFee = Rxn<ShippingFeeResponseData>();
   var carrier = Rxn<CarrierResponseData>();
+  final String brandId = Get.put(AppController2()).appInfo.value!.brandId;
   CartController2 cartController = Get.put(CartController2());
 
   @override
@@ -22,8 +23,8 @@ class BrandController2 extends GetxController {
   Future<void> setShippingFee() async {
     try {
       isLoading.value = true;
-      ShippingFeeResponse response = await BrandServices.getShippingFee(
-          Get.find<AppController2>().appInfo.value!.brandId);
+      ShippingFeeResponse response =
+          await BrandServices.getShippingFee(brandId);
       isLoading.value = false;
       if (response.status && response.data != null) {
         shippingFee.value = response.data;
@@ -66,8 +67,7 @@ class BrandController2 extends GetxController {
   Future<void> setCarrier() async {
     try {
       isLoading.value = true;
-      CarrierResponse response = await BrandServices.getCarrier(
-          Get.find<AppController2>().appInfo.value!.brandId);
+      CarrierResponse response = await BrandServices.getCarrier(brandId);
       isLoading.value = false;
       if (response.status && response.data != null) {
         carrier.value = response.data;
