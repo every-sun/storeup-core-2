@@ -64,6 +64,25 @@ class ReviewController extends GetxController {
     }
   }
 
+  Future<bool> editReview(id, contents) async {
+    try {
+      if (isLoading.value) return false;
+      isLoading.value = true;
+      BasicResponse response = await ReviewServices2.editReview(
+          Get.find<UserController2>().customer.value!.id, id, contents);
+      isLoading.value = false;
+      if (!response.status) {
+        showBasicAlertDialog(response.message);
+      }
+      return response.status;
+    } catch (err) {
+      print(err);
+      isLoading.value = false;
+      showErrorDialog();
+      return false;
+    }
+  }
+
   Future<bool> updateReview(content, reviewId) async {
     try {
       if (isLoading.value) return false;

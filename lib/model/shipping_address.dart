@@ -1,14 +1,16 @@
 class ShippingAddressResponse {
   bool status;
   String message;
-  ShippingAddressResponseData data;
+  ShippingAddressResponseData? data;
   ShippingAddressResponse(
       {required this.status, required this.message, required this.data});
   factory ShippingAddressResponse.fromJson(Map<String, dynamic> json) =>
       ShippingAddressResponse(
           status: json['status'],
           message: json['message'] ?? '',
-          data: ShippingAddressResponseData.fromJson(json['data']));
+          data: json['data'] != null
+              ? ShippingAddressResponseData.fromJson(json['data'])
+              : null);
 }
 
 class ShippingAddressResponseData {

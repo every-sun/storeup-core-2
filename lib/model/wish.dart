@@ -3,13 +3,15 @@ import 'package:user_core2/model/product.dart';
 class WishResponse {
   bool status;
   String message;
-  WishResponseData data;
+  WishResponseData? data;
   WishResponse(
       {required this.status, required this.message, required this.data});
   factory WishResponse.fromJson(Map<String, dynamic> json) => WishResponse(
       status: json['status'],
       message: json['message'] ?? '',
-      data: WishResponseData.fromJson(json['data']));
+      data: json['data'] != null
+          ? WishResponseData.fromJson(json['data'])
+          : null);
 }
 
 class WishResponseData {

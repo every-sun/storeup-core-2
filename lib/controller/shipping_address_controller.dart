@@ -84,16 +84,16 @@ class ShippingAddressController extends GetxController {
       ShippingAddressResponse response =
           await ShippingAddressServices2.getShippingAddresses(
               customerId, page.value);
+      dataHasMore.value = false;
       isLoading.value = false;
-      if (response.status) {
-        if (response.data.data.isEmpty) {
+      if (response.status && response.data != null) {
+        if (response.data!.data.isEmpty) {
           dataHasMore.value = false;
         } else {
-          addresses.addAll(response.data.data);
+          addresses.addAll(response.data!.data);
           page.value++;
         }
       } else {
-        dataHasMore.value = false;
         showBasicAlertDialog(response.message);
       }
       return response.status;

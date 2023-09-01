@@ -1,3 +1,29 @@
+class StoreResponse {
+  bool status;
+  String message;
+  StoreResponseData? data;
+  StoreResponse(
+      {required this.status, required this.message, required this.data});
+  factory StoreResponse.fromJson(Map<String, dynamic> json) => StoreResponse(
+      status: json['status'],
+      message: json['message'] ?? '',
+      data: json['data'] != null
+          ? StoreResponseData.fromJson(json['data'])
+          : null);
+}
+
+class StoreResponseData {
+  List<Store> data;
+  int total;
+  StoreResponseData({required this.data, required this.total});
+  factory StoreResponseData.fromJson(Map<String, dynamic> json) =>
+      StoreResponseData(
+          data: json['data'] != null
+              ? List<Store>.from(json['data'].map((x) => Store.fromJson(x)))
+              : [],
+          total: json['total'] ?? 0);
+}
+
 class Store {
   dynamic id;
   dynamic tenantId;
@@ -18,6 +44,7 @@ class Store {
   dynamic data;
   dynamic addressData;
   dynamic bankAccountData;
+
   Store(
       {required this.id,
       required this.tenantId,
@@ -47,11 +74,11 @@ class Store {
       isDelivery: json['is_delivery'],
       isNow: json['is_now'],
       isOnline: json['is_online'],
-      storeName: json['store_name'],
-      storeContact: json['store_contact'],
-      storeAddress: json['store_address'],
-      registrationNo: json['registration_no'],
-      description: json['description'],
+      storeName: json['store_name'] ?? '',
+      storeContact: json['store_contact'] ?? '',
+      storeAddress: json['store_address'] ?? '',
+      registrationNo: json['registration_no'] ?? '',
+      description: json['description'] ?? '',
       texType: json['tex_type'] ?? '',
       openingHours: json['opening_hours'],
       regularHoliday: json['regular_holiday'],

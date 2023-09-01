@@ -34,17 +34,18 @@ class ReviewRequestBody {
   }
 }
 
-/* 상품 */
 class ReviewResponse {
   bool status;
   String message;
-  ReviewResponseData data;
+  ReviewResponseData? data;
   ReviewResponse(
       {required this.status, required this.message, required this.data});
   factory ReviewResponse.fromJson(Map<String, dynamic> json) => ReviewResponse(
       status: json['status'],
       message: json['message'] ?? '',
-      data: ReviewResponseData.fromJson(json['data']));
+      data: json['data'] != null
+          ? ReviewResponseData.fromJson(json['data'])
+          : null);
 }
 
 class ReviewResponseData {

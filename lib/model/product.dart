@@ -5,14 +5,16 @@ import 'package:user_core2/model/language.dart';
 class ProductResponse {
   bool status;
   String message;
-  ProductResponseData data;
+  ProductResponseData? data;
   ProductResponse(
       {required this.status, required this.message, required this.data});
   factory ProductResponse.fromJson(Map<String, dynamic> json) =>
       ProductResponse(
           status: json['status'],
           message: json['message'] ?? '',
-          data: ProductResponseData.fromJson(json['data']));
+          data: json['data'] != null
+              ? ProductResponseData.fromJson(json['data'])
+              : null);
 }
 
 class ProductResponseData {
@@ -124,8 +126,6 @@ class ProductOption {
           : []);
 }
 
-
-
 class ProductOnline {
   dynamic id;
   dynamic productId;
@@ -190,7 +190,9 @@ class ProductCollectionResponse {
   factory ProductCollectionResponse.fromJson(Map<String, dynamic> json) =>
       ProductCollectionResponse(
           status: json['status'],
-          data: ProductCollectionData.fromJson(json['data']));
+          data: json['data'] != null
+              ? ProductCollectionData.fromJson(json['data'])
+              : null);
 }
 
 class ProductCollectionData {

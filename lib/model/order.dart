@@ -114,13 +114,15 @@ class OrderRequestItem {
 class OrderResponse {
   bool status;
   String message;
-  OrderResponseData data;
+  OrderResponseData? data;
   OrderResponse(
       {required this.status, required this.message, required this.data});
   factory OrderResponse.fromJson(Map<String, dynamic> json) => OrderResponse(
       status: json['status'],
       message: json['message'],
-      data: OrderResponseData.fromJson(json['data']));
+      data: json['data'] != null
+          ? OrderResponseData.fromJson(json['data'])
+          : null);
 }
 
 class OrderResponseData {
@@ -160,63 +162,65 @@ class Order {
   List<OrderItem> items;
   DateTime createdAt;
   OrderShippingDetail? shippingDetail;
-  Order(
-      {required this.id,
-      required this.globalId,
-      required this.orderNo,
-      required this.orderType,
-      required this.orderStatus,
-      required this.orderRequest,
-      required this.orderPriceAmount,
-      required this.orderShippingFee,
-      required this.orderPaymentAmount,
-      required this.orderPaidAmount,
-      required this.orderPaidShippingFee,
-      required this.orderDiscountAmount,
-      required this.orderCouponDiscountAmount,
-      required this.orderAdditionalPaymentAmount,
-      required this.orderRemainAmount,
-      required this.isPaid,
-      required this.isOnline,
-      required this.isReviewed,
-      required this.isUseDiscountCoupon,
-      required this.payments,
-      required this.customer,
-      required this.items,
-      required this.createdAt,
-      required this.shippingDetail});
+  Order({
+    required this.id,
+    required this.globalId,
+    required this.orderNo,
+    required this.orderType,
+    required this.orderStatus,
+    required this.orderRequest,
+    required this.orderPriceAmount,
+    required this.orderShippingFee,
+    required this.orderPaymentAmount,
+    required this.orderPaidAmount,
+    required this.orderPaidShippingFee,
+    required this.orderDiscountAmount,
+    required this.orderCouponDiscountAmount,
+    required this.orderAdditionalPaymentAmount,
+    required this.orderRemainAmount,
+    required this.isPaid,
+    required this.isOnline,
+    required this.isReviewed,
+    required this.isUseDiscountCoupon,
+    required this.payments,
+    required this.customer,
+    required this.items,
+    required this.createdAt,
+    required this.shippingDetail,
+  });
   factory Order.fromJson(Map<String, dynamic> json) => Order(
-      id: json['id'],
-      globalId: json['global_id'],
-      orderNo: json['order_no'],
-      orderType: json['order_type'],
-      orderStatus: json['order_status'],
-      orderRequest: json['order_request'],
-      orderPriceAmount: json['order_price_amount'],
-      orderShippingFee: json['order_shipping_fee'],
-      orderPaymentAmount: json['order_payment_amount'],
-      orderPaidAmount: json['order_paid_amount'],
-      orderPaidShippingFee: json['order_paid_shipping_fee'],
-      orderDiscountAmount: json['order_discount_amount'],
-      orderCouponDiscountAmount: json['order_coupon_discount_amount'],
-      orderAdditionalPaymentAmount: json['order_additional_payment_amount'],
-      orderRemainAmount: json['order_remain_amount'],
-      isPaid: json['is_paid'],
-      isOnline: json['is_online'],
-      isReviewed: json['is_reviewed'],
-      isUseDiscountCoupon: json['is_use_discount_coupon'],
-      payments: json['payments'],
-      customer: Customer.fromJson(json['customer']),
-      items: json['items'] != null
-          ? List<OrderItem>.from(
-              json['items'].map((e) => OrderItem.fromJson(e)))
-          : [],
-      createdAt: DateTime.parse(
-        json['created_at'],
-      ),
-      shippingDetail: json['shipping_detail'] != null
-          ? OrderShippingDetail.fromJson(json['shipping_detail'])
-          : null);
+        id: json['id'],
+        globalId: json['global_id'],
+        orderNo: json['order_no'],
+        orderType: json['order_type'],
+        orderStatus: json['order_status'],
+        orderRequest: json['order_request'],
+        orderPriceAmount: json['order_price_amount'],
+        orderShippingFee: json['order_shipping_fee'],
+        orderPaymentAmount: json['order_payment_amount'],
+        orderPaidAmount: json['order_paid_amount'],
+        orderPaidShippingFee: json['order_paid_shipping_fee'],
+        orderDiscountAmount: json['order_discount_amount'],
+        orderCouponDiscountAmount: json['order_coupon_discount_amount'],
+        orderAdditionalPaymentAmount: json['order_additional_payment_amount'],
+        orderRemainAmount: json['order_remain_amount'],
+        isPaid: json['is_paid'],
+        isOnline: json['is_online'],
+        isReviewed: json['is_reviewed'],
+        isUseDiscountCoupon: json['is_use_discount_coupon'],
+        payments: json['payments'],
+        customer: Customer.fromJson(json['customer']),
+        items: json['items'] != null
+            ? List<OrderItem>.from(
+                json['items'].map((e) => OrderItem.fromJson(e)))
+            : [],
+        createdAt: DateTime.parse(
+          json['created_at'],
+        ),
+        shippingDetail: json['shipping_detail'] != null
+            ? OrderShippingDetail.fromJson(json['shipping_detail'])
+            : null,
+      );
 }
 
 class OrderShippingDetail {

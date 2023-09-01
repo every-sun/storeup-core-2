@@ -10,8 +10,6 @@ class AuthServices2 {
         Uri.parse('${ServiceAPI().baseUrl}/auth/register'),
         body: jsonEncode(body.toJson()),
         headers: ServiceAPI().headerInfo);
-    print('회원가입: ${jsonEncode(body.toJson())}');
-    print(jsonDecode(response.body));
     return RegisterResponse.fromJson(jsonDecode(response.body));
   }
 
@@ -20,7 +18,6 @@ class AuthServices2 {
         Uri.parse('${ServiceAPI().baseUrl}/auth/login'),
         body: jsonEncode(body.toJson()),
         headers: ServiceAPI().headerInfo);
-    print(jsonDecode(response.body));
     return LoginResponse.fromJson(jsonDecode(response.body));
   }
 
@@ -28,7 +25,6 @@ class AuthServices2 {
       name, contact, brandId) async {
     var response = await http.get(Uri.parse(
         '${ServiceAPI().baseUrl}/auth/check/customer?name=$name&contact=$contact&brand_id=$brandId'));
-    print(jsonDecode(response.body));
     return UserExistResponse.fromJson(jsonDecode(response.body));
   }
 
@@ -36,7 +32,6 @@ class AuthServices2 {
     // 이메일 중복확인
     var response = await http.get(
         Uri.parse('${ServiceAPI().baseUrl}/auth/validate/email?email=$email'));
-    print(jsonDecode(response.body));
     var value = BasicResponse.fromJson(jsonDecode(response.body));
     if (value.status) {
       return BasicResponse(message: '사용 가능한 이메일입니다.', status: true);
@@ -53,7 +48,6 @@ class AuthServices2 {
         headers: ServiceAPI().headerInfo,
         body: jsonEncode(
             {"name": name, "contact": contact, "brand_id": brandId}));
-    print(jsonDecode(response.body));
     return IdFindResponse.fromJson(jsonDecode(response.body));
   }
 
@@ -66,12 +60,6 @@ class AuthServices2 {
               "password": password,
               "password_confirmation": password,
             }));
-    print('비밀번호찾기: ${jsonEncode({
-          "email": email,
-          "password": password,
-          "password_confirmation": password
-        })}');
-    print(jsonDecode(response.body));
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
 }

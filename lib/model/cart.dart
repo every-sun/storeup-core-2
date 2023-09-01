@@ -49,13 +49,15 @@ class CartOption {
 class CartResponse {
   bool status;
   String message;
-  CartResponseData data;
+  CartResponseData? data;
   CartResponse(
       {required this.status, required this.message, required this.data});
   factory CartResponse.fromJson(Map<String, dynamic> json) => CartResponse(
       status: json['status'],
       message: json['message'] ?? '',
-      data: CartResponseData.fromJson(json['data']));
+      data: json['data'] != null
+          ? CartResponseData.fromJson(json['data'])
+          : null);
 }
 
 class CartResponseData {

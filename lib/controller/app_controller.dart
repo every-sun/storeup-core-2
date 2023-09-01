@@ -6,13 +6,11 @@ class AppInfo2 {
   final Widget loginPage;
   final Function showAlertDialog;
   final Function showConfirmDialog;
-  final int mainColor;
   AppInfo2(
       {required this.brandId,
       required this.showAlertDialog,
       required this.loginPage,
-      required this.showConfirmDialog,
-      required this.mainColor});
+      required this.showConfirmDialog});
 }
 
 class AppController2 extends GetxController {

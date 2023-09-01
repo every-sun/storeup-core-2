@@ -57,4 +57,18 @@ class ProductServices2 {
     );
     return Product.fromJson(jsonDecode(response.body)['data']);
   }
+
+  /* 상점별로 상품가져오기 */
+  static Future<ProductResponse> getProductsByStore(
+      brandId, tenantId, page) async {
+    var response = await http.get(
+      Uri.parse(
+          '${ServiceAPI().baseUrl}/brands/$brandId/stores/$tenantId?page=$page'),
+      headers: ServiceAPI().headerInfo,
+    );
+    Map<String, dynamic> data = jsonDecode(response.body);
+    data['data']['products']['status'] = true; // TODO !!!
+    print(data['data']['products']);
+    return ProductResponse.fromJson(data['data']['products']);
+  }
 }

@@ -2,14 +2,16 @@
 class ShippingFeeResponse {
   bool status;
   String message;
-  ShippingFeeResponseData data;
+  ShippingFeeResponseData? data;
   ShippingFeeResponse(
       {required this.status, required this.message, required this.data});
   factory ShippingFeeResponse.fromJson(Map<String, dynamic> json) =>
       ShippingFeeResponse(
           status: json['status'],
           message: json['message'] ?? '',
-          data: ShippingFeeResponseData.fromJson(json['data']));
+          data: json['data'] != null
+              ? ShippingFeeResponseData.fromJson(json['data'])
+              : null);
 }
 
 class ShippingFeeResponseData {
@@ -46,14 +48,16 @@ class ShippingFeeResponseData {
 class CarrierResponse {
   bool status;
   String message;
-  CarrierResponseData data;
+  CarrierResponseData? data;
   CarrierResponse(
       {required this.status, required this.message, required this.data});
   factory CarrierResponse.fromJson(Map<String, dynamic> json) =>
       CarrierResponse(
           status: json['status'],
           message: json['message'] ?? '',
-          data: CarrierResponseData.fromJson(json['data']));
+          data: json['data'] != null
+              ? CarrierResponseData.fromJson(json['data'])
+              : null);
 }
 
 class CarrierResponseData {

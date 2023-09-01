@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 import 'package:user_core2/controller/app_controller.dart';
 import 'package:user_core2/controller/cart_controller.dart';
-import 'package:user_core2/controller/order_controller.dart';
 import 'package:user_core2/model/brand.dart';
 import 'package:user_core2/service/brand_service.dart';
 import 'package:user_core2/util/dialog.dart';
@@ -26,7 +25,7 @@ class BrandController2 extends GetxController {
       ShippingFeeResponse response = await BrandServices.getShippingFee(
           Get.find<AppController2>().appInfo.value!.brandId);
       isLoading.value = false;
-      if (response.status) {
+      if (response.status && response.data != null) {
         shippingFee.value = response.data;
       } else {
         showBasicAlertDialog(response.message != ''
@@ -70,7 +69,7 @@ class BrandController2 extends GetxController {
       CarrierResponse response = await BrandServices.getCarrier(
           Get.find<AppController2>().appInfo.value!.brandId);
       isLoading.value = false;
-      if (response.status) {
+      if (response.status && response.data != null) {
         carrier.value = response.data;
       } else {
         showBasicAlertDialog(response.message != ''

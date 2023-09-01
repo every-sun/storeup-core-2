@@ -28,7 +28,7 @@ class TossPaymentsView extends StatelessWidget {
   Widget build(BuildContext context) {
     LoadingController loadingController = Get.put(LoadingController());
     var url = // TODO url
-        'https://storeup.co.kr/api/payments/toss?method=$paymentMethod&orderId=$orderNo&amount=$amount&orderName=$orderName';
+        '${ServiceAPI().baseUrl}/payments/toss?method=$paymentMethod&orderId=$orderNo&amount=$amount&orderName=$orderName';
     // if (paymentMethod == 'ePay' && controller.ePayCard.value != '') {
     //   url += '&flowMode=$flowMode&easyPay=${controller.ePayCard.value}';
     // }
@@ -42,7 +42,6 @@ class TossPaymentsView extends StatelessWidget {
           },
           paymentRequestUrl: Uri.parse(url),
           onPageStarted: (url) {
-            print(url);
             loadingController.isLoading.value = false;
           },
           onDisposed: () {
