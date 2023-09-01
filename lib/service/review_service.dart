@@ -6,13 +6,27 @@ import 'package:user_core2/service/service.dart';
 
 class ReviewServices2 {
   static Future<ReviewResponse> getOrderItems(
-      customerId, int page, bool isReviewed) async {
+      // 나의 리뷰 가져오기 (isReviewed true = 리뷰가 달린 주문 아이템들 / false = 작성 가능한 주문 아이템들)
+      customerId,
+      int page,
+      bool isReviewed) async {
     var response = await http.get(
       Uri.parse(
           '${ServiceAPI().baseUrl}/customers/$customerId/items?is_reviewed=$isReviewed&page=$page'),
       headers: ServiceAPI().headerInfo,
     );
     return ReviewResponse.fromJson(jsonDecode(response.body));
+  }
+
+  static Future<ModelReviewResponse> getReviewsByProduct(
+      productId, int page) async {
+    var response = await http.get(
+      Uri.parse(
+          '${ServiceAPI().baseUrl}/products/$productId/reviews?page=$page'),
+      headers: ServiceAPI().headerInfo,
+    );
+    print(jsonDecode(response.body));
+    return ModelReviewResponse.fromJson(jsonDecode(response.body));
   }
 
   static Future<BasicResponse> deleteReview(customerId, dynamic id) async {

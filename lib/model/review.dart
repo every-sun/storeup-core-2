@@ -61,12 +61,39 @@ class ReviewResponseData {
           total: json['total'] ?? 0);
 }
 
+class ModelReviewResponse {
+  bool status;
+  String message;
+  ModelReviewResponseData? data;
+  ModelReviewResponse(
+      {required this.status, required this.message, required this.data});
+  factory ModelReviewResponse.fromJson(Map<String, dynamic> json) =>
+      ModelReviewResponse(
+          status: json['status'],
+          message: json['message'] ?? '',
+          data: json['data'] != null
+              ? ModelReviewResponseData.fromJson(json['data'])
+              : null);
+}
+
+class ModelReviewResponseData {
+  List<Review> data;
+  int total;
+  ModelReviewResponseData({required this.data, required this.total});
+  factory ModelReviewResponseData.fromJson(Map<String, dynamic> json) =>
+      ModelReviewResponseData(
+          data: json['data'] != null
+              ? List<Review>.from(json['data'].map((x) => Review.fromJson(x)))
+              : [],
+          total: json['total'] ?? 0);
+}
+
 class Review {
   dynamic id;
   String contents;
   bool isBlocked;
   bool isReplied;
-  ImageData? data;
+  ReviewData? data;
   DateTime createdAt;
   Review(
       {required this.id,
@@ -81,6 +108,14 @@ class Review {
       contents: json['contents'] ?? '',
       isBlocked: json['is_blocked'],
       isReplied: json['is_replied'],
-      data: json['data'] != null ? ImageData.fromJson(json['data']) : null,
+      data: json['data'] != null ? ReviewData.fromJson(json['data']) : null,
       createdAt: DateTime.parse(json['created_at']));
+}
+
+class ReviewData {
+  String writer;
+  Map<String, dynamic>? images;
+  ReviewData({required this.writer, required this.images});
+  factory ReviewData.fromJson(Map<String, dynamic> json) =>
+      ReviewData(writer: json['writer'] ?? '', images: json['images']);
 }

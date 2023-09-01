@@ -11,6 +11,7 @@ class ClaimController extends GetxController {
   @override
   void onClose() {
     isLoading.value = false;
+    claimRequestBody.value = null;
     super.onClose();
   }
 

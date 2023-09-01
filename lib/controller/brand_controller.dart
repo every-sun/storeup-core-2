@@ -9,7 +9,7 @@ class BrandController2 extends GetxController {
   var isLoading = false.obs;
   var shippingFee = Rxn<ShippingFeeResponseData>();
   var carrier = Rxn<CarrierResponseData>();
-  final String brandId = Get.put(AppController2()).appInfo.value!.brandId;
+  final dynamic brandId = Get.put(AppController2()).appInfo.value!.brandId;
   CartController2 cartController = Get.put(CartController2());
 
   @override

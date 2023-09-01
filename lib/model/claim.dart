@@ -40,7 +40,7 @@ class ClaimRequestBody {
   String claimType;
   String claimReasonType;
   String claimSubject;
-  int quantity;
+  int? quantity;
   Map<String, String>? pickup;
   Map<String, String>? reShippingData;
 

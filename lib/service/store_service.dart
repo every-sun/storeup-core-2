@@ -10,4 +10,12 @@ class StoreServices2 {
         headers: ServiceAPI().headerInfo);
     return StoreResponse.fromJson(jsonDecode(response.body));
   }
+
+  static Future<StoreResponse> getStoresBySearch(brandId, keyWord, page) async {
+    var response = await http.get(
+        Uri.parse(
+            '${ServiceAPI().baseUrl}/brands/$brandId/stores/search?key_word=$keyWord&page=$page'),
+        headers: ServiceAPI().headerInfo);
+    return StoreResponse.fromJson(jsonDecode(response.body));
+  }
 }

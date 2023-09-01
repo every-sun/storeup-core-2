@@ -60,15 +60,13 @@ class ProductServices2 {
 
   /* 상점별로 상품가져오기 */
   static Future<ProductResponse> getProductsByStore(
-      brandId, tenantId, page) async {
+      brandId, tenantId, type, orderBy, direction, page) async {
     var response = await http.get(
       Uri.parse(
-          '${ServiceAPI().baseUrl}/brands/$brandId/stores/$tenantId?page=$page'),
+          '${ServiceAPI().baseUrl}/brands/$brandId/stores/$tenantId/products?type=$type&order_by=$orderBy&direction=$direction&page=$page'),
       headers: ServiceAPI().headerInfo,
     );
-    Map<String, dynamic> data = jsonDecode(response.body);
-    data['data']['products']['status'] = true; // TODO !!!
-    print(data['data']['products']);
-    return ProductResponse.fromJson(data['data']['products']);
+    print(jsonDecode(response.body));
+    return ProductResponse.fromJson(jsonDecode(response.body));
   }
 }
