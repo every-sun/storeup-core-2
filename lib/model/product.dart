@@ -32,6 +32,7 @@ class ProductResponseData {
 class Product {
   dynamic id;
   dynamic globalId;
+  dynamic tenantId;
   String name;
   String description;
   dynamic noticeInformation; // TODO
@@ -48,6 +49,7 @@ class Product {
   Product(
       {required this.id,
       required this.globalId,
+      required this.tenantId,
       required this.name,
       required this.description,
       required this.noticeInformation,
@@ -64,6 +66,7 @@ class Product {
   factory Product.fromJson(Map<String, dynamic> json) => Product(
       id: json['id'],
       globalId: json['global_id'],
+      tenantId: json['tenant_id'],
       name: json['name'] != null ? Language.fromJson(json['name']).ko : '',
       description: json['description'] != null
           ? Language.fromJson(json['description']).ko

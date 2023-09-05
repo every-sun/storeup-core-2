@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:user_core2/model/language.dart';
 import 'package:user_core2/model/order.dart';
 import 'package:user_core2/service/service.dart';
 
@@ -24,5 +25,15 @@ class OrderServices2 {
     ); // from, to:  2021-01-01
     print(jsonDecode(response.body));
     return OrderResponse.fromJson(jsonDecode(response.body));
+  }
+
+  static Future<BasicResponse> requestOrderConfirm(
+      dynamic customerId, itemId) async {
+    var response = await http.get(
+      Uri.parse('${ServiceAPI().baseUrl}/customers/$customerId/items/$itemId'),
+      headers: ServiceAPI().headerInfo,
+    );
+    print(jsonDecode(response.body));
+    return BasicResponse.fromJson(jsonDecode(response.body));
   }
 }

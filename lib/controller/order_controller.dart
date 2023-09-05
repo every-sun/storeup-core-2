@@ -39,4 +39,23 @@ class OrderController2 extends GetxController {
       return null;
     }
   }
+
+  Future<void> requestOrderConfirm(itemId, successMethod) async {
+    try {
+      isLoading.value = true;
+      BasicResponse response = await OrderServices2.requestOrderConfirm(
+          Get.find<UserController2>().customer.value!.id, itemId);
+      isLoading.value = false;
+      if (response.status) {
+        successMethod();
+      } else {
+        showBasicAlertDialog(response.message);
+      }
+      return;
+    } catch (err) {
+      showErrorDialog();
+      isLoading.value = false;
+      return;
+    }
+  }
 }

@@ -26,7 +26,7 @@ class CartServices2 {
     return CartResponse.fromJson(jsonDecode(response.body));
   }
 
-  static Future<int> getCartCount(customerId, String cartType) async {
+  static Future<int> getCartTotal(customerId, String cartType) async {
     var response = await http.get(
       Uri.parse(
           '${ServiceAPI().baseUrl}/customers/$customerId/carts/count?cart_type=$cartType'),

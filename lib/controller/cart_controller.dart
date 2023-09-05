@@ -8,16 +8,31 @@ import 'package:user_core2/util/dialog.dart';
 import 'package:user_core2/util/product_check.dart';
 
 class CartController2 extends GetxController {
-  UserController2 userController = Get.put(UserController2());
   var isLoading = false.obs;
   var selectedCarts = <Cart>[].obs;
   var selectedCartsSumPrice = 0.obs;
+  var total = 0.obs;
 
   @override
   void onClose() {
     print('cart controller close');
     isLoading.value = false;
     super.onClose();
+  }
+
+  Future<void> getCartTotal() async {
+    try {
+      if (Get.find<UserController2>().customer.value == null) {
+        total.value = 0;
+      } else {
+        int count = await CartServices2.getCartTotal(
+            Get.find<UserController2>().customer.value!.id, 'O');
+        total.value = count;
+      }
+      return;
+    } catch (err) {
+      return;
+    }
   }
 
   Map<String, List<ProductOption>> getDividedOption(
@@ -86,11 +101,11 @@ class CartController2 extends GetxController {
   }
 
   Future<bool> saveCartItem(CartRequestBody body) async {
-    if (userController.customer.value == null) return false;
+    if (Get.find<UserController2>().customer.value == null) return false;
     try {
       isLoading.value = true;
       BasicResponse response = await CartServices2.storeCart(
-          userController.customer.value!.id, body);
+          Get.find<UserController2>().customer.value!.id, body);
       isLoading.value = false;
       if (!response.status) {
         showBasicAlertDialog(response.message);
@@ -104,11 +119,11 @@ class CartController2 extends GetxController {
   }
 
   Future<bool> deleteCarts(List<dynamic> cartIdList) async {
-    if (userController.customer.value == null) return false;
+    if (Get.find<UserController2>().customer.value == null) return false;
     try {
       isLoading.value = true;
       BasicResponse response = await CartServices2.deleteCarts(
-          userController.customer.value!.id, cartIdList);
+          Get.find<UserController2>().customer.value!.id, cartIdList);
       isLoading.value = false;
       if (!response.status) {
         showBasicAlertDialog(response.message);

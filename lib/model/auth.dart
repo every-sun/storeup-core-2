@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 /* 회원가입 */
 class RegisterRequestBody {
   RegisterRequestBodyData data;

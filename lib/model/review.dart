@@ -1,4 +1,3 @@
-import 'package:user_core2/model/image_data.dart';
 import 'package:user_core2/model/order.dart';
 
 class ReviewRequestBody {

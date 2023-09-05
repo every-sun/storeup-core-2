@@ -3,14 +3,13 @@ import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
 import 'package:user_core2/controller/image_controller.dart';
 import 'package:user_core2/controller/user_controller.dart';
-import 'package:user_core2/service/review_service.dart';
+import 'package:user_core2/model/inquiry.dart';
 import 'package:user_core2/service/service.dart';
 import 'package:user_core2/util/dialog.dart';
 import 'package:user_core2/model/language.dart';
-import 'package:user_core2/model/review.dart';
 import 'package:http/http.dart' as http;
 
-class ReviewController extends GetxController {
+class InquiryController extends GetxController {
   UserController2 userController = Get.put(UserController2());
   ImageController imageController = Get.put(ImageController());
   var isLoading = false.obs;
@@ -21,14 +20,15 @@ class ReviewController extends GetxController {
     super.onClose();
   }
 
-  Future<bool> saveReview(ReviewRequestBody body) async {
+  Future<void> saveInquiry(
+      InquiryRequestBody body, Function successMethod) async {
     try {
-      if (isLoading.value) return false;
+      if (isLoading.value) return;
       isLoading.value = true;
       var request = http.MultipartRequest(
           "POST",
           Uri.parse(
-              '${ServiceAPI().baseUrl}/customers/${userController.customer.value!.id}/review/store'));
+              '${ServiceAPI().baseUrl}/customers/${userController.customer.value!.id}/inquiry/store'));
       request.headers.addAll(ServiceAPI().headerInfo);
       request.fields.addAll(body.toJson());
       for (var i = 0; i < imageController.images.length; i++) {
@@ -53,48 +53,12 @@ class ReviewController extends GetxController {
           BasicResponse.fromJson(jsonDecode(resultResponse.body));
       if (!response.status) {
         showBasicAlertDialog(response.message);
-      }
-      return response.status;
-    } catch (err) {
-      print(err);
-      isLoading.value = false;
-      showErrorDialog();
-      return false;
-    }
-  }
-
-  Future<bool> editReview(id, contents) async {
-    try {
-      if (isLoading.value) return false;
-      isLoading.value = true;
-      BasicResponse response = await ReviewServices2.editReview(
-          userController.customer.value!.id, id, contents);
-      isLoading.value = false;
-      if (!response.status) {
-        showBasicAlertDialog(response.message);
-      }
-      return response.status;
-    } catch (err) {
-      print(err);
-      isLoading.value = false;
-      showErrorDialog();
-      return false;
-    }
-  }
-
-  Future<void> deleteReview(id, successMethod) async {
-    try {
-      isLoading.value = true;
-      BasicResponse response = await ReviewServices2.deleteReview(
-          userController.customer.value!.id, id);
-      isLoading.value = false;
-      if (response.status) {
-        successMethod();
       } else {
-        showBasicAlertDialog(response.message);
+        successMethod();
       }
       return;
     } catch (err) {
+      print(err);
       isLoading.value = false;
       showErrorDialog();
       return;
