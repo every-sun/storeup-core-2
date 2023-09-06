@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:user_core2/controller/image_controller.dart';
 import 'package:user_core2/controller/user_controller.dart';
 import 'package:user_core2/model/inquiry.dart';
+import 'package:user_core2/service/inquiry_service.dart';
 import 'package:user_core2/service/service.dart';
 import 'package:user_core2/util/dialog.dart';
 import 'package:user_core2/model/language.dart';
@@ -28,7 +29,7 @@ class InquiryController extends GetxController {
       var request = http.MultipartRequest(
           "POST",
           Uri.parse(
-              '${ServiceAPI().baseUrl}/customers/${userController.customer.value!.id}/inquiry/store'));
+              '${ServiceAPI().baseUrl}/customers/${userController.customer.value!.id}/inquiries/store'));
       request.headers.addAll(ServiceAPI().headerInfo);
       request.fields.addAll(body.toJson());
       for (var i = 0; i < imageController.images.length; i++) {
@@ -46,11 +47,14 @@ class InquiryController extends GetxController {
         request.files.add(file);
       }
       var result = await request.send();
-
       final resultResponse = await http.Response.fromStream(result);
       isLoading.value = false;
+      print(jsonDecode(resultResponse.body));
+
       BasicResponse response =
           BasicResponse.fromJson(jsonDecode(resultResponse.body));
+
+      print(jsonDecode(resultResponse.body));
       if (!response.status) {
         showBasicAlertDialog(response.message);
       } else {
@@ -59,6 +63,51 @@ class InquiryController extends GetxController {
       return;
     } catch (err) {
       print(err);
+      isLoading.value = false;
+      showErrorDialog();
+      return;
+    }
+  }
+
+  Future<void> editInquiry(
+      dynamic id, title, contents, isPrivate, successMethod) async {
+    try {
+      if (isLoading.value) return;
+      isLoading.value = true;
+      BasicResponse response = await InquiryServices.editInquiry(
+          Get.find<UserController2>().customer.value!.id,
+          id,
+          title,
+          contents,
+          isPrivate);
+      isLoading.value = false;
+      if (response.status) {
+        successMethod();
+      } else {
+        showBasicAlertDialog(response.message);
+      }
+      return;
+    } catch (err) {
+      isLoading.value = false;
+      showErrorDialog();
+      return;
+    }
+  }
+
+  Future<void> deleteInquiry(dynamic id, Function successMethod) async {
+    try {
+      if (isLoading.value) return;
+      isLoading.value = true;
+      BasicResponse response = await InquiryServices.deleteInquiry(
+          Get.find<UserController2>().customer.value!.id, id);
+      isLoading.value = false;
+      if (response.status) {
+        successMethod();
+      } else {
+        showBasicAlertDialog(response.message);
+      }
+      return;
+    } catch (err) {
       isLoading.value = false;
       showErrorDialog();
       return;

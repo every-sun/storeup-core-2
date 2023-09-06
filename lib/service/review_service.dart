@@ -25,7 +25,6 @@ class ReviewServices2 {
           '${ServiceAPI().baseUrl}/products/$productId/reviews?page=$page'),
       headers: ServiceAPI().headerInfo,
     );
-    print(jsonDecode(response.body));
     return ModelReviewResponse.fromJson(jsonDecode(response.body));
   }
 

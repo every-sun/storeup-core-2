@@ -16,14 +16,15 @@ class ShippingAddressController extends GetxController {
       : null;
 
   @override
-  onInit() {
+  void onInit() {
     getDefaultAddress();
     getAddresses();
     super.onInit();
   }
 
   @override
-  onClose() {
+  void onClose() {
+    isLoading.value = false;
     initAddresses();
     super.onClose();
   }

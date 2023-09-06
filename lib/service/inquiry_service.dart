@@ -8,19 +8,20 @@ class InquiryServices {
   static Future<BasicResponse> deleteInquiry(customerId, dynamic id) async {
     var response = await http.delete(
       Uri.parse(
-          '${ServiceAPI().baseUrl}/customers/$customerId/inquiry/delete/$id'),
+          '${ServiceAPI().baseUrl}/customers/$customerId/inquiries/delete/$id'),
       headers: ServiceAPI().headerInfo,
     );
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
 
   static Future<BasicResponse> editInquiry(
-      customerId, dynamic id, contents) async {
+      customerId, dynamic id, title, contents, isPrivate) async {
     var response = await http.put(
         Uri.parse(
-            '${ServiceAPI().baseUrl}/customers/$customerId/inquiry/edit/$id'),
+            '${ServiceAPI().baseUrl}/customers/$customerId/inquiries/edit/$id'),
         headers: ServiceAPI().headerInfo,
-        body: jsonEncode({'contents': contents}));
+        body: jsonEncode(
+            {'contents': contents, 'title': title, 'is_private': isPrivate}));
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
 
@@ -31,16 +32,18 @@ class InquiryServices {
           '${ServiceAPI().baseUrl}/products/$productId/inquiries?page=$page'),
       headers: ServiceAPI().headerInfo,
     );
+    print(jsonDecode(response.body));
     return InquiryResponse.fromJson(jsonDecode(response.body));
   }
 
   static Future<InquiryResponse> getInquiriesByCustomerId(
-      customerId, int page) async {
+      customerId, type, int page) async {
     var response = await http.get(
       Uri.parse(
-          '${ServiceAPI().baseUrl}/customers/$customerId/inquiries?page=$page'),
+          '${ServiceAPI().baseUrl}/customers/$customerId/inquiries?type=$type&page=$page'),
       headers: ServiceAPI().headerInfo,
     );
+    print(jsonDecode(response.body));
     return InquiryResponse.fromJson(jsonDecode(response.body));
   }
 }

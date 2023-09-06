@@ -1,3 +1,6 @@
+import 'package:user_core2/model/auth.dart';
+import 'package:user_core2/model/product.dart';
+
 class InquiryRequestBody {
   dynamic brandId;
   String inquiryType;
@@ -24,7 +27,7 @@ class InquiryRequestBody {
     body['inquiry_reason'] = inquiryReason;
     body['title'] = title;
     body['contents'] = contents;
-    body['productId'] = productId.toString();
+    if (productId != null) body['product_id'] = productId.toString();
     body['is_private'] = isPrivate.toString();
     return body;
   }
@@ -69,7 +72,9 @@ class Inquiry {
   bool isAnswered;
   bool isPrivate;
   dynamic data;
+  Product? product;
   DateTime createdAt;
+  Customer? customer;
   Inquiry(
       {required this.id,
       required this.brandId,
@@ -82,20 +87,26 @@ class Inquiry {
       required this.isAnswered,
       required this.isPrivate,
       required this.data,
-      required this.createdAt});
+      required this.product,
+      required this.createdAt,
+      required this.customer});
 
-  factory Inquiry.fromJson(Map<String, dynamic> json) => Inquiry(
-        id: json['id'],
-        brandId: json['brand_id'],
-        customerId: json['customer_id'],
-        productId: json['product_id'],
-        inquiryType: json['inquiry_id'],
-        inquiryReason: json['inquiry_reason'],
-        title: json['title'],
-        contents: json['contents'],
-        isAnswered: json['is_answered'],
-        isPrivate: json['is_private'],
-        data: json['data'],
-        createdAt: DateTime.parse(json['created_at']),
-      );
+  factory Inquiry.fromJson(Map<dynamic, dynamic> json) => Inquiry(
+      id: json['id'],
+      brandId: json['brand_id'],
+      customerId: json['customer_id'],
+      productId: json['product_id'],
+      inquiryType: json['inquiry_type'],
+      inquiryReason: json['inquiry_reason'],
+      title: json['title'],
+      contents: json['contents'],
+      isAnswered: json['is_answered'],
+      isPrivate: json['is_private'],
+      data: json['data'],
+      product:
+          json['product'] != null ? Product.fromJson(json['product']) : null,
+      createdAt: DateTime.parse(json['created_at']),
+      customer: json['customer'] != null
+          ? Customer.fromJson(json['customer'])
+          : null);
 }

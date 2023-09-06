@@ -35,6 +35,8 @@ class ProductServices2 {
           '${ServiceAPI().baseUrl}/products/search?key_word=$keyWord&brand_id=$brandId&direction=$direction&order_by=$orderBy&count=20&page=$page'),
       headers: ServiceAPI().headerInfo,
     );
+    print(jsonDecode(response.body));
+
     return ProductResponse.fromJson(jsonDecode(response.body));
   }
 
@@ -46,6 +48,8 @@ class ProductServices2 {
           '${ServiceAPI().baseUrl}/collections/main?brand_id=$brandId&page=1'),
       headers: ServiceAPI().headerInfo,
     );
+    print(jsonDecode(response.body));
+
     return ProductCollectionResponse.fromJson(jsonDecode(response.body));
   }
 
@@ -55,6 +59,8 @@ class ProductServices2 {
       Uri.parse('${ServiceAPI().baseUrl}/products/$productId?type=$type'),
       headers: ServiceAPI().headerInfo,
     );
+    print(jsonDecode(response.body));
+
     return Product.fromJson(jsonDecode(response.body)['data']);
   }
 

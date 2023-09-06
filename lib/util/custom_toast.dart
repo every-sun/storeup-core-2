@@ -2,12 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:user_core2/widget/text/notosans_text.dart';
 
-void showCustomToast(
-  context,
-  text,
-  width,
-  position,
-) {
+void showCustomToast(context, text, width, position, milliseconds) {
   final fToast = FToast();
   fToast.init(context);
   Widget toast = Container(
@@ -27,7 +22,7 @@ void showCustomToast(
 
   fToast.showToast(
       child: toast,
-      toastDuration: const Duration(milliseconds: 1200),
+      toastDuration: Duration(milliseconds: milliseconds),
       positionedToastBuilder: (context, child) {
         return Stack(
           alignment: Alignment.center,

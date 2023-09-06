@@ -1,22 +1,20 @@
 import 'dart:convert';
 
-class DeliveryAddressResponse {
-  Results results;
+// class DeliveryAddressResponse {
+//   Results results;
+//
+//   DeliveryAddressResponse({required this.results});
+//
+//   factory DeliveryAddressResponse.fromJson(Map<String, dynamic> json) =>
+//       DeliveryAddressResponse(results: Results.fromJson(json['results']));
+// }
 
-  DeliveryAddressResponse({required this.results});
-
-  factory DeliveryAddressResponse.fromJson(Map<String, dynamic> json) =>
-      DeliveryAddressResponse(results: Results.fromJson(json['results']));
-}
-
-class Results {
-  Common common;
+class JusoResults {
   List<Juso> jusoList;
 
-  Results({required this.common, required this.jusoList});
+  JusoResults({required this.jusoList});
 
-  factory Results.fromJson(Map<String, dynamic> json) => Results(
-      common: Common.fromJson(json['common']),
+  factory JusoResults.fromJson(Map<String, dynamic> json) => JusoResults(
       jusoList: List<Juso>.from(json['juso'].map((x) => Juso.fromJson(x))));
 }
 

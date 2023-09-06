@@ -1,14 +1,16 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:user_core2/model/delivery_address.dart';
 import 'package:user_core2/model/juso.dart';
+import 'package:user_core2/model/language.dart';
+import 'package:user_core2/service/service.dart';
 
 class DeliveryServices2 {
   static Future<List<Juso>?> getAddress(keyword, page) async {
     var response = await http.get(Uri.parse(
         'https://www.juso.go.kr/addrlink/addrLinkApi.do?confmKey=U01TX0FVVEgyMDIzMDEwMjIzMTkxNzExMzM5Mzk=&keyword=$keyword&currentPage=$page&countPerPage=20&resultType=json'));
     if (response.statusCode == 200) {
-      return DeliveryAddressResponse.fromJson(jsonDecode(response.body))
-          .results
+      return JusoResults.fromJson(jsonDecode(response.body)['results'])
           .jusoList;
     } else {
       return null;
@@ -57,5 +59,30 @@ class DeliveryServices2 {
     } else {
       return null;
     }
+  }
+
+  /* 배달지 저장, 조회 */
+  static Future<BasicResponse> saveDeliveryAddress(
+      customerId, newAddress, oldAddress, detailAddress) async {
+    var response = await http.post(
+        Uri.parse(
+            '${ServiceAPI().baseUrl}/customers/$customerId/delivery/address'),
+        headers: ServiceAPI().headerInfo,
+        body: jsonEncode({
+          'new_address': newAddress,
+          'old_address': oldAddress,
+          'detail_address': detailAddress
+        }));
+    return BasicResponse.fromJson(jsonDecode(response.body));
+  }
+
+  static Future<DeliveryAddressResponse> getDeliveryAddressByCustomerId(
+      customerId) async {
+    var response = await http.get(
+        Uri.parse(
+            '${ServiceAPI().baseUrl}/customers/$customerId/delivery/address'),
+        headers: ServiceAPI().headerInfo);
+    print(jsonDecode(response.body));
+    return DeliveryAddressResponse.fromJson(jsonDecode(response.body));
   }
 }

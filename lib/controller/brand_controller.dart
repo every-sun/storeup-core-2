@@ -19,6 +19,12 @@ class BrandController2 extends GetxController {
     super.onInit();
   }
 
+  @override
+  void onClose() {
+    isLoading.value = false;
+    super.onClose();
+  }
+
   // 배송비 정보
   Future<void> setShippingFee() async {
     try {
