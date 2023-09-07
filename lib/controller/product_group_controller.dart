@@ -4,12 +4,14 @@ import 'package:user_core2/model/product_group.dart';
 import 'package:user_core2/service/product_group_service.dart';
 import 'package:user_core2/util/dialog.dart';
 
-class ProductGroupController2 extends GetxController {
+class ProductGroupController extends GetxController {
   var isLoading = false.obs;
   var productGroups = <ProductGroup>[].obs;
 
   @override
   void onInit() {
+    print('ProductGroupController onInit');
+
     setProductGroups();
     super.onInit();
   }

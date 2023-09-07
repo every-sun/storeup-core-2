@@ -13,12 +13,6 @@ class CartController2 extends GetxController {
   var selectedCartsSumPrice = 0.obs;
   var total = 0.obs;
 
-  @override
-  void onClose() {
-    isLoading.value = false;
-    super.onClose();
-  }
-
   Future<void> getCartTotal() async {
     try {
       if (Get.find<UserController2>().customer.value == null) {
@@ -210,5 +204,12 @@ class CartController2 extends GetxController {
     } catch (err) {
       showErrorDialog();
     }
+  }
+
+  void initStates() {
+    isLoading.value = false;
+    selectedCarts.clear();
+    selectedCartsSumPrice.value = 0;
+    total.value = 0;
   }
 }

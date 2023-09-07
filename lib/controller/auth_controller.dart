@@ -11,6 +11,8 @@ class AuthController2 extends GetxController {
 
   @override
   void onInit() {
+    print('AuthController2 onInit');
+
     initRegisterRequestBody();
     super.onInit();
   }

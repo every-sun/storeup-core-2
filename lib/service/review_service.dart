@@ -31,9 +31,10 @@ class ReviewServices2 {
   static Future<BasicResponse> deleteReview(customerId, dynamic id) async {
     var response = await http.delete(
       Uri.parse(
-          '${ServiceAPI().baseUrl}/customers/$customerId/review/delete/$id'),
+          '${ServiceAPI().baseUrl}/customers/$customerId/reviews/delete/$id'),
       headers: ServiceAPI().headerInfo,
     );
+    print(jsonDecode(response.body));
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
 
@@ -41,9 +42,11 @@ class ReviewServices2 {
       customerId, dynamic id, contents) async {
     var response = await http.put(
         Uri.parse(
-            '${ServiceAPI().baseUrl}/customers/$customerId/review/edit/$id'),
+            '${ServiceAPI().baseUrl}/customers/$customerId/reviews/edit/$id'),
         headers: ServiceAPI().headerInfo,
         body: jsonEncode({'contents': contents}));
+    print({'contents': contents});
+    print(jsonDecode(response.body));
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
 }

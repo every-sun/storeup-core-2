@@ -28,7 +28,7 @@ class ReviewController extends GetxController {
       var request = http.MultipartRequest(
           "POST",
           Uri.parse(
-              '${ServiceAPI().baseUrl}/customers/${userController.customer.value!.id}/review/store'));
+              '${ServiceAPI().baseUrl}/customers/${userController.customer.value!.id}/reviews/store'));
       request.headers.addAll(ServiceAPI().headerInfo);
       request.fields.addAll(body.toJson());
       for (var i = 0; i < imageController.images.length; i++) {
@@ -95,6 +95,7 @@ class ReviewController extends GetxController {
       }
       return;
     } catch (err) {
+      print(err);
       isLoading.value = false;
       showErrorDialog();
       return;

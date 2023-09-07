@@ -18,7 +18,6 @@ class DeliveryController extends GetxController {
 
   @override
   void onClose() {
-    print('delivery controller onClose');
     isLoading.value = false;
     super.onClose();
   }

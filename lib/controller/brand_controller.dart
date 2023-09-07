@@ -14,6 +14,8 @@ class BrandController2 extends GetxController {
 
   @override
   void onInit() {
+    print('BrandController2 onInit');
+
     setShippingFee();
     setCarrier();
     super.onInit();

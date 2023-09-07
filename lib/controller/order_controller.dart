@@ -23,6 +23,13 @@ class OrderController2 extends GetxController {
     super.onClose();
   }
 
+  void initStates() {
+    isLoading.value = false;
+    paymentMethod.value = "card";
+    ePayCard.value = "TOSSPAY";
+    shippingMessage.value = '';
+  }
+
   Future<OrderRequestResponse?> requestOrder(OrderRequestBody body) async {
     try {
       isLoading.value = true;

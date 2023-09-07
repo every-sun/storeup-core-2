@@ -42,7 +42,6 @@ class ClaimRequestBody {
   String claimSubject;
   int? quantity;
   Map<String, String>? pickup;
-  Map<String, String>? reShippingData;
 
   ClaimRequestBody(
       {required this.orderId,
@@ -63,7 +62,6 @@ class ClaimRequestBody {
     body['claim_subject'] = claimSubject;
     body['quantity'] = quantity;
     body['pickup'] = pickup;
-    body['re_shipping_data'] = reShippingData;
     return body;
   }
 }
