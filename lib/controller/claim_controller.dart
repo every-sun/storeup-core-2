@@ -160,6 +160,8 @@ class ClaimController extends GetxController {
     try {
       isLoading.value = true;
       BasicResponse response = await ClaimServices.cancelClaim(id);
+      isLoading.value = false;
+
       if (response.status) {
         successMethod();
       } else {

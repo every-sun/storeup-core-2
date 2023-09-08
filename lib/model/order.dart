@@ -270,6 +270,7 @@ class OrderItem {
   Product? product;
   Store? store;
   Review? review;
+  List<dynamic> currentClaim;
   OrderItem(
       {required this.id,
       required this.orderId,
@@ -297,7 +298,8 @@ class OrderItem {
       required this.isReviewed,
       required this.product,
       required this.store,
-      required this.review});
+      required this.review,
+      required this.currentClaim});
   factory OrderItem.fromJson(Map<String, dynamic> json) => OrderItem(
       id: json['id'],
       orderId: json['order_id'],
@@ -331,5 +333,6 @@ class OrderItem {
       product:
           json['product'] != null ? Product.fromJson(json['product']) : null,
       store: json['store'] != null ? Store.fromJson(json['store']) : null,
-      review: json['review'] != null ? Review.fromJson(json['review']) : null);
+      review: json['review'] != null ? Review.fromJson(json['review']) : null,
+      currentClaim: json['current_claim'] ?? []);
 }
