@@ -23,6 +23,7 @@ class CartServices2 {
           '${ServiceAPI().baseUrl}/customers/$customerId/carts?cart_type=$cartType&order_by=created_at&direction=DESC&page=$page'),
       headers: ServiceAPI().headerInfo,
     );
+    print(jsonDecode(response.body));
     return CartResponse.fromJson(jsonDecode(response.body));
   }
 

@@ -8,6 +8,7 @@ class PriceText extends StatelessWidget {
       required this.weight,
       required this.size,
       this.height,
+      this.lineThrough = false,
       this.color = 0xff000000})
       : super(key: key);
   final dynamic price;
@@ -15,6 +16,7 @@ class PriceText extends StatelessWidget {
   final double size;
   final int color;
   final double? height;
+  final bool lineThrough;
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +37,7 @@ class PriceText extends StatelessWidget {
           height: height,
           fontWeight: weight,
           fontSize: size,
+          decoration: lineThrough ? TextDecoration.lineThrough : null,
           color: Color(color),
           overflow: TextOverflow.ellipsis),
     );

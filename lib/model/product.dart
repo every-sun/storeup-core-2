@@ -36,7 +36,7 @@ class Product {
   String name;
   String description;
   dynamic noticeInformation; // TODO
-  dynamic detailContents; // TODO
+  String detailContents;
   String? taxType;
   String? taxRate;
   bool isOnline;
@@ -72,7 +72,7 @@ class Product {
           ? Language.fromJson(json['description']).ko
           : '',
       noticeInformation: json['product_group_id'],
-      detailContents: json['detail_contents'],
+      detailContents: json['detail_contents'] ?? '',
       taxType: json['tax_type'],
       taxRate: json['tax_rate'],
       isOnline: json['is_online'],
@@ -137,6 +137,7 @@ class ProductOnline {
   bool isPurchasable;
   bool isTemporarySoldOut;
   bool isManageStock;
+  bool isDiscount;
   int stockQuantity;
   int safetyInventory;
   String discountType; // F ->discountAmount, P ->discountPercentage
@@ -153,6 +154,7 @@ class ProductOnline {
       required this.isPurchasable,
       required this.isTemporarySoldOut,
       required this.isManageStock,
+      required this.isDiscount,
       required this.stockQuantity,
       required this.safetyInventory,
       required this.discountType,
@@ -170,6 +172,7 @@ class ProductOnline {
           : '',
       isPurchasable: json['is_purchasable'],
       isTemporarySoldOut: json['is_temporary_sold_out'],
+      isDiscount: json['is_discount'],
       isManageStock: json['is_manage_stock'],
       stockQuantity: json['stock_quantity'],
       safetyInventory: json['safety_inventory'],
