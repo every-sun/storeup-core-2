@@ -11,17 +11,43 @@ import 'package:user_core2/util/dialog.dart';
 import 'package:http/http.dart' as http;
 
 class ClaimController extends GetxController {
-  var isLoading = false.obs;
-  var claimRequestBody = Rxn<ClaimRequestBody>();
   ImageController imageController = Get.put(ImageController());
+
+  var isLoading = false.obs;
+  var claimRequestBody = ClaimRequestBody(
+          orderId: '',
+          itemId: '',
+          isCancelAll: false,
+          claimType: '',
+          claimSubject: 'C',
+          quantity: 0,
+          claimReason: '',
+          claimReasonType: '',
+          pickup: null)
+      .obs;
+  var shippingRequest = '회수 장소 선택'.obs; // 회수 장소 (문 앞, 경비실 등)
 
   @override
   void onClose() {
     print('ClaimController onClose');
 
     isLoading.value = false;
-    claimRequestBody.value = null;
     super.onClose();
+  }
+
+  void initState() {
+    isLoading.value = false;
+    shippingRequest.value = '회수 장소 선택';
+    claimRequestBody.value = ClaimRequestBody(
+        orderId: '',
+        isCancelAll: false,
+        itemId: '',
+        claimType: '',
+        claimReasonType: '',
+        claimSubject: 'C',
+        quantity: 0,
+        claimReason: '',
+        pickup: null);
   }
 
   // 환뷸 굼액 정보 알림
@@ -52,11 +78,11 @@ class ClaimController extends GetxController {
   }
 
   Future<void> sendCancelRequest(Function successMethod) async {
-    if (isLoading.value || claimRequestBody.value == null) return;
+    if (isLoading.value) return;
     try {
       isLoading.value = true;
       BasicResponse response =
-          await ClaimServices.requestClaim(claimRequestBody.value!);
+          await ClaimServices.requestClaim(claimRequestBody.value);
       isLoading.value = false;
       if (response.status) {
         successMethod();
@@ -70,29 +96,32 @@ class ClaimController extends GetxController {
     }
   }
 
-  Future<void> sendExchangeRefundRequest(
-      orderNo, Function successMethod) async {
-    if (isLoading.value || claimRequestBody.value == null) return;
+  Future<void> sendExchangeRefundRequest(Function successMethod) async {
+    if (isLoading.value) return;
     try {
+      print(claimRequestBody.value.toJson());
+      isLoading.value = true;
+
       var request = http.MultipartRequest(
           "POST", Uri.parse('${ServiceAPI().baseUrl}/claims'));
       request.headers.addAll(ServiceAPI().headerInfo);
       request.fields.addAll({
-        'order_id': claimRequestBody.value!.orderId,
+        'order_id': claimRequestBody.value.orderId,
         'is_cancel_all': false.toString(),
-        'item_id': claimRequestBody.value!.itemId,
-        'claim_type': claimRequestBody.value!.claimType,
-        'claim_reason_type': claimRequestBody.value!.claimReasonType,
-        'claim_subject': claimRequestBody.value!.claimSubject,
-        'quantity': claimRequestBody.value!.quantity.toString(),
+        'item_id': claimRequestBody.value.itemId,
+        'claim_type': claimRequestBody.value.claimType,
+        'claim_reason_type': claimRequestBody.value.claimReasonType,
+        'claim_subject': claimRequestBody.value.claimSubject,
+        'quantity': claimRequestBody.value.quantity.toString(),
+        'claim_reason': claimRequestBody.value.claimReason
       });
-      if (claimRequestBody.value!.pickup != null) {
+      if (claimRequestBody.value.pickup != null) {
         request.fields.addAll({
-          'pickup[name]': claimRequestBody.value!.pickup!['name'] ?? '',
-          'pickup[contact]': claimRequestBody.value!.pickup!['contact'] ?? '',
-          'pickup[address1]': claimRequestBody.value!.pickup!['address1'] ?? '',
-          'pickup[address2]': claimRequestBody.value!.pickup!['address2'] ?? '',
-          'pickup[zipcode]': claimRequestBody.value!.pickup!['zipcode'] ?? '',
+          'pickup[name]': claimRequestBody.value.pickup!['name'] ?? '',
+          'pickup[contact]': claimRequestBody.value.pickup!['contact'] ?? '',
+          'pickup[address1]': claimRequestBody.value.pickup!['address1'] ?? '',
+          'pickup[address2]': claimRequestBody.value.pickup!['address2'] ?? '',
+          'pickup[zipcode]': claimRequestBody.value.pickup!['zipcode'] ?? '',
         });
       }
       for (var i = 0; i < imageController.images.length; i++) {
@@ -109,29 +138,35 @@ class ClaimController extends GetxController {
             await http.MultipartFile.fromPath('images[$i]', result!.path);
         request.files.add(file);
       }
-
-      if (claimRequestBody.value!.claimType == 'R') {
-        // 반품
-        showRefundAmountDialog(
-            claimRequestBody.value!.orderId,
-            claimRequestBody.value!.isCancelAll,
-            claimRequestBody.value!.claimType,
-            claimRequestBody.value!.claimReasonType,
-            claimRequestBody.value!.itemId, () async {
-          isLoading.value = true;
-          var result = await request.send();
-          final resultResponse = await http.Response.fromStream(result);
-          isLoading.value = false;
-          BasicResponse response =
-              BasicResponse.fromJson(jsonDecode(resultResponse.body));
-          if (!response.status) {
-            showBasicAlertDialog(response.message);
-          } else {
-            successMethod();
-          }
-        });
+      var result = await request.send();
+      final resultResponse = await http.Response.fromStream(result);
+      print(jsonDecode(resultResponse.body));
+      isLoading.value = false;
+      BasicResponse response =
+          BasicResponse.fromJson(jsonDecode(resultResponse.body));
+      if (!response.status) {
+        showBasicAlertDialog(response.message);
+      } else {
+        successMethod();
       }
     } catch (err) {
+      print(err);
+      isLoading.value = false;
+      showErrorDialog();
+    }
+  }
+
+  Future<void> cancelClaim(id, successMethod) async {
+    try {
+      isLoading.value = true;
+      BasicResponse response = await ClaimServices.cancelClaim(id);
+      if (response.status) {
+        successMethod();
+      } else {
+        showBasicAlertDialog(response.message);
+      }
+    } catch (err) {
+      print(err);
       isLoading.value = false;
       showErrorDialog();
     }

@@ -56,8 +56,6 @@ class DeliveryController extends GetxController {
       isLoading.value = false;
       if (response.status) {
         userAddress.value = response.data;
-      } else {
-        showBasicAlertDialog(response.message);
       }
       return;
     } catch (err) {

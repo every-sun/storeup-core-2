@@ -224,7 +224,7 @@ class Order {
 }
 
 class OrderShippingDetail {
-  Map<dynamic, dynamic>?
+  Map<String, dynamic>?
       receiver; // {'name':'', 'contact': '', 'zipcode': '', 'address1': '', 'address2': ''}
   dynamic trackingNo;
   String shoppingStatus;

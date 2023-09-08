@@ -19,8 +19,15 @@ class ClaimServices {
   static Future<BasicResponse> requestClaim(ClaimRequestBody body) async {
     var response = await http.post(Uri.parse('${ServiceAPI().baseUrl}/claims'),
         headers: ServiceAPI().headerInfo, body: jsonEncode(body.toJson()));
-    print('body: ${jsonEncode(body.toJson())}');
-    print(jsonDecode(response.body));
+    return BasicResponse.fromJson(jsonDecode(response.body));
+  }
+
+  // 취소, 교환, 반품 신청 철회
+  static Future<BasicResponse> cancelClaim(id) async {
+    var response = await http.put(
+        Uri.parse('${ServiceAPI().baseUrl}/claims/$id'),
+        headers: ServiceAPI().headerInfo,
+        body: jsonEncode({'is_undone': true}));
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
 }

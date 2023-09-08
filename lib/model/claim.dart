@@ -41,7 +41,8 @@ class ClaimRequestBody {
   String claimReasonType;
   String claimSubject;
   int? quantity;
-  Map<String, String>? pickup;
+  Map<String, dynamic>? pickup;
+  String claimReason;
 
   ClaimRequestBody(
       {required this.orderId,
@@ -51,7 +52,8 @@ class ClaimRequestBody {
       required this.claimReasonType,
       required this.claimSubject,
       required this.quantity,
-      required this.pickup});
+      required this.pickup,
+      required this.claimReason});
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> body = Map<String, dynamic>();
     body['order_id'] = orderId;
@@ -62,6 +64,7 @@ class ClaimRequestBody {
     body['claim_subject'] = claimSubject;
     body['quantity'] = quantity;
     body['pickup'] = pickup;
+    body['claim_reason'] = claimReason;
     return body;
   }
 }
