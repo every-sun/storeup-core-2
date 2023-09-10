@@ -21,19 +21,21 @@ class DeliveryGroup {
   dynamic id;
   String name;
   String description;
-  List<Map<dynamic, dynamic>> media;
+  String? mediaUrl;
 
   DeliveryGroup({
     required this.id,
     required this.name,
     required this.description,
-    required this.media,
+    required this.mediaUrl,
   });
   factory DeliveryGroup.fromJson(Map<String, dynamic> json) => DeliveryGroup(
         id: json['id'],
-        name: Language.fromJson(json['name']).ko,
-        description: Language.fromJson(json['description']).ko,
-        media: json['media'],
+        name: json['name'] ?? '',
+        description: json['description'] ?? '',
+        mediaUrl: (json['media'] != null && json['media'].isNotEmpty)
+            ? json['media'][0]['original_url']
+            : null,
       );
 }
 /* -----배달상점 카테고리---- */

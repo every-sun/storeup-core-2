@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:user_core2/model/delivery_address.dart';
+import 'package:user_core2/model/delivery_group.dart';
 import 'package:user_core2/model/juso.dart';
 import 'package:user_core2/model/language.dart';
+import 'package:user_core2/model/store.dart';
 import 'package:user_core2/service/service.dart';
 
-class DeliveryServices2 {
+class DeliveryServices {
   static Future<List<Juso>?> getAddress(keyword, page) async {
     var response = await http.get(Uri.parse(
         'https://www.juso.go.kr/addrlink/addrLinkApi.do?confmKey=U01TX0FVVEgyMDIzMDEwMjIzMTkxNzExMzM5Mzk=&keyword=$keyword&currentPage=$page&countPerPage=20&resultType=json'));
@@ -84,5 +86,24 @@ class DeliveryServices2 {
         headers: ServiceAPI().headerInfo);
     print(jsonDecode(response.body));
     return DeliveryAddressResponse.fromJson(jsonDecode(response.body));
+  }
+
+  /* 배달 카테고리 조회 */
+  static Future<DeliveryGroupResponse> getDeliveryGroups(brandId) async {
+    var response = await http.get(
+      Uri.parse('${ServiceAPI().baseUrl}/brands/$brandId/groups'),
+      headers: ServiceAPI().headerInfo,
+    );
+    return DeliveryGroupResponse.fromJson(jsonDecode(response.body));
+  }
+
+  /* 배달 상점 불러오기 */ // TODO 페이지네이션
+  static Future<List<Store>> getDeliveryStoresByGroup(brandId, groupId) async {
+    var response = await http.get(
+      Uri.parse('${ServiceAPI().baseUrl}/brands/$brandId/groups/$groupId'),
+      headers: ServiceAPI().headerInfo,
+    );
+    return List<Store>.from(jsonDecode(response.body)['data']['stores']
+        .map((x) => Store.fromJson(x)));
   }
 }

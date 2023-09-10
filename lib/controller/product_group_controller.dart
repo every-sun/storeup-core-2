@@ -11,7 +11,6 @@ class ProductGroupController extends GetxController {
   @override
   void onInit() {
     print('ProductGroupController onInit');
-
     setProductGroups();
     super.onInit();
   }
@@ -26,14 +25,15 @@ class ProductGroupController extends GetxController {
   Future<void> setProductGroups() async {
     try {
       isLoading.value = true;
-      var result = await ProductGroupServices2.getProductGroups(
-          Get.find<AppController2>().appInfo.value!.brandId);
+      ProductGroupResponse result =
+          await ProductGroupServices2.getProductGroups(
+              Get.find<AppController2>().appInfo.value!.brandId);
       if (result.status) {
         productGroups.value = result.data;
       }
       isLoading.value = false;
     } catch (err) {
-      showErrorDialog();
+      showBasicAlertDialog('카테고리를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.');
       isLoading.value = false;
       return;
     }

@@ -62,4 +62,12 @@ class AuthServices2 {
             }));
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
+
+// 회원탈퇴
+  static Future<BasicResponse> deleteCustomer(customerId) async {
+    var response = await http.delete(
+        Uri.parse('${ServiceAPI().baseUrl}/customers/$customerId'),
+        headers: ServiceAPI().headerInfo);
+    return BasicResponse.fromJson(jsonDecode(response.body));
+  }
 }

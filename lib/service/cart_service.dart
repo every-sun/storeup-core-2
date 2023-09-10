@@ -17,10 +17,10 @@ class CartServices2 {
   }
 
   static Future<CartResponse> getCarts(
-      customerId, String cartType, page) async {
+      customerId, String cartType, page, count) async {
     var response = await http.get(
       Uri.parse(
-          '${ServiceAPI().baseUrl}/customers/$customerId/carts?cart_type=$cartType&order_by=created_at&direction=DESC&page=$page'),
+          '${ServiceAPI().baseUrl}/customers/$customerId/carts?cart_type=$cartType&order_by=created_at&direction=DESC&page=$page&count=$count'),
       headers: ServiceAPI().headerInfo,
     );
     print(jsonDecode(response.body));

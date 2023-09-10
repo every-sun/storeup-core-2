@@ -26,7 +26,7 @@ class DeliveryController extends GetxController {
       newAddress, oldAddress, detailAddress, successMethod) async {
     try {
       isLoading.value = true;
-      BasicResponse response = await DeliveryServices2.saveDeliveryAddress(
+      BasicResponse response = await DeliveryServices.saveDeliveryAddress(
           Get.find<UserController2>().customer.value!.id,
           newAddress,
           oldAddress,
@@ -51,11 +51,12 @@ class DeliveryController extends GetxController {
       if (Get.find<UserController2>().customer.value == null) return;
       isLoading.value = true;
       DeliveryAddressResponse response =
-          await DeliveryServices2.getDeliveryAddressByCustomerId(
+          await DeliveryServices.getDeliveryAddressByCustomerId(
               Get.find<UserController2>().customer.value!.id);
       isLoading.value = false;
       if (response.status) {
         userAddress.value = response.data;
+        print('isAvailable: ${response.data!.isAvailableRegion}');
       }
       return;
     } catch (err) {

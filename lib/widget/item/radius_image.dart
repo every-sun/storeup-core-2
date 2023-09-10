@@ -21,9 +21,7 @@ class RadiusImage extends StatelessWidget {
         borderRadius: BorderRadius.circular(borderRadius),
         child: imageUrl != null
             ? CachedNetworkImage(
-                imageUrl: imageUrl!.contains('https://')
-                    ? imageUrl!
-                    : 'https://storeup.kr$imageUrl',
+                imageUrl: imageUrl!,
                 width: size,
                 height: height ?? size,
                 fit: BoxFit.cover,
