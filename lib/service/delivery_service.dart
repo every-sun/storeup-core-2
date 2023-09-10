@@ -91,19 +91,31 @@ class DeliveryServices {
   /* 배달 카테고리 조회 */
   static Future<DeliveryGroupResponse> getDeliveryGroups(brandId) async {
     var response = await http.get(
-      Uri.parse('${ServiceAPI().baseUrl}/brands/$brandId/groups'),
+      Uri.parse('${ServiceAPI().baseUrl}/brands/$brandId/deliveries/groups'),
       headers: ServiceAPI().headerInfo,
     );
     return DeliveryGroupResponse.fromJson(jsonDecode(response.body));
   }
 
-  /* 배달 상점 불러오기 */ // TODO 페이지네이션
-  static Future<List<Store>> getDeliveryStoresByGroup(brandId, groupId) async {
+  /* 배달 상점 불러오기 */
+  static Future<StoreResponse> getDeliveryStoresByGroup(
+      brandId, groupId, page) async {
     var response = await http.get(
-      Uri.parse('${ServiceAPI().baseUrl}/brands/$brandId/groups/$groupId'),
+      Uri.parse(
+          '${ServiceAPI().baseUrl}/brands/$brandId/deliveries/groups/$groupId?page=$page'),
       headers: ServiceAPI().headerInfo,
     );
-    return List<Store>.from(jsonDecode(response.body)['data']['stores']
-        .map((x) => Store.fromJson(x)));
+    return StoreResponse.fromJson(jsonDecode(response.body));
+  }
+
+  /* 메인페이지에서 배달 상점 랜덤으로 불러오기 */
+  static Future<StoreResponse> getDeliveryStoresRandom(
+      brandId, groupId, page) async {
+    var response = await http.get(
+      Uri.parse(
+          '${ServiceAPI().baseUrl}/brands/$brandId/deliveries?page=$page'),
+      headers: ServiceAPI().headerInfo,
+    );
+    return StoreResponse.fromJson(jsonDecode(response.body));
   }
 }

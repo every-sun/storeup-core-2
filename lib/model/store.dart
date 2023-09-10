@@ -44,6 +44,7 @@ class Store {
   dynamic data;
   dynamic addressData;
   dynamic bankAccountData;
+  int reviewsCount;
 
   Store(
       {required this.id,
@@ -64,7 +65,8 @@ class Store {
       required this.regularHoliday,
       required this.data,
       required this.addressData,
-      required this.bankAccountData});
+      required this.bankAccountData,
+      required this.reviewsCount});
   factory Store.fromJson(Map<String, dynamic> json) => Store(
       id: json['id'],
       tenantId: json['tenant_id'],
@@ -84,5 +86,6 @@ class Store {
       regularHoliday: json['regular_holiday'],
       data: json['data'],
       addressData: json['address_data'],
-      bankAccountData: json['bank_account_data']);
+      bankAccountData: json['bank_account_data'],
+      reviewsCount: json['reviews_count'] ?? 0);
 }
