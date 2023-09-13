@@ -5,8 +5,8 @@ import 'package:user_core2/model/order.dart';
 import 'package:user_core2/service/order_service.dart';
 import 'package:user_core2/util/dialog.dart';
 
-class OrderController2 extends GetxController {
-  UserController2 userController = Get.put(UserController2());
+class OrderController extends GetxController {
+  UserController userController = Get.put(UserController());
 
   var isLoading = false.obs;
   var paymentMethod = "card".obs;
@@ -51,7 +51,7 @@ class OrderController2 extends GetxController {
     try {
       isLoading.value = true;
       BasicResponse response = await OrderServices2.requestOrderConfirm(
-          Get.find<UserController2>().customer.value!.id, itemId);
+          Get.find<UserController>().customer.value!.id, itemId);
       isLoading.value = false;
       if (response.status) {
         successMethod();

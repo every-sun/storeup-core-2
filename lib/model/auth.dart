@@ -283,3 +283,20 @@ class IdFindResponse {
       email: json['email']);
 }
 /* ----- 아이디 찾기 ----- */
+
+/* 가비아 인증번호 전송 */
+
+class SmsKeyResponse {
+  bool status;
+  String message;
+  int? data;
+  SmsKeyResponse({
+    required this.status,
+    required this.message,
+    required this.data,
+  });
+  factory SmsKeyResponse.fromJson(Map<String, dynamic> json) => SmsKeyResponse(
+      status: json['status'],
+      message: json['message'] ?? '',
+      data: json['data']);
+}

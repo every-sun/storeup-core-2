@@ -27,7 +27,7 @@ class ProductGroupController extends GetxController {
       isLoading.value = true;
       ProductGroupResponse result =
           await ProductGroupServices2.getProductGroups(
-              Get.find<AppController2>().appInfo.value!.brandId);
+              Get.find<AppController>().appInfo.value!.brandId);
       if (result.status) {
         productGroups.value = result.data;
       }

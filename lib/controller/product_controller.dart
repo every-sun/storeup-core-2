@@ -3,7 +3,7 @@ import 'package:user_core2/model/product.dart';
 import 'package:user_core2/service/product_service.dart';
 import 'package:user_core2/util/dialog.dart';
 
-class ProductController2 extends GetxController {
+class ProductController extends GetxController {
   var sortValue = 'created_at'.obs;
   var sortDescending = 'DESC'.obs; // ASC: 오름차순, DESC: 내림차순
   // var page = 1.obs;

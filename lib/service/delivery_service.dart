@@ -109,13 +109,13 @@ class DeliveryServices {
   }
 
   /* 메인페이지에서 배달 상점 랜덤으로 불러오기 */
-  static Future<StoreResponse> getDeliveryStoresRandom(
-      brandId, groupId, page) async {
+  static Future<StoreResponse> getDeliveryStoresRandom(brandId, page) async {
     var response = await http.get(
       Uri.parse(
           '${ServiceAPI().baseUrl}/brands/$brandId/deliveries?page=$page'),
       headers: ServiceAPI().headerInfo,
     );
+    print(jsonDecode(response.body));
     return StoreResponse.fromJson(jsonDecode(response.body));
   }
 }

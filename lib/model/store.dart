@@ -41,7 +41,7 @@ class Store {
   String texType;
   dynamic openingHours;
   dynamic regularHoliday;
-  dynamic data;
+  String? mediaUrl;
   dynamic addressData;
   dynamic bankAccountData;
   int reviewsCount;
@@ -63,7 +63,7 @@ class Store {
       required this.texType,
       required this.openingHours,
       required this.regularHoliday,
-      required this.data,
+      required this.mediaUrl,
       required this.addressData,
       required this.bankAccountData,
       required this.reviewsCount});
@@ -84,7 +84,9 @@ class Store {
       texType: json['tex_type'] ?? '',
       openingHours: json['opening_hours'],
       regularHoliday: json['regular_holiday'],
-      data: json['data'],
+      mediaUrl: (json['data'] != null && json['data']['store_image'] != null)
+          ? json['data']['store_image'].values.toList()[0]
+          : null,
       addressData: json['address_data'],
       bankAccountData: json['bank_account_data'],
       reviewsCount: json['reviews_count'] ?? 0);

@@ -20,11 +20,10 @@ class DeliveryGroupController extends GetxController {
     super.onClose();
   }
 
-  /* 장보기 카테고리 불러오기 */
   Future<void> setDeliveryGroups() async {
     isLoading.value = true;
     DeliveryGroupResponse responses = await DeliveryServices.getDeliveryGroups(
-        Get.find<AppController2>().appInfo.value!.brandId);
+        Get.find<AppController>().appInfo.value!.brandId);
     if (responses.status) {
       deliveryGroups.value = responses.data;
     }

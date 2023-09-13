@@ -1,5 +1,3 @@
-import 'package:user_core2/model/language.dart';
-
 /* 배달상점 카테고리 */
 class DeliveryGroupResponse {
   bool status;

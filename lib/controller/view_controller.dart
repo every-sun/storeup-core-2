@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-class ViewController2 extends GetxController {
+class ViewController extends GetxController {
   RxString currentTab = ''.obs;
   var page = [].obs;
 

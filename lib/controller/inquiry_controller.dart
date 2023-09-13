@@ -11,7 +11,6 @@ import 'package:user_core2/model/language.dart';
 import 'package:http/http.dart' as http;
 
 class InquiryController extends GetxController {
-  UserController2 userController = Get.put(UserController2());
   ImageController imageController = Get.put(ImageController());
   var isLoading = false.obs;
 
@@ -29,7 +28,7 @@ class InquiryController extends GetxController {
       var request = http.MultipartRequest(
           "POST",
           Uri.parse(
-              '${ServiceAPI().baseUrl}/customers/${userController.customer.value!.id}/inquiries/store'));
+              '${ServiceAPI().baseUrl}/customers/${Get.find<UserController>().customer.value!.id}/inquiries/store'));
       request.headers.addAll(ServiceAPI().headerInfo);
       request.fields.addAll(body.toJson());
       for (var i = 0; i < imageController.images.length; i++) {
@@ -75,7 +74,7 @@ class InquiryController extends GetxController {
       if (isLoading.value) return;
       isLoading.value = true;
       BasicResponse response = await InquiryServices.editInquiry(
-          Get.find<UserController2>().customer.value!.id,
+          Get.find<UserController>().customer.value!.id,
           id,
           title,
           contents,
@@ -99,7 +98,7 @@ class InquiryController extends GetxController {
       if (isLoading.value) return;
       isLoading.value = true;
       BasicResponse response = await InquiryServices.deleteInquiry(
-          Get.find<UserController2>().customer.value!.id, id);
+          Get.find<UserController>().customer.value!.id, id);
       isLoading.value = false;
       if (response.status) {
         successMethod();

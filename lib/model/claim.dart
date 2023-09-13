@@ -140,7 +140,7 @@ class Claim {
       orderNo: json['order_no'] ?? '',
       pastStatus: json['past_status'] ?? '',
       quantity: json['quantity'],
-      rejectReason: json['reject_reason'],
+      rejectReason: json['reject_reason'] ?? '',
       refundData: json['refund_data'] != null
           ? RefundResponseData.fromJson(json['refund_data'])
           : null,

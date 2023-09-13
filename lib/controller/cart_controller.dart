@@ -7,7 +7,7 @@ import 'package:user_core2/service/cart_service.dart';
 import 'package:user_core2/util/dialog.dart';
 import 'package:user_core2/util/product_check.dart';
 
-class CartController2 extends GetxController {
+class CartController extends GetxController {
   var isLoading = false.obs;
   var selectedCarts = <Cart>[].obs;
   var selectedCartsSumPrice = 0.obs;
@@ -15,11 +15,11 @@ class CartController2 extends GetxController {
 
   Future<void> getCartTotal() async {
     try {
-      if (Get.find<UserController2>().customer.value == null) {
+      if (Get.find<UserController>().customer.value == null) {
         total.value = 0;
       } else {
         int count = await CartServices2.getCartTotal(
-            Get.find<UserController2>().customer.value!.id, 'O');
+            Get.find<UserController>().customer.value!.id, 'O');
         total.value = count;
       }
       return;
@@ -94,11 +94,11 @@ class CartController2 extends GetxController {
   }
 
   Future<bool> saveCartItem(CartRequestBody body) async {
-    if (Get.find<UserController2>().customer.value == null) return false;
+    if (Get.find<UserController>().customer.value == null) return false;
     try {
       isLoading.value = true;
       BasicResponse response = await CartServices2.storeCart(
-          Get.find<UserController2>().customer.value!.id, body);
+          Get.find<UserController>().customer.value!.id, body);
       isLoading.value = false;
       if (!response.status) {
         showBasicAlertDialog(response.message);
@@ -112,11 +112,11 @@ class CartController2 extends GetxController {
   }
 
   Future<bool> deleteCarts(List<dynamic> cartIdList) async {
-    if (Get.find<UserController2>().customer.value == null) return false;
+    if (Get.find<UserController>().customer.value == null) return false;
     try {
       isLoading.value = true;
       BasicResponse response = await CartServices2.deleteCarts(
-          Get.find<UserController2>().customer.value!.id, cartIdList);
+          Get.find<UserController>().customer.value!.id, cartIdList);
       isLoading.value = false;
       if (!response.status) {
         showBasicAlertDialog(response.message);
@@ -194,7 +194,7 @@ class CartController2 extends GetxController {
       isAdd, dynamic cartId, carts, quantity, successMethod) async {
     try {
       BasicResponse response = await CartServices2.updateQuantity(
-          Get.find<UserController2>().customer.value!.id, cartId, quantity);
+          Get.find<UserController>().customer.value!.id, cartId, quantity);
       if (response.status) {
         successMethod();
         updatePrice();

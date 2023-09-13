@@ -1,4 +1,5 @@
-import 'package:user_core2/model/image_data.dart';
+import 'dart:convert';
+
 import 'package:user_core2/model/language.dart';
 
 /* 상품 */
@@ -35,7 +36,7 @@ class Product {
   dynamic tenantId;
   String name;
   String description;
-  dynamic noticeInformation; // TODO
+  Map? noticeInformation;
   String detailContents;
   String? taxType;
   String? taxRate;
@@ -71,7 +72,11 @@ class Product {
       description: json['description'] != null
           ? Language.fromJson(json['description']).ko
           : '',
-      noticeInformation: json['product_group_id'],
+      noticeInformation: json['notice_information'] != null
+          ? (json['notice_information'].runtimeType == String
+              ? jsonDecode(json['notice_information'])
+              : json['notice_information'])
+          : null,
       detailContents: json['detail_contents'] ?? '',
       taxType: json['tax_type'],
       taxRate: json['tax_rate'],
@@ -242,3 +247,13 @@ class ProductCollection {
       );
 }
 /*----- 상품 컬렉션 -----*/
+
+class ImageData {
+  String thumbnail;
+  Map<dynamic, dynamic>? images;
+  ImageData({required this.thumbnail, this.images});
+  factory ImageData.fromJson(Map<dynamic, dynamic> json) => ImageData(
+      thumbnail:
+          json['thumbnail'] != null ? json['thumbnail'].values.toList()[0] : '',
+      images: json['images']);
+}

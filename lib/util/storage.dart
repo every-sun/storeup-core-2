@@ -1,6 +1,7 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:user_core2/model/notification.dart';
 
 class Storage {
   void initStorage() async {
@@ -27,5 +28,20 @@ class Storage {
     valueList.insert(0, productId);
     print('저장: ${valueList}');
     storage.write(key: '$appName-viewed', value: jsonEncode(valueList));
+  }
+
+  void addNotification(
+      String appName, CustomerNotification notification) async {
+    FlutterSecureStorage storage = const FlutterSecureStorage();
+    var notiString = await storage.read(key: '$appName-notification') ?? '[]';
+
+    List<CustomerNotification> notiList;
+    notiList = notificationFromJson(notiString);
+
+    if (notiList.length >= 20) {
+      notiList.removeAt(19);
+    }
+    notiList.insert(0, notification);
+    storage.write(key: '$appName-notification', value: jsonEncode(notiList));
   }
 }

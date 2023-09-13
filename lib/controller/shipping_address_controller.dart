@@ -11,8 +11,8 @@ class ShippingAddressController extends GetxController {
   var dataHasMore = true.obs;
   var userDefaultAddress = Rxn<ShippingAddress>();
   var page = 1.obs;
-  dynamic customerId = Get.find<UserController2>().customer.value != null
-      ? Get.find<UserController2>().customer.value!.id
+  dynamic customerId = Get.find<UserController>().customer.value != null
+      ? Get.find<UserController>().customer.value!.id
       : null;
 
   @override

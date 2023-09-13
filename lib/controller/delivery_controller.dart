@@ -27,7 +27,7 @@ class DeliveryController extends GetxController {
     try {
       isLoading.value = true;
       BasicResponse response = await DeliveryServices.saveDeliveryAddress(
-          Get.find<UserController2>().customer.value!.id,
+          Get.find<UserController>().customer.value!.id,
           newAddress,
           oldAddress,
           detailAddress);
@@ -48,11 +48,11 @@ class DeliveryController extends GetxController {
 
   Future<void> setUserAddress() async {
     try {
-      if (Get.find<UserController2>().customer.value == null) return;
+      if (Get.find<UserController>().customer.value == null) return;
       isLoading.value = true;
       DeliveryAddressResponse response =
           await DeliveryServices.getDeliveryAddressByCustomerId(
-              Get.find<UserController2>().customer.value!.id);
+              Get.find<UserController>().customer.value!.id);
       isLoading.value = false;
       if (response.status) {
         userAddress.value = response.data;

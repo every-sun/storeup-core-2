@@ -267,9 +267,9 @@
     },
     {
       "name": "flutter_cache_manager",
-      "rootUri": "file:///Users/jodahye/.pub-cache/hosted/pub.dev/flutter_cache_manager-3.3.0",
+      "rootUri": "file:///Users/jodahye/.pub-cache/hosted/pub.dev/flutter_cache_manager-3.3.1",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "2.17"
     },
     {
       "name": "flutter_image_compress",
@@ -579,21 +579,21 @@
     },
     {
       "name": "path_provider",
-      "rootUri": "file:///Users/jodahye/.pub-cache/hosted/pub.dev/path_provider-2.0.12",
+      "rootUri": "file:///Users/jodahye/.pub-cache/hosted/pub.dev/path_provider-2.0.15",
       "packageUri": "lib/",
-      "languageVersion": "2.14"
+      "languageVersion": "2.17"
     },
     {
       "name": "path_provider_android",
-      "rootUri": "file:///Users/jodahye/.pub-cache/hosted/pub.dev/path_provider_android-2.0.22",
+      "rootUri": "file:///Users/jodahye/.pub-cache/hosted/pub.dev/path_provider_android-2.0.27",
       "packageUri": "lib/",
-      "languageVersion": "2.14"
+      "languageVersion": "2.17"
     },
     {
       "name": "path_provider_foundation",
-      "rootUri": "file:///Users/jodahye/.pub-cache/hosted/pub.dev/path_provider_foundation-2.1.1",
+      "rootUri": "file:///Users/jodahye/.pub-cache/hosted/pub.dev/path_provider_foundation-2.2.4",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "2.18"
     },
     {
       "name": "path_provider_linux",
@@ -612,12 +612,6 @@
       "rootUri": "file:///Users/jodahye/.pub-cache/hosted/pub.dev/path_provider_windows-2.1.3",
       "packageUri": "lib/",
       "languageVersion": "2.17"
-    },
-    {
-      "name": "pedantic",
-      "rootUri": "file:///Users/jodahye/.pub-cache/hosted/pub.dev/pedantic-1.11.1",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
     },
     {
       "name": "petitparser",
@@ -944,7 +938,7 @@
       "languageVersion": "2.18"
     }
   ],
-  "generated": "2023-08-07T10:04:44.780032Z",
+  "generated": "2023-09-13T06:08:25.986499Z",
   "generator": "pub",
   "generatorVersion": "3.0.5"
 }

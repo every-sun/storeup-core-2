@@ -5,7 +5,7 @@ import 'package:user_core2/service/auth_service.dart';
 import 'package:user_core2/model/auth.dart';
 import 'package:user_core2/util/dialog.dart';
 
-class AuthController2 extends GetxController {
+class AuthController extends GetxController {
   var isLoading = false.obs;
   var registerRequestBody = Rxn<RegisterRequestBody>();
 
@@ -52,7 +52,7 @@ class AuthController2 extends GetxController {
     try {
       isLoading.value = true;
       registerRequestBody.value!.data.brandId =
-          Get.find<AppController2>().appInfo.value!.brandId;
+          Get.find<AppController>().appInfo.value!.brandId;
       var result = await AuthServices2.register(registerRequestBody.value!);
       isLoading.value = false;
       if (!result.status) {
@@ -103,7 +103,7 @@ class AuthController2 extends GetxController {
     try {
       isLoading.value = true;
       var result = await AuthServices2.findId(
-          name, contact, Get.find<AppController2>().appInfo.value!.brandId);
+          name, contact, Get.find<AppController>().appInfo.value!.brandId);
       isLoading.value = false;
       showBasicAlertDialog(result.message);
       return result;
@@ -120,9 +120,28 @@ class AuthController2 extends GetxController {
       var result = await AuthServices2.resetPassword(email, password);
       isLoading.value = false;
       if (result.status) {
-        await Get.find<UserController2>().deleteInfo(appName, true);
-        Get.offAll(() => Get.find<AppController2>().appInfo.value!.loginPage);
+        await Get.find<UserController>().deleteInfo(appName, true);
+        Get.offAll(() => Get.find<AppController>().appInfo.value!.loginPage);
         showBasicAlertDialog(successText);
+      } else {
+        showBasicAlertDialog(result.message);
+      }
+      return;
+    } catch (err) {
+      showErrorDialog();
+      isLoading.value = false;
+      return;
+    }
+  }
+
+  Future<void> checkPassword(password, successMethod) async {
+    try {
+      isLoading.value = true;
+      var result = await AuthServices2.checkPassword(
+          Get.find<UserController>().customer.value!.email, password);
+      isLoading.value = false;
+      if (result.status) {
+        successMethod();
       } else {
         showBasicAlertDialog(result.message);
       }

@@ -5,11 +5,18 @@ import 'package:user_core2/service/service.dart';
 import 'package:user_core2/model/auth.dart';
 
 class AuthServices2 {
+  static Future<SmsKeyResponse> getSmsKey(contact, brandId) async {
+    var response = await http.get(Uri.parse(
+        '${ServiceAPI().baseUrl}/sms/certification?contact=$contact&brand_id=$brandId'));
+    return SmsKeyResponse.fromJson(jsonDecode(response.body));
+  }
+
   static Future<RegisterResponse> register(RegisterRequestBody body) async {
     var response = await http.post(
         Uri.parse('${ServiceAPI().baseUrl}/auth/register'),
         body: jsonEncode(body.toJson()),
         headers: ServiceAPI().headerInfo);
+    print(jsonDecode(response.body));
     return RegisterResponse.fromJson(jsonDecode(response.body));
   }
 
@@ -25,6 +32,7 @@ class AuthServices2 {
       name, contact, brandId) async {
     var response = await http.get(Uri.parse(
         '${ServiceAPI().baseUrl}/auth/check/customer?name=$name&contact=$contact&brand_id=$brandId'));
+    print(jsonDecode(response.body));
     return UserExistResponse.fromJson(jsonDecode(response.body));
   }
 
@@ -63,7 +71,19 @@ class AuthServices2 {
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
 
-// 회원탈퇴
+  // 비밀번호 체크
+  static Future<BasicResponse> checkPassword(email, password) async {
+    var response =
+        await http.post(Uri.parse('${ServiceAPI().baseUrl}/auth/reset'),
+            headers: ServiceAPI().headerInfo,
+            body: jsonEncode({
+              "email": email,
+              "password": password,
+            }));
+    return BasicResponse.fromJson(jsonDecode(response.body));
+  }
+
+  // 회원탈퇴
   static Future<BasicResponse> deleteCustomer(customerId) async {
     var response = await http.delete(
         Uri.parse('${ServiceAPI().baseUrl}/customers/$customerId'),

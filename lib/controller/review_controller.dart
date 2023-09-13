@@ -11,7 +11,7 @@ import 'package:user_core2/model/review.dart';
 import 'package:http/http.dart' as http;
 
 class ReviewController extends GetxController {
-  UserController2 userController = Get.put(UserController2());
+  UserController userController = Get.put(UserController());
   ImageController imageController = Get.put(ImageController());
   var isLoading = false.obs;
 

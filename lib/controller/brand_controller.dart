@@ -5,12 +5,12 @@ import 'package:user_core2/model/brand.dart';
 import 'package:user_core2/service/brand_service.dart';
 import 'package:user_core2/util/dialog.dart';
 
-class BrandController2 extends GetxController {
+class BrandController extends GetxController {
   var isLoading = false.obs;
   var shippingFee = Rxn<ShippingFeeResponseData>();
   var carrier = Rxn<CarrierResponseData>();
-  final dynamic brandId = Get.put(AppController2()).appInfo.value!.brandId;
-  CartController2 cartController = Get.put(CartController2());
+  final dynamic brandId = Get.put(AppController()).appInfo.value!.brandId;
+  CartController cartController = Get.put(CartController());
 
   @override
   void onInit() {

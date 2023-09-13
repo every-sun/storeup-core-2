@@ -39,7 +39,9 @@ class ProductGroup {
       name: Language.fromJson(json['name']).ko,
       description: Language.fromJson(json['description']).ko,
       productGroupId: json['product_group_id'],
-      mediaUrl: json['media_url'],
+      mediaUrl: (json['media'] != null && json['media'].isNotEmpty)
+          ? json['media'][0]['original_url']
+          : null,
       childrenGroups: json['children_groups'] != null
           ? List<ProductGroup>.from(
               json['children_groups'].map((x) => ProductGroup.fromJson(x)))

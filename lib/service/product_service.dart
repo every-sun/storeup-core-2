@@ -67,6 +67,8 @@ class ProductServices2 {
   /* 상점별로 상품가져오기 */
   static Future<ProductResponse> getProductsByStore(
       brandId, tenantId, type, orderBy, direction, page) async {
+    print(
+        '/brands/$brandId/stores/$tenantId/products?type=$type&order_by=$orderBy&direction=$direction&page=$page');
     var response = await http.get(
       Uri.parse(
           '${ServiceAPI().baseUrl}/brands/$brandId/stores/$tenantId/products?type=$type&order_by=$orderBy&direction=$direction&page=$page'),

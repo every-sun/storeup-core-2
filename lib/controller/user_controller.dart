@@ -2,7 +2,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:user_core2/model/auth.dart';
 
-class UserController2 extends GetxController {
+class UserController extends GetxController {
   var customer = Rxn<Customer>();
   var token = ''.obs;
   var isLoading = false.obs;
