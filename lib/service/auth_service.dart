@@ -74,7 +74,7 @@ class AuthServices2 {
   // 비밀번호 체크
   static Future<BasicResponse> checkPassword(email, password) async {
     var response =
-        await http.post(Uri.parse('${ServiceAPI().baseUrl}/auth/reset'),
+        await http.post(Uri.parse('${ServiceAPI().baseUrl}/auth/check/attempt'),
             headers: ServiceAPI().headerInfo,
             body: jsonEncode({
               "email": email,

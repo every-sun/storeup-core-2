@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:user_core2/controller/user_controller.dart';
+import 'package:user_core2/model/auth.dart';
+import 'package:user_core2/service/user_service.dart';
 import 'package:user_core2/util/dialog.dart';
 import 'package:user_core2/widget/text/notosans_text.dart';
 import 'package:user_core2/widget/text/roboto_text.dart';
@@ -33,22 +35,21 @@ class _AlertSettingSectionState extends State<AlertSettingSection> {
 
   Future<void> setPushInfo() async {
     if (controller.customer.value == null) return;
-    // DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
-    //     .collection("customers")
-    //     .doc(controller.customer.value!.id)
-    //     .get();
-    // if (documentSnapshot.exists) {
-    //   Agreement agreement =
-    //       Agreement.fromJson(documentSnapshot.data() as Map<String, dynamic>);
-    //   setState(() {
-    //     _isSmsOn = agreement.marketingNotification['sms']['is_agree'];
-    //     _isEmailOn = agreement.marketingNotification['email']['is_agree'];
-    //     _isPushOn = agreement.marketingNotification['push']['is_agree'];
-    //     _isServiceNotificationOn = agreement.serviceNotification['is_agree'];
-    //     _isNighttimeServiceNotificationOn =
-    //         agreement.nighttimeServiceNotification['is_agree'];
-    //   });
-    // }
+    try {
+      Map<dynamic, dynamic> data =
+          await UserServices.getAgreementInfo(controller.customer.value!.id);
+      setState(() {
+        _isSmsOn = data['marketing_notification']['sms']['is_agree'];
+        _isEmailOn = data['marketing_notification']['email']['is_agree'];
+        _isPushOn = data['marketing_notification']['push']['is_agree'];
+        _isServiceNotificationOn = data['service_notification']['is_agree'];
+        _isNighttimeServiceNotificationOn =
+            data['nighttime_service_notification']['is_agree'];
+      });
+    } catch (err) {
+      showBasicAlertDialog('알림수신동의 여부 정보를 가져오지 못했습니다.');
+      return;
+    }
   }
 
   @override
@@ -58,6 +59,8 @@ class _AlertSettingSectionState extends State<AlertSettingSection> {
       showBasicAlertDialog("${widget.appName} $title 수신 여부가 '$agree'로 변경되었습니다."
           '\n${formatter.format(DateTime.now())}');
     }
+
+    final Customer? customer = Get.find<UserController>().customer.value;
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Container(
@@ -97,42 +100,42 @@ class _AlertSettingSectionState extends State<AlertSettingSection> {
           children: [
             _toggleItem('SMS 수신 동의', 'R', () {
               if (controller.isLoading.value) return;
-              // controller.updatePushSetting(controller.customer.value!.id,
-              //     'agreement.marketing_notification.sms', !_isSmsOn);
-              setState(() {
-                _isSmsOn = !_isSmsOn;
+              controller.updateAgreementInfo({'sms': !_isSmsOn}, () {
+                setState(() {
+                  _isSmsOn = !_isSmsOn;
+                });
+                if (_isSmsOn) {
+                  showDialogMessage('이벤트 문자 알림', '수신 동의');
+                } else {
+                  showDialogMessage('이벤트 문자 알림', '수신 거부');
+                }
               });
-              if (_isSmsOn) {
-                showDialogMessage('이벤트 문자 알림', '수신 동의');
-              } else {
-                showDialogMessage('이벤트 문자 알림', '수신 거부');
-              }
             }, _isSmsOn),
             _toggleItem('이메일', 'R', () {
               if (controller.isLoading.value) return;
-              // controller.updatePushSetting(controller.customer.value!.id,
-              //     'agreement.marketing_notification.email', !_isEmailOn);
-              setState(() {
-                _isEmailOn = !_isEmailOn;
+              controller.updateAgreementInfo({'email': !_isEmailOn}, () {
+                setState(() {
+                  _isEmailOn = !_isEmailOn;
+                });
+                if (_isEmailOn) {
+                  showDialogMessage('이벤트 이메일 알림', '수신 동의');
+                } else {
+                  showDialogMessage('이벤트 이메일 알림', '수신 거부');
+                }
               });
-              if (_isEmailOn) {
-                showDialogMessage('이벤트 이메일 알림', '수신 동의');
-              } else {
-                showDialogMessage('이벤트 이메일 알림', '수신 거부');
-              }
             }, _isEmailOn),
             _toggleItem('앱 푸시', 'R', () {
               if (controller.isLoading.value) return;
-              // controller.updatePushSetting(controller.customer.value!.id,
-              //     'agreement.marketing_notification.push', !_isPushOn);
-              setState(() {
-                _isPushOn = !_isPushOn;
+              controller.updateAgreementInfo({'push': !_isPushOn}, () {
+                setState(() {
+                  _isPushOn = !_isPushOn;
+                });
+                if (_isPushOn) {
+                  showDialogMessage('이벤트 푸시 알림', '수신 동의');
+                } else {
+                  showDialogMessage('이벤트 푸시 알림', '수신 거부');
+                }
               });
-              if (_isPushOn) {
-                showDialogMessage('이벤트 푸시 알림', '수신 동의');
-              } else {
-                showDialogMessage('이벤트 푸시 알림', '수신 거부');
-              }
             }, _isPushOn),
           ],
         ),
@@ -150,18 +153,17 @@ class _AlertSettingSectionState extends State<AlertSettingSection> {
               children: [
                 _toggleItem('서비스 알림', 'B', () {
                   if (controller.isLoading.value) return;
-                  // controller.updatePushSetting(
-                  //     controller.customer.value!.id,
-                  //     'agreement.service_notification',
-                  //     !_isServiceNotificationOn);
-                  setState(() {
-                    _isServiceNotificationOn = !_isServiceNotificationOn;
+                  controller.updateAgreementInfo(
+                      {'service': !_isServiceNotificationOn}, () {
+                    setState(() {
+                      _isServiceNotificationOn = !_isServiceNotificationOn;
+                    });
+                    if (_isServiceNotificationOn) {
+                      showDialogMessage('서비스 알림', '수신 동의');
+                    } else {
+                      showDialogMessage('서비스 알림', '수신 거부');
+                    }
                   });
-                  if (_isServiceNotificationOn) {
-                    showDialogMessage('서비스 알림', '수신 동의');
-                  } else {
-                    showDialogMessage('서비스 알림', '수신 거부');
-                  }
                 }, _isServiceNotificationOn),
                 NotoText(
                     content: '${widget.appName} 서비스 관련 정보를 알려드릴게요.',
@@ -182,19 +184,18 @@ class _AlertSettingSectionState extends State<AlertSettingSection> {
           children: [
             _toggleItem('야간 알림 수신', 'B', () {
               if (controller.isLoading.value) return;
-              // controller.updatePushSetting(
-              //     controller.customer.value!.id,
-              //     'agreement.nighttime_service_notification',
-              //     !_isNighttimeServiceNotificationOn);
-              setState(() {
-                _isNighttimeServiceNotificationOn =
-                    !_isNighttimeServiceNotificationOn;
+              controller.updateAgreementInfo(
+                  {'nighttime': !_isNighttimeServiceNotificationOn}, () {
+                setState(() {
+                  _isNighttimeServiceNotificationOn =
+                      !_isNighttimeServiceNotificationOn;
+                });
+                if (_isNighttimeServiceNotificationOn) {
+                  showDialogMessage('야간 서비스 알림', '수신 동의');
+                } else {
+                  showDialogMessage('야간 서비스 알림', '수신 거부');
+                }
               });
-              if (_isServiceNotificationOn) {
-                showDialogMessage('야간 서비스 알림', '수신 동의');
-              } else {
-                showDialogMessage('야간 서비스 알림', '수신 거부');
-              }
             }, _isNighttimeServiceNotificationOn),
             const Opacity(
               opacity: 0.5,

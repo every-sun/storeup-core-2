@@ -106,9 +106,21 @@ class RegisterResponse {
               : null);
 }
 
+class CustomerResponse {
+  bool status;
+  String message;
+  Customer? data;
+  CustomerResponse({required this.status, required this.message, this.data});
+  factory CustomerResponse.fromJson(Map<String, dynamic> json) =>
+      CustomerResponse(
+          status: json['status'],
+          message: json['message'] ?? '',
+          data: json['data'] != null ? Customer.fromJson(json['data']) : null);
+}
+
 class Customer {
   // CustomerPrivacy? privacy;
-  dynamic privacy;
+  Map? privacy;
   String email;
   String name;
   String contact;
