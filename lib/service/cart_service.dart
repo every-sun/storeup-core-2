@@ -12,7 +12,6 @@ class CartServices2 {
       body: jsonEncode(body.toJson()),
       headers: ServiceAPI().headerInfo,
     );
-    print(jsonDecode(response.body));
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
 

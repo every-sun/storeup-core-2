@@ -36,4 +36,20 @@ class OrderServices2 {
     print(jsonDecode(response.body));
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
+
+  static Future<BasicResponse> deleteUnpaidOrder(orderId) async {
+    var response = await http.delete(
+      Uri.parse('${ServiceAPI().baseUrl}/orders/$orderId'),
+      headers: ServiceAPI().headerInfo,
+    );
+    return BasicResponse.fromJson(jsonDecode(response.body));
+  }
+
+  static Future<BasicResponse> restoreToCart(dynamic customerId, itemId) async {
+    var response = await http.post(
+        Uri.parse('${ServiceAPI().baseUrl}/customers/$customerId/carts'),
+        headers: ServiceAPI().headerInfo,
+        body: jsonEncode({'item_id': itemId}));
+    return BasicResponse.fromJson(jsonDecode(response.body));
+  }
 }

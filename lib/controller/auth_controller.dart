@@ -105,7 +105,9 @@ class AuthController extends GetxController {
       var result = await AuthServices2.findId(
           name, contact, Get.find<AppController>().appInfo.value!.brandId);
       isLoading.value = false;
-      showBasicAlertDialog(result.message);
+      if (!result.status) {
+        showBasicAlertDialog(result.message);
+      }
       return result;
     } catch (err) {
       showErrorDialog();

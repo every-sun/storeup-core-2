@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:user_core2/model/delivery_address.dart';
 import 'package:user_core2/model/delivery_group.dart';
+import 'package:user_core2/model/delivery_product.dart';
 import 'package:user_core2/model/juso.dart';
 import 'package:user_core2/model/language.dart';
 import 'package:user_core2/model/store.dart';
@@ -117,5 +118,27 @@ class DeliveryServices {
     );
     print(jsonDecode(response.body));
     return StoreResponse.fromJson(jsonDecode(response.body));
+  }
+
+  /* 배달상품 불러오기(배달상점 상세페이지) */
+  static Future<DeliveryProductsByCategoryResponse> getDeliveryProductsByStore(
+      brandId, tenantId) async {
+    var response = await http.get(
+      Uri.parse(
+          '${ServiceAPI().baseUrl}/brands/$brandId/stores/$tenantId/deliveries/categories'),
+      headers: ServiceAPI().headerInfo,
+    );
+    return DeliveryProductsByCategoryResponse.fromJson(
+        jsonDecode(response.body));
+  }
+
+  /* 배달상품 단일조회 */
+  static Future<DeliveryDetail> getDeliveryProduct(globalId) async {
+    var response = await http.get(
+      Uri.parse('${ServiceAPI().baseUrl}/products/global/$globalId?type=D'),
+      headers: ServiceAPI().headerInfo,
+    );
+    print('${ServiceAPI().baseUrl}/products/global/$globalId?type=D');
+    return DeliveryDetail.fromJson(jsonDecode(response.body)['data']);
   }
 }

@@ -33,6 +33,7 @@ class OrderRequestBody {
 
 class OrderRequestBodyData {
   dynamic brandId;
+  dynamic orderNo;
   String orderType;
   String orderMethod;
   int orderShippingFee;
@@ -48,6 +49,7 @@ class OrderRequestBodyData {
 
   OrderRequestBodyData(
       {required this.brandId,
+      required this.orderNo,
       required this.orderType,
       required this.orderMethod,
       required this.orderShippingFee,
@@ -63,6 +65,7 @@ class OrderRequestBodyData {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> body = Map<String, dynamic>();
     body['brand_id'] = brandId;
+    body['order_no'] = orderNo;
     body['order_type'] = orderType;
     body['order_method'] = orderMethod;
     body['order_shipping_fee'] = orderShippingFee;

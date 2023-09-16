@@ -3,7 +3,7 @@ import 'package:user_core2/model/order.dart';
 class ReviewRequestBody {
   dynamic brandId;
   dynamic customerId;
-  String modelType;
+  String modelType; // 장보기: 'product', 'store'
   dynamic modelId;
   dynamic itemId;
   dynamic orderId;

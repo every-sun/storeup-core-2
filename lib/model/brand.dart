@@ -81,9 +81,9 @@ class CarrierResponseData {
       CarrierResponseData(
           id: json['id'],
           isDefault: json['is_default'],
-          name: json['name'],
-          code: json['code'],
-          contact: json['contact'],
+          name: json['name'] ?? '',
+          code: json['code'] ?? '',
+          contact: json['contact'] ?? '',
           url: json['url'],
           defaultFee: json['default_fee']);
 }

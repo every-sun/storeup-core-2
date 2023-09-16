@@ -96,6 +96,7 @@ class Product {
 
 class ProductOption {
   dynamic id;
+  dynamic globalId;
   String optionType;
   dynamic optionId;
   String name;
@@ -107,6 +108,7 @@ class ProductOption {
   List<ProductOption> childrenOptions;
   ProductOption(
       {required this.id,
+      required this.globalId,
       required this.optionType,
       required this.optionId,
       required this.name,
@@ -118,6 +120,7 @@ class ProductOption {
       required this.childrenOptions});
   factory ProductOption.fromJson(Map<String, dynamic> json) => ProductOption(
       id: json['id'],
+      globalId: json['global_id'],
       optionType: json['option_type'],
       optionId: json['option_id'],
       name: json['name'] != null ? Language.fromJson(json['name']).ko : '',
@@ -253,7 +256,8 @@ class ImageData {
   Map<dynamic, dynamic>? images;
   ImageData({required this.thumbnail, this.images});
   factory ImageData.fromJson(Map<dynamic, dynamic> json) => ImageData(
-      thumbnail:
-          json['thumbnail'] != null ? json['thumbnail'].values.toList()[0] : '',
+      thumbnail: (json['thumbnail'] != null && json['thumbnail'].isNotEmpty)
+          ? json['thumbnail'].values.toList()[0]
+          : '',
       images: json['images']);
 }

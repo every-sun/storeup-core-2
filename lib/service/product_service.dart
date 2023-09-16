@@ -11,7 +11,6 @@ class ProductServices2 {
           '${ServiceAPI().baseUrl}/products/group/$groupId?order_by=$orderBy&direction=$direction&count=20&page=$page'),
       headers: ServiceAPI().headerInfo,
     );
-    print(jsonDecode(response.body));
     return ProductResponse.fromJson(jsonDecode(response.body));
   }
 
@@ -23,7 +22,6 @@ class ProductServices2 {
           '${ServiceAPI().baseUrl}/products/collection/$collectionId?order_by=$orderBy&direction=$direction&count=20&page=$page'),
       headers: ServiceAPI().headerInfo,
     );
-    print(jsonDecode(response.body)['data']);
     return ProductResponse.fromJson(jsonDecode(response.body));
   }
 
@@ -35,8 +33,6 @@ class ProductServices2 {
           '${ServiceAPI().baseUrl}/products/search?key_word=$keyWord&brand_id=$brandId&direction=$direction&order_by=$orderBy&count=20&page=$page'),
       headers: ServiceAPI().headerInfo,
     );
-    print(jsonDecode(response.body));
-
     return ProductResponse.fromJson(jsonDecode(response.body));
   }
 
@@ -48,8 +44,6 @@ class ProductServices2 {
           '${ServiceAPI().baseUrl}/collections/main?brand_id=$brandId&page=1'),
       headers: ServiceAPI().headerInfo,
     );
-    print(jsonDecode(response.body));
-
     return ProductCollectionResponse.fromJson(jsonDecode(response.body));
   }
 
@@ -59,22 +53,17 @@ class ProductServices2 {
       Uri.parse('${ServiceAPI().baseUrl}/products/$productId?type=$type'),
       headers: ServiceAPI().headerInfo,
     );
-    print(jsonDecode(response.body));
-
     return Product.fromJson(jsonDecode(response.body)['data']);
   }
 
   /* 상점별로 상품가져오기 */
   static Future<ProductResponse> getProductsByStore(
       brandId, tenantId, type, orderBy, direction, page) async {
-    print(
-        '/brands/$brandId/stores/$tenantId/products?type=$type&order_by=$orderBy&direction=$direction&page=$page');
     var response = await http.get(
       Uri.parse(
           '${ServiceAPI().baseUrl}/brands/$brandId/stores/$tenantId/products?type=$type&order_by=$orderBy&direction=$direction&page=$page'),
       headers: ServiceAPI().headerInfo,
     );
-    print(jsonDecode(response.body));
     return ProductResponse.fromJson(jsonDecode(response.body));
   }
 }

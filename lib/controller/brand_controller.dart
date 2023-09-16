@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:user_core2/controller/app_controller.dart';
 import 'package:user_core2/controller/cart_controller.dart';
 import 'package:user_core2/model/brand.dart';
+import 'package:user_core2/model/order.dart';
 import 'package:user_core2/service/brand_service.dart';
 import 'package:user_core2/util/dialog.dart';
 
@@ -89,5 +90,36 @@ class BrandController extends GetxController {
       isLoading.value = false;
       return;
     }
+  }
+
+  String? getCarrierValue() {
+    if (carrier.value == null) return null;
+    switch (carrier.value!.code) {
+      case 'C1':
+        return 'kr.epost';
+      case 'C2':
+        return 'kr.cjlogistics';
+      case 'C3':
+        return 'kr.logen';
+      case 'C4':
+        return 'kr.hanjin';
+      case 'C5':
+        return 'kr.lotte';
+      case 'C6':
+        return 'kr.daesin';
+      case 'C7':
+        return 'kr.ilyanglogis';
+      case 'C8':
+        return 'kr.kdexp';
+      case 'C9':
+        return 'de.dhl';
+      case 'C10':
+        return 'un.upu.ems';
+      case 'C11':
+        return 'us.fedex';
+      case 'C12':
+        return 'us.ups';
+    }
+    return null;
   }
 }
