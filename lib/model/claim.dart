@@ -90,6 +90,7 @@ class Claim {
   String claimReasonType;
   String claimSubject;
   String claimType;
+  String claimReason;
   String itemNo;
   bool isAccepted;
   bool isCancelAll;
@@ -110,6 +111,7 @@ class Claim {
       required this.claimReasonType,
       required this.claimSubject,
       required this.claimType,
+      required this.claimReason,
       required this.itemNo,
       required this.isAccepted,
       required this.isCancelAll,
@@ -130,6 +132,7 @@ class Claim {
       claimReasonType: json['claim_reason_type'],
       claimSubject: json['claim_subject'],
       claimType: json['claim_type'],
+      claimReason: json['claim_reason'] ?? '',
       itemNo: json['item_no'],
       isAccepted: json['is_accepted'],
       isCancelAll: json['is_cancel_all'],

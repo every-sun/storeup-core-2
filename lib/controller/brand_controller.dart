@@ -1,21 +1,25 @@
 import 'package:get/get.dart';
 import 'package:user_core2/controller/app_controller.dart';
 import 'package:user_core2/controller/cart_controller.dart';
+import 'package:user_core2/controller/shipping_address_controller.dart';
 import 'package:user_core2/model/brand.dart';
+import 'package:user_core2/model/delivery_address.dart';
 import 'package:user_core2/model/order.dart';
+import 'package:user_core2/model/shipping_address.dart';
 import 'package:user_core2/service/brand_service.dart';
 import 'package:user_core2/util/dialog.dart';
 
 class BrandController extends GetxController {
   var isLoading = false.obs;
   var shippingFee = Rxn<ShippingFeeResponseData>();
+  var deliveryFee = Rxn<ShippingFeeResponseData>();
   var carrier = Rxn<CarrierResponseData>();
   final dynamic brandId = Get.put(AppController()).appInfo.value!.brandId;
-  CartController cartController = Get.put(CartController());
-
+  final ShippingAddressController addressController =
+      Get.put(ShippingAddressController());
   @override
   void onInit() {
-    print('BrandController2 onInit');
+    print('BrandController onInit');
 
     setShippingFee();
     setCarrier();
@@ -43,30 +47,75 @@ class BrandController extends GetxController {
             : '배송비 정보를 불러올 수 없습니다. 다시 시도해주세요.');
       }
     } catch (err) {
-      showErrorDialog();
+      showBasicAlertDialog('배송비 정보를 불러올 수 없습니다. 다시 시도해주세요.');
       isLoading.value = false;
       return;
     }
   }
 
   // 배송비 가져오기
-  int getShippingFee() {
+  int getShippingFee(
+    String orderType,
+    CartController cartController,
+  ) {
     if (shippingFee.value == null) return 0;
     if (shippingFee.value!.conditionType == 'P') {
       if (cartController.selectedCartsSumPrice.value >=
           shippingFee.value!.condition) {
         return shippingFee.value!.conditionFee;
       } else {
-        // TODO 당일배달
-        // if (orderType.value == 'N' &&
-        //     (addressController.userDefaultAddress.value != null &&
-        //         addressController.userDefaultAddress.value!.availableRegion!)) {
-        //   return addressController.userDefaultAddress.value!.regionChargingFee!;
-        // } else {
-        //   return shippingFee.value!.defaultFee;
-        // }
+        if (orderType == 'N' &&
+            (addressController.userDefaultAddress.value != null &&
+                addressController
+                    .userDefaultAddress.value!.isAvailableRegion)) {
+          return addressController.userDefaultAddress.value!.regionChargingFee;
+        } else {
+          return shippingFee.value!.defaultFee;
+        }
       }
     } else if (shippingFee.value!.conditionType == 'F') {
+      return 0;
+    }
+    return 0;
+  }
+
+  // 배달비 정보
+  Future<void> setDeliveryFee() async {
+    try {
+      isLoading.value = true;
+      ShippingFeeResponse response =
+          await BrandServices.getDeliveryFee(brandId);
+      isLoading.value = false;
+      if (response.status && response.data != null) {
+        deliveryFee.value = response.data;
+      } else {
+        showBasicAlertDialog(response.message != ''
+            ? response.message
+            : '배달비 정보를 불러올 수 없습니다. 다시 시도해주세요.');
+      }
+    } catch (err) {
+      showBasicAlertDialog('배달비 정보를 불러올 수 없습니다. 다시 시도해주세요.');
+      isLoading.value = false;
+      return;
+    }
+  }
+
+  // 배달비 가져오기
+  int getDeliveryFee(
+      CartController cartController, DeliveryAddress? userDeliveryAddress) {
+    if (deliveryFee.value == null) return 0;
+    if (deliveryFee.value!.conditionType == 'P') {
+      if (cartController.selectedCartsSumPrice.value >=
+          deliveryFee.value!.condition) {
+        return deliveryFee.value!.conditionFee;
+      } else {
+        if (userDeliveryAddress != null) {
+          return userDeliveryAddress.regionChargingFee;
+        } else {
+          return deliveryFee.value!.defaultFee;
+        }
+      }
+    } else if (deliveryFee.value!.conditionType == 'F') {
       return 0;
     }
     return 0;

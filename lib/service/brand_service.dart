@@ -14,6 +14,16 @@ class BrandServices {
     return ShippingFeeResponse.fromJson(jsonDecode(response.body));
   }
 
+  /* 배달비 정보 */
+  static Future<ShippingFeeResponse> getDeliveryFee(dynamic brandId) async {
+    var response = await http.get(
+      Uri.parse('${ServiceAPI().baseUrl}/brands/$brandId/config/deliveryFee'),
+      headers: ServiceAPI().headerInfo,
+    );
+    print('배달비 정보: ${jsonDecode(response.body)}');
+    return ShippingFeeResponse.fromJson(jsonDecode(response.body));
+  }
+
   /* 택배 정보 */
   static Future<CarrierResponse> getCarrier(dynamic brandId) async {
     var response = await http.get(

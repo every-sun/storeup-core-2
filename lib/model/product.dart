@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:user_core2/model/delivery_product.dart';
 import 'package:user_core2/model/language.dart';
 
 /* 상품 */
@@ -47,6 +48,7 @@ class Product {
   ImageData? data;
   List<ProductOption> options;
   Map<String, dynamic> store;
+  DeliveryDetailInfo? delivery;
   Product(
       {required this.id,
       required this.globalId,
@@ -63,7 +65,8 @@ class Product {
       required this.online,
       required this.data,
       required this.options,
-      required this.store});
+      required this.store,
+      required this.delivery});
   factory Product.fromJson(Map<String, dynamic> json) => Product(
       id: json['id'],
       globalId: json['global_id'],
@@ -91,7 +94,10 @@ class Product {
           ? List<ProductOption>.from(
               json['options'].map((x) => ProductOption.fromJson(x)))
           : [],
-      store: json['store'] ?? {});
+      store: json['store'] ?? {},
+      delivery: json['delivery'] != null
+          ? DeliveryDetailInfo.fromJson(json['delivery'])
+          : null);
 }
 
 class ProductOption {

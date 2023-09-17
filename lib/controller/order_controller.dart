@@ -32,6 +32,7 @@ class OrderController extends GetxController {
 
   Future<OrderRequestResponse?> requestOrder(OrderRequestBody body) async {
     try {
+      print('body.data.orderNo: ${body.data.orderNo}');
       isLoading.value = true;
       OrderRequestResponse response = await OrderServices2.requestOrder(body);
       isLoading.value = false;

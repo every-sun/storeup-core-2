@@ -32,10 +32,13 @@ class ClaimServices {
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
 
-  static Future<ClaimResponse> getClaims(customerId, page) async {
+  static Future<ClaimResponse> getClaims(
+      customerId, String from, String to, int page) async {
+    print(
+        '${ServiceAPI().baseUrl}/customers/$customerId/claims?from=$from&to=$to&page=$page');
     var response = await http.get(
       Uri.parse(
-          '${ServiceAPI().baseUrl}/customers/$customerId/claims?page=$page'),
+          '${ServiceAPI().baseUrl}/customers/$customerId/claims?from=$from&to=$to&page=$page'),
       headers: ServiceAPI().headerInfo,
     );
     return ClaimResponse.fromJson(jsonDecode(response.body));

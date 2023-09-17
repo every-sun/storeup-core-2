@@ -160,7 +160,7 @@ class Order {
   bool isOnline;
   bool isReviewed;
   bool isUseDiscountCoupon;
-  List<dynamic> payments;
+  List<OrderPayment> payments;
   Customer customer;
   List<OrderItem> items;
   DateTime createdAt;
@@ -211,7 +211,10 @@ class Order {
         isOnline: json['is_online'],
         isReviewed: json['is_reviewed'],
         isUseDiscountCoupon: json['is_use_discount_coupon'],
-        payments: json['payments'],
+        payments: json['payments'] != null
+            ? List<OrderPayment>.from(
+                json['payments'].map((x) => OrderPayment.fromJson(x)))
+            : [],
         customer: Customer.fromJson(json['customer']),
         items: json['items'] != null
             ? List<OrderItem>.from(
@@ -338,4 +341,37 @@ class OrderItem {
       store: json['store'] != null ? Store.fromJson(json['store']) : null,
       review: json['review'] != null ? Review.fromJson(json['review']) : null,
       currentClaim: json['current_claim'] ?? []);
+}
+
+class OrderPayment {
+  dynamic id;
+  String approvedDate;
+  String approvedTime;
+  String cardNumber;
+  String paymentMethod;
+  int paymentAmount;
+  int remainAmount;
+  dynamic virtualAccountData;
+  Map? data;
+  OrderPayment(
+      {required this.id,
+      required this.approvedDate,
+      required this.approvedTime,
+      required this.cardNumber,
+      required this.paymentMethod,
+      required this.paymentAmount,
+      required this.remainAmount,
+      required this.virtualAccountData,
+      required this.data});
+  factory OrderPayment.fromJson(Map<String, dynamic> json) => OrderPayment(
+        id: json['id'],
+        approvedDate: json['approved_date'],
+        approvedTime: json['approved_time'],
+        cardNumber: json['card_number'],
+        paymentMethod: json['payment_method'],
+        paymentAmount: json['payment_amount'],
+        remainAmount: json['remain_amount'],
+        virtualAccountData: json['virtual_account_data'],
+        data: json['data'],
+      );
 }
