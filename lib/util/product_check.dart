@@ -1,5 +1,4 @@
 import 'package:user_core2/model/cart.dart';
-import 'package:user_core2/model/delivery_product.dart';
 import 'package:user_core2/model/product.dart';
 
 /* 상품 리스트 */

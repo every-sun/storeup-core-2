@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:toss_payment/feature/payments/webview/payment_webview.dart';
 import 'package:user_core2/controller/loading_controller.dart';
+import 'package:user_core2/controller/order_controller.dart';
 import 'package:user_core2/util/dialog.dart';
 import 'package:user_core2/service/service.dart';
 
@@ -14,7 +15,8 @@ class TossPaymentsView extends StatelessWidget {
       required this.paymentMethod,
       this.orderType = 'S',
       required this.successMethod,
-      required this.flowMode})
+      required this.flowMode,
+      required this.controller})
       : super(key: key);
   final int amount;
   final String orderNo;
@@ -22,13 +24,20 @@ class TossPaymentsView extends StatelessWidget {
   final String paymentMethod;
   final String orderType;
   final Function successMethod;
-  final String flowMode; // TODO
+  final String flowMode;
+  final OrderController controller;
 
   @override
   Widget build(BuildContext context) {
     LoadingController loadingController = Get.put(LoadingController());
-    var url = // TODO url
+    var url =
         '${ServiceAPI().baseUrl}/payments/toss?method=$paymentMethod&orderId=$orderNo&amount=$amount&orderName=$orderName';
+    if (controller.coupon.value != null) {
+      url += '&couponId=${controller.coupon.value!.id}';
+    }
+    if (controller.point.value > 0) {
+      url += '&pointAmount=${controller.point.value}';
+    }
     // if (paymentMethod == 'ePay' && controller.ePayCard.value != '') {
     //   url += '&flowMode=$flowMode&easyPay=${controller.ePayCard.value}';
     // }

@@ -12,14 +12,43 @@ class BoardServices {
     return BoardResponse.fromJson(jsonDecode(response.body));
   }
 
+  static Future<Board?> getBoard(dynamic brandId, String type) async {
+    // type=E, N
+    var response = await http.get(
+      Uri.parse(
+          '${ServiceAPI().baseUrl}/brands/$brandId/boards/default?type=$type'),
+      headers: ServiceAPI().headerInfo,
+    );
+    return jsonDecode(response.body)['data'] != null
+        ? Board.fromJson(jsonDecode(response.body)['data'])
+        : null;
+  }
+
   static Future<PostResponse> getPosts(
-      dynamic brandId, dynamic boardId, int page) async {
+    dynamic brandId,
+    dynamic boardId,
+    int page,
+  ) async {
     var response = await http.get(
       Uri.parse(
           '${ServiceAPI().baseUrl}/brands/$brandId/boards/$boardId/posts?page=$page'),
       headers: ServiceAPI().headerInfo,
     );
     return PostResponse.fromJson(jsonDecode(response.body));
+  }
+
+  static Future<List<Post>> getExpiredPosts(
+    dynamic brandId,
+    dynamic boardId,
+    int page,
+  ) async {
+    var response = await http.get(
+      Uri.parse(
+          '${ServiceAPI().baseUrl}/brands/$brandId/boards/$boardId/posts/expired?page=$page'),
+      headers: ServiceAPI().headerInfo,
+    );
+    return List<Post>.from(
+        jsonDecode(response.body)['data']['data'].map((x) => Post.fromJson(x)));
   }
 
   static Future<PostDetail> getPostDetail(

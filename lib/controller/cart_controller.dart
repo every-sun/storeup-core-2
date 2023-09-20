@@ -12,15 +12,20 @@ class CartController extends GetxController {
   var selectedCarts = <Cart>[].obs;
   var selectedCartsSumPrice = 0.obs;
   var total = 0.obs;
+  var deliveryTotal = 0.obs;
 
-  Future<void> getCartTotal() async {
+  Future<void> getCartTotal(type) async {
     try {
       if (Get.find<UserController>().customer.value == null) {
         total.value = 0;
       } else {
         int count = await CartServices2.getCartTotal(
-            Get.find<UserController>().customer.value!.id, 'O');
-        total.value = count;
+            Get.find<UserController>().customer.value!.id, type);
+        if (type == 'O') {
+          total.value = count;
+        } else if (type == 'D') {
+          deliveryTotal.value = count;
+        }
       }
       return;
     } catch (err) {
@@ -100,7 +105,7 @@ class CartController extends GetxController {
       BasicResponse response = await CartServices2.storeCart(
           Get.find<UserController>().customer.value!.id, body);
       isLoading.value = false;
-      if (!response.status) {
+      if (body.cartType == 'O' && !response.status) {
         showBasicAlertDialog(response.message);
       }
       return response.status;

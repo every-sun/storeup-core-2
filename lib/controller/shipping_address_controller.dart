@@ -11,9 +11,6 @@ class ShippingAddressController extends GetxController {
   var dataHasMore = true.obs;
   var userDefaultAddress = Rxn<ShippingAddress>();
   var page = 1.obs;
-  dynamic customerId = Get.find<UserController>().customer.value != null
-      ? Get.find<UserController>().customer.value!.id
-      : null;
 
   @override
   void onInit() {
@@ -32,7 +29,6 @@ class ShippingAddressController extends GetxController {
   }
 
   Future<bool> saveAddress(ShippingAddressRequestBody body) async {
-    if (customerId == null) return false;
     try {
       isLoading.value = true;
       var response = await ShippingAddressServices2.storeShippingAddress(body);
@@ -56,7 +52,6 @@ class ShippingAddressController extends GetxController {
 
   Future<bool> editAddress(
       dynamic addressId, ShippingAddressRequestBody body) async {
-    if (customerId == null) return false;
     try {
       isLoading.value = true;
       var response =
@@ -81,12 +76,11 @@ class ShippingAddressController extends GetxController {
   }
 
   Future<bool> getAddresses() async {
-    if (customerId == null) return false;
     try {
       isLoading.value = true;
       ShippingAddressResponse response =
           await ShippingAddressServices2.getShippingAddresses(
-              customerId, page.value);
+              Get.find<UserController>().customer.value!.id, page.value);
       dataHasMore.value = false;
       isLoading.value = false;
       if (response.status && response.data != null) {
@@ -115,7 +109,6 @@ class ShippingAddressController extends GetxController {
   }
 
   Future<bool> setDefaultAddress(ShippingAddress address) async {
-    if (customerId == null) return false;
     try {
       isLoading.value = true;
       var response =
@@ -137,7 +130,6 @@ class ShippingAddressController extends GetxController {
   }
 
   Future<bool> deleteAddress(dynamic addressId) async {
-    if (customerId == null) return false;
     try {
       isLoading.value = true;
       BasicResponse response =
@@ -158,11 +150,10 @@ class ShippingAddressController extends GetxController {
   }
 
   Future<bool> getDefaultAddress() async {
-    if (customerId == null) return false;
     try {
       isLoading.value = true;
-      var response =
-          await ShippingAddressServices2.getDefaultShippingAddress(customerId);
+      var response = await ShippingAddressServices2.getDefaultShippingAddress(
+          Get.find<UserController>().customer.value!.id);
       isLoading.value = false;
       if (response.status && response.data != null) {
         userDefaultAddress.value = response.data;

@@ -4,8 +4,6 @@ import 'package:user_core2/controller/cart_controller.dart';
 import 'package:user_core2/controller/shipping_address_controller.dart';
 import 'package:user_core2/model/brand.dart';
 import 'package:user_core2/model/delivery_address.dart';
-import 'package:user_core2/model/order.dart';
-import 'package:user_core2/model/shipping_address.dart';
 import 'package:user_core2/service/brand_service.dart';
 import 'package:user_core2/util/dialog.dart';
 
@@ -14,7 +12,6 @@ class BrandController extends GetxController {
   var shippingFee = Rxn<ShippingFeeResponseData>();
   var deliveryFee = Rxn<ShippingFeeResponseData>();
   var carrier = Rxn<CarrierResponseData>();
-  final dynamic brandId = Get.put(AppController()).appInfo.value!.brandId;
   final ShippingAddressController addressController =
       Get.put(ShippingAddressController());
   @override
@@ -36,8 +33,8 @@ class BrandController extends GetxController {
   Future<void> setShippingFee() async {
     try {
       isLoading.value = true;
-      ShippingFeeResponse response =
-          await BrandServices.getShippingFee(brandId);
+      ShippingFeeResponse response = await BrandServices.getShippingFee(
+          Get.find<AppController>().appInfo.value!.brandId);
       isLoading.value = false;
       if (response.status && response.data != null) {
         shippingFee.value = response.data;
@@ -83,8 +80,8 @@ class BrandController extends GetxController {
   Future<void> setDeliveryFee() async {
     try {
       isLoading.value = true;
-      ShippingFeeResponse response =
-          await BrandServices.getDeliveryFee(brandId);
+      ShippingFeeResponse response = await BrandServices.getDeliveryFee(
+          Get.find<AppController>().appInfo.value!.brandId);
       isLoading.value = false;
       if (response.status && response.data != null) {
         deliveryFee.value = response.data;
@@ -125,7 +122,8 @@ class BrandController extends GetxController {
   Future<void> setCarrier() async {
     try {
       isLoading.value = true;
-      CarrierResponse response = await BrandServices.getCarrier(brandId);
+      CarrierResponse response = await BrandServices.getCarrier(
+          Get.find<AppController>().appInfo.value!.brandId);
       isLoading.value = false;
       if (response.status && response.data != null) {
         carrier.value = response.data;

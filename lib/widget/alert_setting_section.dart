@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:user_core2/controller/user_controller.dart';
-import 'package:user_core2/model/auth.dart';
 import 'package:user_core2/service/user_service.dart';
 import 'package:user_core2/util/dialog.dart';
 import 'package:user_core2/widget/text/notosans_text.dart';
@@ -59,8 +58,6 @@ class _AlertSettingSectionState extends State<AlertSettingSection> {
       showBasicAlertDialog("${widget.appName} $title 수신 여부가 '$agree'로 변경되었습니다."
           '\n${formatter.format(DateTime.now())}');
     }
-
-    final Customer? customer = Get.find<UserController>().customer.value;
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Container(

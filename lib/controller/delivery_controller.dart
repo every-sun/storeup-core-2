@@ -1,10 +1,9 @@
 import 'package:get/get.dart';
 import 'package:user_core2/controller/app_controller.dart';
-import 'package:user_core2/controller/user_controller.dart';
-import 'package:user_core2/model/delivery_address.dart';
 import 'package:user_core2/model/delivery_product.dart';
-import 'package:user_core2/model/language.dart';
+import 'package:user_core2/model/review.dart';
 import 'package:user_core2/service/delivery_service.dart';
+import 'package:user_core2/service/review_service.dart';
 import 'package:user_core2/util/dialog.dart';
 
 class DeliveryController extends GetxController {
@@ -28,18 +27,25 @@ class DeliveryController extends GetxController {
 
   Future<void> getDetail(tenantId) async {
     try {
-      isLoading.value = true;
       DeliveryProductsByCategoryResponse response =
           await DeliveryServices.getDeliveryProductsByStore(
               Get.find<AppController>().appInfo.value!.brandId, tenantId);
-      isLoading.value = false;
+      ModelReviewResponse reviewResponse =
+          await ReviewServices2.getReviewsByStore(
+              Get.find<AppController>().appInfo.value!.brandId, tenantId, 1);
       if (response.status && response.data != null) {
         deliveryDetail['menus'] = response.data;
-      } else {
-        showBasicAlertDialog(response.message);
+        categoryMenu.value = response.data![0].name;
       }
+      if (reviewResponse.status && reviewResponse.data != null) {
+        deliveryDetail['reviews'] = reviewResponse.data!.data;
+        deliveryDetail['review_total'] = reviewResponse.data!.total;
+      }
+      deliveryDetail.refresh();
+      print(deliveryDetail['reviews']);
       return;
     } catch (err) {
+      print(err);
       showBasicAlertDialog('데이터를 가져오지 못했습니다.');
       return;
     }

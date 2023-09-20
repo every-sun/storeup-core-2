@@ -27,6 +27,7 @@ class StoreResponseData {
 class Store {
   dynamic id;
   dynamic tenantId;
+  dynamic globalId;
   String ownerName;
   String ownerContact;
   bool isOpen;
@@ -49,6 +50,7 @@ class Store {
   Store(
       {required this.id,
       required this.tenantId,
+      required this.globalId,
       required this.ownerName,
       required this.ownerContact,
       required this.isOpen,
@@ -70,6 +72,7 @@ class Store {
   factory Store.fromJson(Map<String, dynamic> json) => Store(
       id: json['id'],
       tenantId: json['tenant_id'],
+      globalId: json['global_id'],
       ownerName: json['owner_name'],
       ownerContact: json['owner_contact'],
       isOpen: json['is_open'],

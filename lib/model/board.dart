@@ -7,7 +7,9 @@ class BoardResponse {
   factory BoardResponse.fromJson(Map<String, dynamic> json) => BoardResponse(
       status: json['status'],
       message: json['message'] ?? '',
-      data: json['data'] != null ? List<Board>.from(json['data']) : []);
+      data: json['data'] != null
+          ? List<Board>.from(json['data'].map((x) => Board.fromJson(x)))
+          : []);
 }
 
 class Board {

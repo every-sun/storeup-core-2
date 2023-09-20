@@ -51,6 +51,7 @@ class ReviewController extends GetxController {
       isLoading.value = false;
       BasicResponse response =
           BasicResponse.fromJson(jsonDecode(resultResponse.body));
+      print(jsonDecode(resultResponse.body));
       if (!response.status) {
         showBasicAlertDialog(response.message);
       }

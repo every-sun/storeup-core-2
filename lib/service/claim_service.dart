@@ -13,6 +13,9 @@ class ClaimServices {
           '${ServiceAPI().baseUrl}/claims/calculations?order_id=$orderId&is_cancel_all=$isCancelAll&claim_type=$claimType&reason_type=$reasonType&item_id=$itemId'),
       headers: ServiceAPI().headerInfo,
     );
+    print(
+        '${ServiceAPI().baseUrl}/claims/calculations?order_id=$orderId&is_cancel_all=$isCancelAll&claim_type=$claimType&reason_type=$reasonType&item_id=$itemId');
+    print(jsonDecode(response.body));
     return RefundResponse.fromJson(jsonDecode(response.body));
   }
 

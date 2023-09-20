@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:user_core2/controller/user_controller.dart';
+import 'package:user_core2/model/assets.dart';
 import 'package:user_core2/model/language.dart';
 import 'package:user_core2/model/order.dart';
 import 'package:user_core2/service/order_service.dart';
@@ -13,6 +14,8 @@ class OrderController extends GetxController {
   var ePayCard = "TOSSPAY".obs;
   var orderType = "S".obs;
   var shippingMessage = ''.obs;
+  var coupon = Rxn<Coupon>();
+  var point = 0.obs;
 
   var startDate = DateTime(DateTime.now().year, DateTime.now().month - 1).obs;
   var endDate = DateTime.now().obs;
@@ -25,14 +28,38 @@ class OrderController extends GetxController {
 
   void initStates() {
     isLoading.value = false;
+    point.value = 0;
     paymentMethod.value = "card";
     ePayCard.value = "TOSSPAY";
     shippingMessage.value = '';
+    orderType.value = 'S';
+    coupon.value = null;
+  }
+
+  int getCouponDiscountAmount(int selectCartSumPrice) {
+    // TODO
+    if (coupon.value == null) return 0;
+    var couponDiscountAmount = 0;
+    if (coupon.value!.type == 'F') {
+      couponDiscountAmount = coupon.value!.discountAmount > selectCartSumPrice
+          ? selectCartSumPrice
+          : coupon.value!.discountAmount;
+    } else if (coupon.value!.type == 'P') {
+      if (coupon.value!.availableAmountMax <
+          (selectCartSumPrice * (coupon.value!.discountPercentage / 100))
+              .toInt()) {
+        couponDiscountAmount = coupon.value!.availableAmountMax;
+      } else {
+        couponDiscountAmount =
+            (selectCartSumPrice * (coupon.value!.discountPercentage / 100))
+                .toInt();
+      }
+    }
+    return couponDiscountAmount;
   }
 
   Future<OrderRequestResponse?> requestOrder(OrderRequestBody body) async {
     try {
-      print('body.data.orderNo: ${body.data.orderNo}');
       isLoading.value = true;
       OrderRequestResponse response = await OrderServices2.requestOrder(body);
       isLoading.value = false;

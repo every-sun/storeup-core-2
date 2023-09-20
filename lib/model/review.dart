@@ -1,4 +1,5 @@
 import 'package:user_core2/model/order.dart';
+import 'package:user_core2/model/store.dart';
 
 class ReviewRequestBody {
   dynamic brandId;
@@ -94,13 +95,17 @@ class Review {
   bool isReplied;
   ReviewData? data;
   DateTime createdAt;
+  List<dynamic> orderItems;
+  Store? store;
   Review(
       {required this.id,
       required this.contents,
       required this.isBlocked,
       required this.isReplied,
       required this.data,
-      required this.createdAt});
+      required this.createdAt,
+      required this.orderItems,
+      required this.store});
 
   factory Review.fromJson(Map<String, dynamic> json) => Review(
       id: json['id'],
@@ -108,7 +113,15 @@ class Review {
       isBlocked: json['is_blocked'],
       isReplied: json['is_replied'],
       data: json['data'] != null ? ReviewData.fromJson(json['data']) : null,
-      createdAt: DateTime.parse(json['created_at']));
+      createdAt: DateTime.parse(json['created_at']),
+      orderItems: (json['order'] != null && json['order']['items'] != null)
+          ? json['order']['items']
+          : [],
+      store: (json['order'] != null &&
+              json['order']['stores'] != null &&
+              json['order']['stores'].isNotEmpty)
+          ? Store.fromJson(json['order']['stores'][0])
+          : null);
 }
 
 class ReviewData {

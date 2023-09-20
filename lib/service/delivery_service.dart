@@ -5,6 +5,7 @@ import 'package:user_core2/model/delivery_group.dart';
 import 'package:user_core2/model/delivery_product.dart';
 import 'package:user_core2/model/juso.dart';
 import 'package:user_core2/model/language.dart';
+import 'package:user_core2/model/order.dart';
 import 'package:user_core2/model/store.dart';
 import 'package:user_core2/service/service.dart';
 
@@ -140,5 +141,34 @@ class DeliveryServices {
     );
     print('${ServiceAPI().baseUrl}/products/global/$globalId?type=D');
     return DeliveryDetail.fromJson(jsonDecode(response.body)['data']);
+  }
+
+  static Future<List<Order>?> getOrders(
+      dynamic customerId, String type, int? page) async {
+    // close, progress
+    String url =
+        '${ServiceAPI().baseUrl}/orders/customer/$customerId/delivery/$type';
+    if (type == 'close') {
+      url += '?page=$page';
+    }
+    var response = await http.get(
+      Uri.parse(url),
+      headers: ServiceAPI().headerInfo,
+    );
+    if (jsonDecode(response.body)['data'] == null) {
+      return null;
+    } else {
+      if (type == 'close') {
+        if (jsonDecode(response.body)['data']['data'] == null) {
+          return null;
+        } else {
+          return List<Order>.from(jsonDecode(response.body)['data']['data']
+              .map((x) => Order.fromJson(x)));
+        }
+      } else {
+        return List<Order>.from(
+            jsonDecode(response.body)['data'].map((x) => Order.fromJson(x)));
+      }
+    }
   }
 }

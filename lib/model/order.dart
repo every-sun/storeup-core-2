@@ -165,32 +165,33 @@ class Order {
   List<OrderItem> items;
   DateTime createdAt;
   OrderShippingDetail? shippingDetail;
-  Order({
-    required this.id,
-    required this.globalId,
-    required this.orderNo,
-    required this.orderType,
-    required this.orderStatus,
-    required this.orderRequest,
-    required this.orderPriceAmount,
-    required this.orderShippingFee,
-    required this.orderPaymentAmount,
-    required this.orderPaidAmount,
-    required this.orderPaidShippingFee,
-    required this.orderDiscountAmount,
-    required this.orderCouponDiscountAmount,
-    required this.orderAdditionalPaymentAmount,
-    required this.orderRemainAmount,
-    required this.isPaid,
-    required this.isOnline,
-    required this.isReviewed,
-    required this.isUseDiscountCoupon,
-    required this.payments,
-    required this.customer,
-    required this.items,
-    required this.createdAt,
-    required this.shippingDetail,
-  });
+  OrderDeliveryDetail? deliveryDetail;
+  Order(
+      {required this.id,
+      required this.globalId,
+      required this.orderNo,
+      required this.orderType,
+      required this.orderStatus,
+      required this.orderRequest,
+      required this.orderPriceAmount,
+      required this.orderShippingFee,
+      required this.orderPaymentAmount,
+      required this.orderPaidAmount,
+      required this.orderPaidShippingFee,
+      required this.orderDiscountAmount,
+      required this.orderCouponDiscountAmount,
+      required this.orderAdditionalPaymentAmount,
+      required this.orderRemainAmount,
+      required this.isPaid,
+      required this.isOnline,
+      required this.isReviewed,
+      required this.isUseDiscountCoupon,
+      required this.payments,
+      required this.customer,
+      required this.items,
+      required this.createdAt,
+      required this.shippingDetail,
+      required this.deliveryDetail});
   factory Order.fromJson(Map<String, dynamic> json) => Order(
         id: json['id'],
         globalId: json['global_id'],
@@ -226,7 +227,38 @@ class Order {
         shippingDetail: json['shipping_detail'] != null
             ? OrderShippingDetail.fromJson(json['shipping_detail'])
             : null,
+        deliveryDetail: json['delivery_detail'] != null
+            ? OrderDeliveryDetail.fromJson(json['delivery_detail'])
+            : null,
       );
+}
+
+class OrderDeliveryDetail {
+  dynamic tenantId;
+  String? storeName;
+  String deliveryStatus;
+  int deliveryFee;
+  dynamic orderTime;
+  int paidDeliveryFee;
+  String pickupAddress;
+  OrderDeliveryDetail({
+    required this.tenantId,
+    required this.storeName,
+    required this.deliveryStatus,
+    required this.deliveryFee,
+    required this.orderTime,
+    required this.paidDeliveryFee,
+    required this.pickupAddress,
+  });
+  factory OrderDeliveryDetail.fromJson(Map<String, dynamic> json) =>
+      OrderDeliveryDetail(
+          tenantId: json['tenant_id'],
+          storeName: json['store_name'],
+          deliveryStatus: json['delivery_status'] ?? '',
+          orderTime: json['order_time'],
+          deliveryFee: json['delivery_fee'],
+          paidDeliveryFee: json['paid_delivery_fee'],
+          pickupAddress: json['pickup_address'] ?? '');
 }
 
 class OrderShippingDetail {
@@ -310,8 +342,8 @@ class OrderItem {
       id: json['id'],
       orderId: json['order_id'],
       globalId: json['global_id'],
-      itemNo: json['item_no'],
-      orderNo: json['order_no'],
+      itemNo: json['item_no'] ?? '',
+      orderNo: json['order_no'] ?? '',
       orderStatus: json['order_status'],
       orderType: json['order_type'],
       isCanceled: json['is_canceled'],
@@ -365,10 +397,10 @@ class OrderPayment {
       required this.data});
   factory OrderPayment.fromJson(Map<String, dynamic> json) => OrderPayment(
         id: json['id'],
-        approvedDate: json['approved_date'],
-        approvedTime: json['approved_time'],
-        cardNumber: json['card_number'],
-        paymentMethod: json['payment_method'],
+        approvedDate: json['approved_date'] ?? '',
+        approvedTime: json['approved_time'] ?? '',
+        cardNumber: json['card_number'] ?? '',
+        paymentMethod: json['payment_method'] ?? '',
         paymentAmount: json['payment_amount'],
         remainAmount: json['remain_amount'],
         virtualAccountData: json['virtual_account_data'],
