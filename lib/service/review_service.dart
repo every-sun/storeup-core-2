@@ -36,7 +36,7 @@ class ReviewServices2 {
           '${ServiceAPI().baseUrl}/brands/$brandId/stores/$tenantId/reviews?page=$page'),
       headers: ServiceAPI().headerInfo,
     );
-    print(jsonDecode(response.body));
+    print('상점리뷰: ${jsonDecode(response.body)}');
     return ModelReviewResponse.fromJson(jsonDecode(response.body));
   }
 

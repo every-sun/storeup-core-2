@@ -6,6 +6,8 @@ import 'package:user_core2/service/shipping_address_service.dart';
 import 'package:user_core2/util/dialog.dart';
 
 class ShippingAddressController extends GetxController {
+  final UserController userController = Get.find<UserController>();
+
   var isLoading = false.obs;
   var addresses = <ShippingAddress>[].obs;
   var dataHasMore = true.obs;
@@ -76,11 +78,12 @@ class ShippingAddressController extends GetxController {
   }
 
   Future<bool> getAddresses() async {
+    if (userController.customer.value == null) return false;
     try {
       isLoading.value = true;
       ShippingAddressResponse response =
           await ShippingAddressServices2.getShippingAddresses(
-              Get.find<UserController>().customer.value!.id, page.value);
+              userController.customer.value!.id, page.value);
       dataHasMore.value = false;
       isLoading.value = false;
       if (response.status && response.data != null) {
@@ -150,10 +153,11 @@ class ShippingAddressController extends GetxController {
   }
 
   Future<bool> getDefaultAddress() async {
+    if (userController.customer.value == null) return false;
     try {
       isLoading.value = true;
       var response = await ShippingAddressServices2.getDefaultShippingAddress(
-          Get.find<UserController>().customer.value!.id);
+          userController.customer.value!.id);
       isLoading.value = false;
       if (response.status && response.data != null) {
         userDefaultAddress.value = response.data;

@@ -267,17 +267,20 @@ class OrderShippingDetail {
   dynamic trackingNo;
   String shoppingStatus;
   dynamic deliveredAt;
+  Map? carrier;
   OrderShippingDetail(
       {required this.receiver,
       required this.trackingNo,
       required this.shoppingStatus,
-      required this.deliveredAt});
+      required this.deliveredAt,
+      required this.carrier});
   factory OrderShippingDetail.fromJson(Map<String, dynamic> json) =>
       OrderShippingDetail(
           receiver: json['receiver'],
           trackingNo: json['tracking_no'],
           shoppingStatus: json['shopping_status'] ?? '',
-          deliveredAt: json['delivered_at']);
+          deliveredAt: json['delivered_at'],
+          carrier: json['carrier']);
 }
 
 class OrderItem {
@@ -309,6 +312,7 @@ class OrderItem {
   Store? store;
   Review? review;
   List<dynamic> currentClaim;
+  List<OrderPayment> payments;
   OrderItem(
       {required this.id,
       required this.orderId,
@@ -337,42 +341,48 @@ class OrderItem {
       required this.product,
       required this.store,
       required this.review,
-      required this.currentClaim});
+      required this.currentClaim,
+      required this.payments});
   factory OrderItem.fromJson(Map<String, dynamic> json) => OrderItem(
-      id: json['id'],
-      orderId: json['order_id'],
-      globalId: json['global_id'],
-      itemNo: json['item_no'] ?? '',
-      orderNo: json['order_no'] ?? '',
-      orderStatus: json['order_status'],
-      orderType: json['order_type'],
-      isCanceled: json['is_canceled'],
-      isConfirmedPurchase: json['is_confirmed_purchase'],
-      isPassed: json['is_passed'],
-      isPurchasable: json['is_purchasable'],
-      itemAdditionalPaymentAmount: json['item_additional_payment_amount'],
-      itemCouponDiscountAmount: json['item_coupon_discount_amount'],
-      itemCustomDiscountAmount: json['item_custom_discount_amount'],
-      itemCustomDiscountPercentage: json['item_custom_discount_percentage'],
-      itemPaymentAmount: json['item_payment_amount'],
-      itemPriceAmount: json['item_price_amount'],
-      confirmedPurchaseAt: json['confirmed_purchase_at'] != null
-          ? DateTime.parse(json['confirmed_purchase_at'])
-          : null,
-      options: json['options'] != null
-          ? List<CartOption>.from(
-              json['options'].map((e) => CartOption.fromJson(e)))
-          : [],
-      createdAt: DateTime.parse(json['created_at']),
-      productQuantity: json['product_quantity'],
-      productPrice: json['product_price'],
-      optionsPrice: json['options_price'],
-      isReviewed: json['is_reviewed'],
-      product:
-          json['product'] != null ? Product.fromJson(json['product']) : null,
-      store: json['store'] != null ? Store.fromJson(json['store']) : null,
-      review: json['review'] != null ? Review.fromJson(json['review']) : null,
-      currentClaim: json['current_claim'] ?? []);
+        id: json['id'],
+        orderId: json['order_id'],
+        globalId: json['global_id'],
+        itemNo: json['item_no'] ?? '',
+        orderNo: json['order_no'] ?? '',
+        orderStatus: json['order_status'],
+        orderType: json['order_type'],
+        isCanceled: json['is_canceled'],
+        isConfirmedPurchase: json['is_confirmed_purchase'],
+        isPassed: json['is_passed'],
+        isPurchasable: json['is_purchasable'],
+        itemAdditionalPaymentAmount: json['item_additional_payment_amount'],
+        itemCouponDiscountAmount: json['item_coupon_discount_amount'],
+        itemCustomDiscountAmount: json['item_custom_discount_amount'],
+        itemCustomDiscountPercentage: json['item_custom_discount_percentage'],
+        itemPaymentAmount: json['item_payment_amount'],
+        itemPriceAmount: json['item_price_amount'],
+        confirmedPurchaseAt: json['confirmed_purchase_at'] != null
+            ? DateTime.parse(json['confirmed_purchase_at'])
+            : null,
+        options: json['options'] != null
+            ? List<CartOption>.from(
+                json['options'].map((e) => CartOption.fromJson(e)))
+            : [],
+        createdAt: DateTime.parse(json['created_at']),
+        productQuantity: json['product_quantity'],
+        productPrice: json['product_price'],
+        optionsPrice: json['options_price'],
+        isReviewed: json['is_reviewed'],
+        product:
+            json['product'] != null ? Product.fromJson(json['product']) : null,
+        store: json['store'] != null ? Store.fromJson(json['store']) : null,
+        review: json['review'] != null ? Review.fromJson(json['review']) : null,
+        currentClaim: json['current_claim'] ?? [],
+        payments: json['payments'] != null
+            ? List<OrderPayment>.from(
+                json['payments'].map((x) => OrderPayment.fromJson(x)))
+            : [],
+      );
 }
 
 class OrderPayment {

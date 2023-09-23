@@ -68,7 +68,6 @@ class OrderController extends GetxController {
       }
       return response;
     } catch (err) {
-      print(err);
       showErrorDialog();
       isLoading.value = false;
       return null;

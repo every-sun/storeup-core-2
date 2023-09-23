@@ -13,9 +13,6 @@ class ClaimServices {
           '${ServiceAPI().baseUrl}/claims/calculations?order_id=$orderId&is_cancel_all=$isCancelAll&claim_type=$claimType&reason_type=$reasonType&item_id=$itemId'),
       headers: ServiceAPI().headerInfo,
     );
-    print(
-        '${ServiceAPI().baseUrl}/claims/calculations?order_id=$orderId&is_cancel_all=$isCancelAll&claim_type=$claimType&reason_type=$reasonType&item_id=$itemId');
-    print(jsonDecode(response.body));
     return RefundResponse.fromJson(jsonDecode(response.body));
   }
 
@@ -31,19 +28,24 @@ class ClaimServices {
         Uri.parse('${ServiceAPI().baseUrl}/claims/$id'),
         headers: ServiceAPI().headerInfo,
         body: jsonEncode({'is_undone': true}));
-    print(jsonDecode(response.body));
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
 
   static Future<ClaimResponse> getClaims(
       customerId, String from, String to, int page) async {
-    print(
-        '${ServiceAPI().baseUrl}/customers/$customerId/claims?from=$from&to=$to&page=$page');
     var response = await http.get(
       Uri.parse(
           '${ServiceAPI().baseUrl}/customers/$customerId/claims?from=$from&to=$to&page=$page'),
       headers: ServiceAPI().headerInfo,
     );
     return ClaimResponse.fromJson(jsonDecode(response.body));
+  }
+
+  static Future<Claim> getClaim(customerId, dynamic id) async {
+    var response = await http.get(
+      Uri.parse('${ServiceAPI().baseUrl}/customers/$customerId/claims/$id'),
+      headers: ServiceAPI().headerInfo,
+    );
+    return Claim.fromJson(jsonDecode(response.body)['data']);
   }
 }

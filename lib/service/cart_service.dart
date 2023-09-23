@@ -12,6 +12,7 @@ class CartServices2 {
       body: jsonEncode(body.toJson()),
       headers: ServiceAPI().headerInfo,
     );
+    print(jsonDecode(response.body));
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
 
@@ -51,6 +52,14 @@ class CartServices2 {
       Uri.parse('${ServiceAPI().baseUrl}/customers/$customerId/carts'),
       headers: ServiceAPI().headerInfo,
       body: jsonEncode({'id_list': cartIdList}),
+    );
+    return BasicResponse.fromJson(jsonDecode(response.body));
+  }
+
+  static Future<BasicResponse> clearDeliveryCarts(customerId) async {
+    var response = await http.delete(
+      Uri.parse('${ServiceAPI().baseUrl}/customers/$customerId/carts/delivery'),
+      headers: ServiceAPI().headerInfo,
     );
     return BasicResponse.fromJson(jsonDecode(response.body));
   }

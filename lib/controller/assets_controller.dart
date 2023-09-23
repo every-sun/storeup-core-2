@@ -7,6 +7,7 @@ import 'package:user_core2/service/assets_service.dart';
 import 'package:user_core2/util/dialog.dart';
 
 class AssetsController extends GetxController {
+  final UserController userController = Get.find<UserController>();
   var isLoading = false.obs;
   var availableCoupons = <Coupon>[].obs;
   var allCoupons = <Coupon>[].obs;
@@ -22,10 +23,11 @@ class AssetsController extends GetxController {
   }
 
   Future<void> issueCoupon(couponNo, successMethod) async {
+    if (userController.customer.value == null) return;
     try {
       isLoading.value = true;
       BasicResponse response = await AssetsServices.issueCoupon(
-          Get.find<UserController>().customer.value!.id, couponNo);
+          userController.customer.value!.id, couponNo);
       isLoading.value = false;
       if (response.status) {
         successMethod();
@@ -45,11 +47,11 @@ class AssetsController extends GetxController {
       // TODO
       int productSumPrice,
       ShippingFeeResponseData shippingFee) async {
-    if (Get.find<UserController>().customer.value == null) return;
+    if (userController.customer.value == null) return;
     try {
       isLoading.value = true;
       List<Coupon> list = await AssetsServices.getCouponsForOrder(
-          Get.find<UserController>().customer.value!.id);
+          userController.customer.value!.id);
       isLoading.value = false;
 
       List<Coupon> availableList = [];
@@ -88,11 +90,11 @@ class AssetsController extends GetxController {
   }
 
   Future<void> setAvailablePoint() async {
-    if (Get.find<UserController>().customer.value == null) return;
+    if (userController.customer.value == null) return;
     try {
       isLoading.value = true;
-      int response = await AssetsServices.getPointTotal(
-          Get.find<UserController>().customer.value!.id);
+      int response =
+          await AssetsServices.getPointTotal(userController.customer.value!.id);
       availablePoints.value = response;
       isLoading.value = false;
     } catch (err) {
@@ -103,11 +105,11 @@ class AssetsController extends GetxController {
   }
 
   Future<void> setCouponTotal() async {
-    if (Get.find<UserController>().customer.value == null) return;
+    if (userController.customer.value == null) return;
     try {
       isLoading.value = true;
       int response = await AssetsServices.getCouponTotal(
-          Get.find<UserController>().customer.value!.id);
+          userController.customer.value!.id);
       availableCouponTotal.value = response;
       isLoading.value = false;
     } catch (err) {

@@ -216,18 +216,20 @@ class LoginRequestBody {
   String email;
   String password;
   dynamic brandId;
+  String? deviceToken;
 
-  LoginRequestBody({
-    required this.email,
-    required this.password,
-    required this.brandId,
-  });
+  LoginRequestBody(
+      {required this.email,
+      required this.password,
+      required this.brandId,
+      required this.deviceToken});
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
     data['email'] = email;
     data['password'] = password;
     data['brand_id'] = brandId;
+    data['device_token'] = deviceToken;
     return data;
   }
 }

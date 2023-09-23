@@ -68,6 +68,7 @@ class DeliveryServices {
   /* 배달지 저장, 조회 */
   static Future<BasicResponse> saveDeliveryAddress(
       customerId, newAddress, oldAddress, detailAddress) async {
+    print('${ServiceAPI().baseUrl}/customers/$customerId/delivery/address');
     var response = await http.post(
         Uri.parse(
             '${ServiceAPI().baseUrl}/customers/$customerId/delivery/address'),
@@ -77,6 +78,11 @@ class DeliveryServices {
           'old_address': oldAddress,
           'detail_address': detailAddress
         }));
+    print(jsonEncode({
+      'new_address': newAddress,
+      'old_address': oldAddress,
+      'detail_address': detailAddress
+    }));
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
 
@@ -110,6 +116,17 @@ class DeliveryServices {
     return StoreResponse.fromJson(jsonDecode(response.body));
   }
 
+  /* 배달상점 검색 */
+  static Future<StoreResponse> getDeliveryStoresBySearch(
+      brandId, keyword) async {
+    var response = await http.get(
+      Uri.parse(
+          '${ServiceAPI().baseUrl}/brands/$brandId/deliveries/search?keyword=$keyword'),
+      headers: ServiceAPI().headerInfo,
+    );
+    return StoreResponse.fromJson(jsonDecode(response.body));
+  }
+
   /* 메인페이지에서 배달 상점 랜덤으로 불러오기 */
   static Future<StoreResponse> getDeliveryStoresRandom(brandId, page) async {
     var response = await http.get(
@@ -129,6 +146,7 @@ class DeliveryServices {
           '${ServiceAPI().baseUrl}/brands/$brandId/stores/$tenantId/deliveries/categories'),
       headers: ServiceAPI().headerInfo,
     );
+    print('배달 상품: ${jsonDecode(response.body)}');
     return DeliveryProductsByCategoryResponse.fromJson(
         jsonDecode(response.body));
   }

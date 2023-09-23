@@ -36,9 +36,7 @@ class _NRRichTextState extends State<NRRichText> {
       if (tempText.isEmpty) return;
       textSpanList.add(TextSpan(
         text: tempText,
-        style: TextStyle(
-          fontFamily: tempFont,
-        ),
+        style: TextStyle(fontFamily: tempFont),
       ));
     }
 

@@ -14,10 +14,18 @@ class CartController extends GetxController {
   var total = 0.obs;
   var deliveryTotal = 0.obs;
 
+  @override
+  onInit() {
+    getCartTotal('O');
+    getCartTotal('D');
+    super.onInit();
+  }
+
   Future<void> getCartTotal(type) async {
     try {
       if (Get.find<UserController>().customer.value == null) {
         total.value = 0;
+        deliveryTotal.value = 0;
       } else {
         int count = await CartServices2.getCartTotal(
             Get.find<UserController>().customer.value!.id, type);
@@ -27,6 +35,8 @@ class CartController extends GetxController {
           deliveryTotal.value = count;
         }
       }
+      print('장바구니 개수/ total: ${total.value} / 배달 개수: ${deliveryTotal.value}');
+
       return;
     } catch (err) {
       return;
@@ -98,8 +108,8 @@ class CartController extends GetxController {
     selectedCartsSumPrice.value = result;
   }
 
-  Future<bool> saveCartItem(CartRequestBody body) async {
-    if (Get.find<UserController>().customer.value == null) return false;
+  Future<BasicResponse?> saveCartItem(CartRequestBody body) async {
+    if (Get.find<UserController>().customer.value == null) return null;
     try {
       isLoading.value = true;
       BasicResponse response = await CartServices2.storeCart(
@@ -108,11 +118,12 @@ class CartController extends GetxController {
       if (body.cartType == 'O' && !response.status) {
         showBasicAlertDialog(response.message);
       }
-      return response.status;
+      await getCartTotal(body.cartType);
+      return response;
     } catch (err) {
       showErrorDialog();
       isLoading.value = false;
-      return false;
+      return null;
     }
   }
 
@@ -126,6 +137,8 @@ class CartController extends GetxController {
       if (!response.status) {
         showBasicAlertDialog(response.message);
       }
+      await getCartTotal('O');
+      await getCartTotal('D');
       return response.status;
     } catch (err) {
       showErrorDialog();
@@ -179,7 +192,7 @@ class CartController extends GetxController {
     }
   }
 
-  Future<void> deleteUnableCarts(carts, refreshMethod) async {
+  Future<void> deleteUnableCarts(List<Cart> carts, refreshMethod) async {
     List<dynamic> targets = [];
     for (var i = 0; i < carts.length; i++) {
       if (cartOutOfStockType(carts[i]) != '') {
@@ -215,6 +228,5 @@ class CartController extends GetxController {
     isLoading.value = false;
     selectedCarts.clear();
     selectedCartsSumPrice.value = 0;
-    total.value = 0;
   }
 }

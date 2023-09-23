@@ -106,6 +106,9 @@ class Claim {
   DateTime createdAt;
   dynamic refundAccount;
   OrderItem? item;
+  Map? data;
+  Map? pickup;
+  Map? reShipping;
   Claim(
       {required this.id,
       required this.claimReasonType,
@@ -126,7 +129,10 @@ class Claim {
       required this.refundData,
       required this.createdAt,
       required this.refundAccount,
-      required this.item});
+      required this.item,
+      required this.data,
+      required this.pickup,
+      required this.reShipping});
   factory Claim.fromJson(Map<String, dynamic> json) => Claim(
       id: json['id'],
       claimReasonType: json['claim_reason_type'],
@@ -149,5 +155,8 @@ class Claim {
           : null,
       createdAt: DateTime.parse(json['created_at']),
       refundAccount: json['refund_account'] ?? '',
-      item: json['item'] != null ? OrderItem.fromJson(json['item']) : null);
+      item: json['item'] != null ? OrderItem.fromJson(json['item']) : null,
+      data: json['data'],
+      pickup: json['pickup'],
+      reShipping: json['re_shipping']);
 }

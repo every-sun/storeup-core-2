@@ -12,7 +12,6 @@ class OrderServices2 {
       body: jsonEncode(body.toJson()),
       headers: ServiceAPI().headerInfo,
     );
-    print(jsonEncode(body.toJson()));
     return OrderRequestResponse.fromJson(jsonDecode(response.body));
   }
 
@@ -23,8 +22,15 @@ class OrderServices2 {
           '${ServiceAPI().baseUrl}/orders/customer/$customerId?from=$from&to=$to&order_type=$orderType&page=$page'),
       headers: ServiceAPI().headerInfo,
     ); // from, to:  2021-01-01
-    print(jsonDecode(response.body));
     return OrderResponse.fromJson(jsonDecode(response.body));
+  }
+
+  static Future<Order> getOrder(dynamic id) async {
+    var response = await http.get(
+      Uri.parse('${ServiceAPI().baseUrl}/orders/$id'),
+      headers: ServiceAPI().headerInfo,
+    ); // from, to:  2021-01-01
+    return Order.fromJson(jsonDecode(response.body)['data']);
   }
 
   static Future<BasicResponse> requestOrderConfirm(
@@ -33,7 +39,6 @@ class OrderServices2 {
       Uri.parse('${ServiceAPI().baseUrl}/customers/$customerId/items/$itemId'),
       headers: ServiceAPI().headerInfo,
     );
-    print(jsonDecode(response.body));
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
 
