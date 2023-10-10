@@ -7,7 +7,7 @@ class RefundResponse {
   RefundResponse(
       {required this.status, required this.message, required this.data});
   factory RefundResponse.fromJson(Map<String, dynamic> json) => RefundResponse(
-      status: json['status'],
+      status: json['status'] ?? false,
       message: json['message'],
       data: json['data'] != null
           ? RefundResponseData.fromJson(json['data'])
@@ -57,7 +57,7 @@ class ClaimRequestBody {
       required this.pickup,
       required this.claimReason});
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> body = Map<String, dynamic>();
+    final Map<String, dynamic> body = {};
     body['order_id'] = orderId;
     body['is_cancel_all'] = isCancelAll;
     body['item_id'] = itemId;

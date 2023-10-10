@@ -16,7 +16,6 @@ class ShippingAddressController extends GetxController {
 
   @override
   void onInit() {
-    print('ShippingAddressController onInit');
     getDefaultAddress();
     getAddresses();
     super.onInit();
@@ -24,7 +23,6 @@ class ShippingAddressController extends GetxController {
 
   @override
   void onClose() {
-    print('ShippingAddressController close');
     isLoading.value = false;
     initAddresses();
     super.onClose();
@@ -47,7 +45,7 @@ class ShippingAddressController extends GetxController {
       return response.status;
     } catch (err) {
       isLoading.value = false;
-      showErrorDialog();
+      showBasicAlertDialog('배송지를 저장하는데 실패하였습니다.');
       return false;
     }
   }
@@ -72,7 +70,7 @@ class ShippingAddressController extends GetxController {
       return response.status;
     } catch (err) {
       isLoading.value = false;
-      showErrorDialog();
+      showBasicAlertDialog('배송지를 수정하는데 실패하였습니다.');
       return false;
     }
   }
@@ -99,7 +97,7 @@ class ShippingAddressController extends GetxController {
       return response.status;
     } catch (err) {
       isLoading.value = false;
-      showErrorDialog();
+      showBasicAlertDialog('배송지를 가져오는데 실패하였습니다.');
       return false;
     }
   }
@@ -127,7 +125,7 @@ class ShippingAddressController extends GetxController {
       return response.status;
     } catch (err) {
       isLoading.value = false;
-      showErrorDialog();
+      showBasicAlertDialog('기본 배송지를 설정하는데 실패하였습니다.');
       return false;
     }
   }
@@ -147,7 +145,7 @@ class ShippingAddressController extends GetxController {
       return response.status;
     } catch (err) {
       isLoading.value = false;
-      showErrorDialog();
+      showBasicAlertDialog('배송지를 삭제하는데 실패하였습니다.');
       return false;
     }
   }
@@ -164,7 +162,6 @@ class ShippingAddressController extends GetxController {
       }
       return response.status;
     } catch (err) {
-      print(err);
       isLoading.value = false;
       return false;
     }

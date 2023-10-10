@@ -12,7 +12,7 @@ class RegisterRequestBody {
       this.shippingData});
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> body = Map<String, dynamic>();
+    final Map<String, dynamic> body = {};
     body['data'] = data.toJson();
     body['flag'] = flag;
     body['auth_uid'] = authUid;
@@ -59,7 +59,7 @@ class RegisterRequestBodyData {
   });
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = {};
     data['email'] = email;
     data['password'] = password;
     data['password_confirmation'] = passwordConfirmation;
@@ -119,7 +119,6 @@ class CustomerResponse {
 }
 
 class Customer {
-  // CustomerPrivacy? privacy;
   Map? privacy;
   String email;
   String name;
@@ -137,9 +136,6 @@ class Customer {
       this.deviceToken,
       this.refundAccount});
   factory Customer.fromJson(Map<String, dynamic> json) => Customer(
-      // privacy: json['privacy'] != null
-      //     ? CustomerPrivacy.fromJson(json['privacy'])
-      //     : null,
       privacy: json['privacy'],
       email: json['email'] ?? '',
       name: json['name'] ?? '',
@@ -149,7 +145,7 @@ class Customer {
       refundAccount: json['refund_account'] // TODO 환불계좌정보
       );
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = {};
     data['email'] = email;
     data['name'] = name;
     data['contact'] = contact;
@@ -159,27 +155,6 @@ class Customer {
     }
     return data;
   }
-}
-
-class CustomerPrivacy {
-  String gender;
-  String residence1;
-  String residence2;
-  String birthday;
-
-  CustomerPrivacy({
-    required this.gender,
-    required this.residence1,
-    required this.residence2,
-    required this.birthday,
-  });
-  factory CustomerPrivacy.fromJson(Map<String, dynamic> json) =>
-      CustomerPrivacy(
-        gender: json['gender'] ?? '',
-        residence1: json['residence1'] ?? '',
-        residence2: json['residence2'] ?? '',
-        birthday: json['birthday'],
-      );
 }
 
 class RegisterResponseError {
@@ -225,7 +200,7 @@ class LoginRequestBody {
       required this.deviceToken});
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = {};
     data['email'] = email;
     data['password'] = password;
     data['brand_id'] = brandId;

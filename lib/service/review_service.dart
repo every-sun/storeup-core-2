@@ -15,6 +15,7 @@ class ReviewServices2 {
           '${ServiceAPI().baseUrl}/customers/$customerId/items?is_reviewed=$isReviewed&page=$page'),
       headers: ServiceAPI().headerInfo,
     );
+
     return ReviewResponse.fromJson(jsonDecode(response.body));
   }
 
@@ -36,7 +37,6 @@ class ReviewServices2 {
           '${ServiceAPI().baseUrl}/brands/$brandId/stores/$tenantId/reviews?page=$page'),
       headers: ServiceAPI().headerInfo,
     );
-    print('상점리뷰: ${jsonDecode(response.body)}');
     return ModelReviewResponse.fromJson(jsonDecode(response.body));
   }
 
@@ -46,7 +46,6 @@ class ReviewServices2 {
           '${ServiceAPI().baseUrl}/customers/$customerId/reviews/delete/$id'),
       headers: ServiceAPI().headerInfo,
     );
-    print(jsonDecode(response.body));
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
 

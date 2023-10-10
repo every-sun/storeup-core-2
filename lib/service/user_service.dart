@@ -5,8 +5,9 @@ import 'package:user_core2/service/service.dart';
 import 'package:user_core2/model/auth.dart';
 
 class UserServices {
-  // 정보 업데이트
-  static Future<BasicResponse> updateInfo(Map body, dynamic customerId) async {
+  // 사용자 정보 업데이트
+  static Future<BasicResponse> updateCustomer(
+      Map body, dynamic customerId) async {
     var response = await http.put(
         Uri.parse('${ServiceAPI().baseUrl}/customers/$customerId'),
         headers: ServiceAPI().headerInfo,
@@ -15,7 +16,7 @@ class UserServices {
   }
 
   // 사용자 조회
-  static Future<CustomerResponse> getInfo(dynamic customerId) async {
+  static Future<CustomerResponse> getCustomer(dynamic customerId) async {
     var response = await http.get(
       Uri.parse('${ServiceAPI().baseUrl}/customers/$customerId'),
       headers: ServiceAPI().headerInfo,
@@ -30,7 +31,6 @@ class UserServices {
       Uri.parse('${ServiceAPI().baseUrl}/customers/$customerId/agreement'),
       headers: ServiceAPI().headerInfo,
     );
-    print(jsonDecode(response.body));
     return jsonDecode(response.body)['data'];
   }
 
@@ -41,7 +41,23 @@ class UserServices {
         Uri.parse('${ServiceAPI().baseUrl}/customers/$customerId/agreement'),
         headers: ServiceAPI().headerInfo,
         body: jsonEncode(body));
-    print(jsonDecode(response.body));
+    return BasicResponse.fromJson(jsonDecode(response.body));
+  }
+
+  static Future<BasicResponse> updateRefundAccount(
+      Map body, dynamic customerId) async {
+    var response = await http.put(
+        Uri.parse('${ServiceAPI().baseUrl}/customers/$customerId/account'),
+        headers: ServiceAPI().headerInfo,
+        body: jsonEncode(body));
+    return BasicResponse.fromJson(jsonDecode(response.body));
+  }
+
+  static Future<BasicResponse> resetRefundAccount(dynamic customerId) async {
+    var response = await http.put(
+      Uri.parse('${ServiceAPI().baseUrl}/customers/$customerId/account/reset'),
+      headers: ServiceAPI().headerInfo,
+    );
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
 }

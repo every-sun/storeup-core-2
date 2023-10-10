@@ -11,7 +11,6 @@ class DeliveryAddressController extends GetxController {
 
   @override
   void onInit() {
-    print('delivery controller onInit');
     setUserAddress();
     super.onInit();
   }
@@ -41,7 +40,7 @@ class DeliveryAddressController extends GetxController {
       return;
     } catch (err) {
       isLoading.value = false;
-      showErrorDialog();
+      showBasicAlertDialog('배달지 설정에 실패하였습니다.');
       return;
     }
   }
@@ -56,12 +55,11 @@ class DeliveryAddressController extends GetxController {
       isLoading.value = false;
       if (response.status) {
         userAddress.value = response.data;
-        print('isAvailable: ${response.data!.isAvailableRegion}');
       }
       return;
     } catch (err) {
       isLoading.value = false;
-      showBasicAlertDialog('배달지를 가져오지 못했습니다. 잠시 후 다시 시도해주세요.');
+      showBasicAlertDialog('배달지를 조회하는데 실패하였습니다.');
       return;
     }
   }

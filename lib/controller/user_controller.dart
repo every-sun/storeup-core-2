@@ -9,7 +9,6 @@ import 'package:user_core2/util/dialog.dart';
 
 class UserController extends GetxController {
   var customer = Rxn<Customer>();
-  var token = ''.obs;
   var isLoading = false.obs;
 
   @override
@@ -19,22 +18,20 @@ class UserController extends GetxController {
   }
 
   /* 사용자 정보 삭제 */
-  deleteInfo(String appName, bool isLogout) async {
+  deleteCustomer(String customerKey, bool isLogout) async {
     FlutterSecureStorage storage = const FlutterSecureStorage();
-    await storage.delete(key: '$appName-customer');
-    await storage.delete(key: '$appName-token');
-    token.value = '';
+    await storage.delete(key: customerKey);
     customer.value = null;
   }
 
-  Future<void> updateInfo(Map body, key, successMethod) async {
+  Future<void> updateCustomer(Map body, key, successMethod) async {
     try {
       isLoading.value = true;
-      BasicResponse response = await UserServices.updateInfo(
+      BasicResponse response = await UserServices.updateCustomer(
           body, Get.find<UserController>().customer.value!.id);
       isLoading.value = false;
       if (response.status) {
-        await setInfo(key);
+        await setCustomer(key, Get.find<UserController>().customer.value!.id);
         successMethod();
       } else {
         showBasicAlertDialog(response.message);
@@ -42,19 +39,18 @@ class UserController extends GetxController {
       return;
     } catch (err) {
       isLoading.value = false;
-      showErrorDialog();
+      showBasicAlertDialog('사용자 정보 업데이트에 실패하였습니다.');
       return;
     }
   }
 
-  Future<void> setInfo(
+  Future<void> setCustomer(
     key,
+    customerId,
   ) async {
-    if (Get.find<UserController>().customer.value == null) return;
     try {
       FlutterSecureStorage storage = const FlutterSecureStorage();
-      CustomerResponse response = await UserServices.getInfo(
-          Get.find<UserController>().customer.value!.id);
+      CustomerResponse response = await UserServices.getCustomer(customerId);
       if (response.status && response.data != null) {
         customer.value = response.data;
         storage.write(key: key, value: jsonEncode(response.data!.toJson()));
@@ -62,7 +58,7 @@ class UserController extends GetxController {
         showBasicAlertDialog(response.message);
       }
     } catch (err) {
-      showErrorDialog();
+      showBasicAlertDialog('사용자 정보 업데이트에 실패하였습니다.');
       return;
     }
   }
@@ -81,9 +77,48 @@ class UserController extends GetxController {
       return;
     } catch (err) {
       isLoading.value = false;
-      showErrorDialog();
+      showBasicAlertDialog('정보를 업데이트하는데 실패하였습니다.');
       return;
     }
   }
 
+  Future<void> updateRefundAccount(Map body, key, successMethod) async {
+    try {
+      isLoading.value = true;
+      BasicResponse response = await UserServices.updateRefundAccount(
+          body, Get.find<UserController>().customer.value!.id);
+      isLoading.value = false;
+      if (response.status) {
+        await setCustomer(key, Get.find<UserController>().customer.value!.id);
+        successMethod();
+      } else {
+        showBasicAlertDialog(response.message);
+      }
+      return;
+    } catch (err) {
+      isLoading.value = false;
+      showBasicAlertDialog('환불계좌 정보 업데이트에 실패하였습니다.');
+      return;
+    }
+  }
+
+  Future<void> resetRefundAccount(key, successMethod) async {
+    try {
+      isLoading.value = true;
+      BasicResponse response = await UserServices.resetRefundAccount(
+          Get.find<UserController>().customer.value!.id);
+      isLoading.value = false;
+      if (response.status) {
+        await setCustomer(key, Get.find<UserController>().customer.value!.id);
+        successMethod();
+      } else {
+        showBasicAlertDialog(response.message);
+      }
+      return;
+    } catch (err) {
+      isLoading.value = false;
+      showBasicAlertDialog('환불계좌 정보 업데이트에 실패하였습니다.');
+      return;
+    }
+  }
 }

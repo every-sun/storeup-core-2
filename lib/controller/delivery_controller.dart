@@ -58,7 +58,6 @@ class DeliveryController extends GetxController {
       deliveryDetail.refresh();
       return;
     } catch (err) {
-      print(err);
       isLoading.value = false;
       showBasicAlertDialog('데이터를 가져오지 못했습니다.');
       return;

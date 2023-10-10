@@ -54,7 +54,7 @@ class OrderServices2 {
     var response = await http.post(
         Uri.parse('${ServiceAPI().baseUrl}/customers/$customerId/carts'),
         headers: ServiceAPI().headerInfo,
-        body: jsonEncode({'item_id': itemId}));
+        body: jsonEncode({'item_id': itemId, 'cart_type': 'O'}));
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
 }

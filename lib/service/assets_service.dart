@@ -44,22 +44,17 @@ class AssetsServices {
 
   static Future<PointResponse> getPointHistory(customerId, type, page) async {
     // type: A, I(적립), D(감소), E(소멸)
-    print(
-        '${ServiceAPI().baseUrl}/customers/$customerId/point/history?type=$type&page=$page');
     var response = await http.get(
         Uri.parse(
             '${ServiceAPI().baseUrl}/customers/$customerId/point/history?type=$type&page=$page'),
         headers: ServiceAPI().headerInfo);
-    print(jsonDecode(response.body));
     return PointResponse.fromJson(jsonDecode(response.body));
   }
 
   static Future<int> getPointTotal(customerId) async {
-    print('${ServiceAPI().baseUrl}/customers/$customerId/point');
     var response = await http.get(
         Uri.parse('${ServiceAPI().baseUrl}/customers/$customerId/point'),
         headers: ServiceAPI().headerInfo);
-    print(jsonDecode(response.body));
     return jsonDecode(response.body)['data'] != null
         ? jsonDecode(response.body)['data']['total_point']
         : 0;

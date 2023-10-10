@@ -77,7 +77,7 @@ class Juso {
       );
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = {};
     data['zipNo'] = zipNo;
     data['roadAddrPart1'] = roadAddrPart1;
     data['jibunAddr'] = jibunAddr;

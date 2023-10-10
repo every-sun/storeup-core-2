@@ -21,7 +21,7 @@ class InquiryRequestBody {
       required this.images});
 
   Map<String, String> toJson() {
-    final Map<String, String> body = Map<String, String>();
+    final Map<String, String> body = {};
     body['brand_id'] = brandId.toString();
     body['inquiry_type'] = inquiryType;
     body['inquiry_reason'] = inquiryReason;

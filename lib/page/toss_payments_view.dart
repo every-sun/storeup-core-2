@@ -38,10 +38,11 @@ class TossPaymentsView extends StatelessWidget {
     if (controller.point.value > 0) {
       url += '&pointAmount=${controller.point.value}';
     }
-    print('payment url: ${url}');
-    // if (paymentMethod == 'ePay' && controller.ePayCard.value != '') {
-    //   url += '&flowMode=$flowMode&easyPay=${controller.ePayCard.value}';
-    // }
+    if (paymentMethod == 'ePay' && controller.ePayCard.value != '') {
+      url += '&flowMode=$flowMode&easyPay=${controller.ePayCard.value}';
+    }
+    print(url);
+
     return Scaffold(
         body: SafeArea(
             child: Stack(

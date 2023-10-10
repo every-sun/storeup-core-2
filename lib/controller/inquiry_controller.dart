@@ -48,12 +48,8 @@ class InquiryController extends GetxController {
       var result = await request.send();
       final resultResponse = await http.Response.fromStream(result);
       isLoading.value = false;
-      print(jsonDecode(resultResponse.body));
-
       BasicResponse response =
           BasicResponse.fromJson(jsonDecode(resultResponse.body));
-
-      print(jsonDecode(resultResponse.body));
       if (!response.status) {
         showBasicAlertDialog(response.message);
       } else {
@@ -61,9 +57,8 @@ class InquiryController extends GetxController {
       }
       return;
     } catch (err) {
-      print(err);
       isLoading.value = false;
-      showErrorDialog();
+      showBasicAlertDialog('문의 작성에 실패하였습니다.');
       return;
     }
   }
@@ -88,7 +83,7 @@ class InquiryController extends GetxController {
       return;
     } catch (err) {
       isLoading.value = false;
-      showErrorDialog();
+      showBasicAlertDialog('문의 수정에 실패하였습니다.');
       return;
     }
   }
@@ -108,7 +103,7 @@ class InquiryController extends GetxController {
       return;
     } catch (err) {
       isLoading.value = false;
-      showErrorDialog();
+      showBasicAlertDialog('문의 삭제에 실패하였습니다.');
       return;
     }
   }

@@ -42,7 +42,6 @@ class InquiryServices {
           '${ServiceAPI().baseUrl}/customers/$customerId/inquiries?type=$type&page=$page'),
       headers: ServiceAPI().headerInfo,
     );
-    print(jsonDecode(response.body));
     return InquiryResponse.fromJson(jsonDecode(response.body));
   }
 }

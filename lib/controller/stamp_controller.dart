@@ -33,7 +33,7 @@ class StampController extends GetxController {
         showBasicAlertDialog(response['message'] ?? '');
       }
     } catch (err) {
-      showErrorDialog();
+      showBasicAlertDialog('완료한 문제를 조회하는데 실패하였습니다.');
       isLoading.value = false;
     }
   }

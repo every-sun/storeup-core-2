@@ -36,8 +36,12 @@ class BasicNetworkImage extends StatelessWidget {
                 ),
               ),
             ),
-            errorWidget: (context, url, error) =>
-                const Icon(Icons.error, color: Color.fromRGBO(0, 0, 0, 0.3)),
+            errorWidget: (context, url, error) => Container(
+              color: const Color.fromRGBO(204, 204, 204, 0.3),
+              child: const Center(
+                  child:
+                      Icon(Icons.error, color: Color.fromRGBO(0, 0, 0, 0.6))),
+            ),
           )
         : Image.asset(
             'assets/images/no-image.png',

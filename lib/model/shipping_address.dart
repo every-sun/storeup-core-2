@@ -87,7 +87,7 @@ class ShippingAddressRequestBody {
       required this.receiverContact,
       required this.isDefaultAddress});
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> body = Map<String, dynamic>();
+    final Map<String, dynamic> body = {};
     if (customerId != null) {
       body['customer_id'] = customerId;
     }

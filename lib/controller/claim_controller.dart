@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
 import 'package:user_core2/controller/image_controller.dart';
@@ -29,8 +28,6 @@ class ClaimController extends GetxController {
 
   @override
   void onClose() {
-    print('ClaimController onClose');
-
     isLoading.value = false;
     super.onClose();
   }
@@ -67,13 +64,11 @@ class ClaimController extends GetxController {
       if (response.status && response.data != null) {
         showConfirmDialog(response.message, successMethod);
       } else {
-        response.message.isNotEmpty
-            ? showBasicAlertDialog(response.message)
-            : showErrorDialog();
+        showBasicAlertDialog(response.message);
       }
     } catch (err) {
       isLoading.value = false;
-      showErrorDialog();
+      showBasicAlertDialog('환불금액 정보 조회에 실패하였습니다.');
     }
   }
 
@@ -92,14 +87,13 @@ class ClaimController extends GetxController {
       }
     } catch (err) {
       isLoading.value = false;
-      showErrorDialog();
+      showBasicAlertDialog('주문 취소 요청을 실패하였습니다.');
     }
   }
 
   Future<void> sendExchangeRefundRequest(Function successMethod) async {
     if (isLoading.value) return;
     try {
-      print(claimRequestBody.value.toJson());
       isLoading.value = true;
 
       var request = http.MultipartRequest(
@@ -140,7 +134,6 @@ class ClaimController extends GetxController {
       }
       var result = await request.send();
       final resultResponse = await http.Response.fromStream(result);
-      print(jsonDecode(resultResponse.body));
       isLoading.value = false;
       BasicResponse response =
           BasicResponse.fromJson(jsonDecode(resultResponse.body));
@@ -150,9 +143,8 @@ class ClaimController extends GetxController {
         successMethod();
       }
     } catch (err) {
-      print(err);
       isLoading.value = false;
-      showErrorDialog();
+      showBasicAlertDialog('요청에 실패하였습니다.');
     }
   }
 
@@ -168,9 +160,8 @@ class ClaimController extends GetxController {
         showBasicAlertDialog(response.message);
       }
     } catch (err) {
-      print(err);
       isLoading.value = false;
-      showErrorDialog();
+      showBasicAlertDialog('신청을 철회하는데 실패하였습니다.');
     }
   }
 }

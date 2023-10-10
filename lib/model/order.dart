@@ -20,7 +20,7 @@ class OrderRequestBody {
       required this.tenantId,
       required this.items});
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> body = Map<String, dynamic>();
+    final Map<String, dynamic> body = {};
     body['data'] = data.toJson();
     body['address_id'] = addressId;
     body['shipping_fee_setting_id'] = shippingFeeSettingId;
@@ -45,6 +45,8 @@ class OrderRequestBodyData {
   int orderAdditionalPaymentAmount;
   int orderPaymentAmount; // 할인,배송비를 합산한 최종 결제 (예상)금액
   bool isOnline;
+  String? detailAddress;
+  String? deliveryContact;
   Map<dynamic, dynamic> orderRequest;
 
   OrderRequestBodyData(
@@ -61,9 +63,11 @@ class OrderRequestBodyData {
       required this.orderAdditionalPaymentAmount,
       required this.orderPaymentAmount,
       required this.isOnline,
-      required this.orderRequest});
+      required this.orderRequest,
+      this.detailAddress,
+      this.deliveryContact});
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> body = Map<String, dynamic>();
+    final Map<String, dynamic> body = {};
     body['brand_id'] = brandId;
     body['order_no'] = orderNo;
     body['order_type'] = orderType;
@@ -78,6 +82,8 @@ class OrderRequestBodyData {
     body['order_payment_amount'] = orderPaymentAmount;
     body['is_online'] = isOnline;
     body['order_request'] = orderRequest;
+    body['detail_address'] = detailAddress;
+    body['delivery_contact'] = deliveryContact;
     return body;
   }
 }
@@ -91,7 +97,9 @@ class OrderRequestResponse {
       {required this.status, required this.message, required this.data});
   factory OrderRequestResponse.fromJson(Map<String, dynamic> json) =>
       OrderRequestResponse(
-          status: json['status'], message: json['message'], data: json['data']);
+          status: json['status'] ?? false,
+          message: json['message'],
+          data: json['data']);
 }
 
 class OrderRequestItem {
@@ -103,7 +111,7 @@ class OrderRequestItem {
       {required this.productId, required this.quantity, required this.options});
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> body = Map<String, dynamic>();
+    final Map<String, dynamic> body = {};
     body['product_id'] = productId;
     body['quantity'] = quantity;
     body['options'] =
@@ -241,15 +249,16 @@ class OrderDeliveryDetail {
   dynamic orderTime;
   int paidDeliveryFee;
   String pickupAddress;
-  OrderDeliveryDetail({
-    required this.tenantId,
-    required this.storeName,
-    required this.deliveryStatus,
-    required this.deliveryFee,
-    required this.orderTime,
-    required this.paidDeliveryFee,
-    required this.pickupAddress,
-  });
+  Map? receiver;
+  OrderDeliveryDetail(
+      {required this.tenantId,
+      required this.storeName,
+      required this.deliveryStatus,
+      required this.deliveryFee,
+      required this.orderTime,
+      required this.paidDeliveryFee,
+      required this.pickupAddress,
+      required this.receiver});
   factory OrderDeliveryDetail.fromJson(Map<String, dynamic> json) =>
       OrderDeliveryDetail(
           tenantId: json['tenant_id'],
@@ -258,7 +267,8 @@ class OrderDeliveryDetail {
           orderTime: json['order_time'],
           deliveryFee: json['delivery_fee'],
           paidDeliveryFee: json['paid_delivery_fee'],
-          pickupAddress: json['pickup_address'] ?? '');
+          pickupAddress: json['pickup_address'] ?? '',
+          receiver: json['receiver']);
 }
 
 class OrderShippingDetail {

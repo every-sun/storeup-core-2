@@ -14,9 +14,9 @@ class Storage {
     }
   }
 
-  void addRecentlyViewed(appName, dynamic productId) async {
+  void addRecentlyViewed(String key, dynamic productId) async {
     FlutterSecureStorage storage = const FlutterSecureStorage();
-    var valueString = await storage.read(key: '$appName-viewed') ?? '[]';
+    var valueString = await storage.read(key: key) ?? '[]';
 
     List<dynamic> valueList;
     valueList = json.decode(valueString);
@@ -26,14 +26,12 @@ class Storage {
       valueList.removeAt(19);
     }
     valueList.insert(0, productId);
-    print('저장: ${valueList}');
-    storage.write(key: '$appName-viewed', value: jsonEncode(valueList));
+    storage.write(key: key, value: jsonEncode(valueList));
   }
 
-  void addNotification(
-      String appName, CustomerNotification notification) async {
+  void addNotification(String key, CustomerNotification notification) async {
     FlutterSecureStorage storage = const FlutterSecureStorage();
-    var notiString = await storage.read(key: '$appName-notification') ?? '[]';
+    var notiString = await storage.read(key: key) ?? '[]';
 
     List<CustomerNotification> notiList;
     notiList = notificationFromJson(notiString);
@@ -42,6 +40,6 @@ class Storage {
       notiList.removeAt(19);
     }
     notiList.insert(0, notification);
-    storage.write(key: '$appName-notification', value: jsonEncode(notiList));
+    storage.write(key: key, value: jsonEncode(notiList));
   }
 }

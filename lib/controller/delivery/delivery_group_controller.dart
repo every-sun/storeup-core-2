@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:user_core2/controller/app_controller.dart';
 import 'package:user_core2/model/delivery_group.dart';
 import 'package:user_core2/service/delivery_service.dart';
+import 'package:user_core2/util/dialog.dart';
 
 class DeliveryGroupController extends GetxController {
   var isLoading = false.obs;
@@ -9,7 +10,6 @@ class DeliveryGroupController extends GetxController {
 
   @override
   void onInit() {
-    print('DeliveryGroupController onInit');
     setDeliveryGroups();
     super.onInit();
   }
@@ -21,12 +21,19 @@ class DeliveryGroupController extends GetxController {
   }
 
   Future<void> setDeliveryGroups() async {
-    isLoading.value = true;
-    DeliveryGroupResponse responses = await DeliveryServices.getDeliveryGroups(
-        Get.find<AppController>().appInfo.value!.brandId);
-    if (responses.status) {
-      deliveryGroups.value = responses.data;
+    try {
+      isLoading.value = true;
+      DeliveryGroupResponse responses =
+          await DeliveryServices.getDeliveryGroups(
+              Get.find<AppController>().appInfo.value!.brandId);
+      if (responses.status) {
+        deliveryGroups.value = responses.data;
+      }
+      isLoading.value = false;
+    } catch (err) {
+      showBasicAlertDialog('카테고리를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.');
+      isLoading.value = false;
+      return;
     }
-    isLoading.value = false;
   }
 }

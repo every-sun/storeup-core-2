@@ -8,11 +8,13 @@ class NRRichText extends StatefulWidget {
       {Key? key,
       required this.text,
       required this.commonStyle,
+      this.isCenter = false,
       this.maxLines = 1})
       : super(key: key);
   final String text;
   final TextStyle commonStyle;
   final int maxLines;
+  final bool isCenter;
 
   @override
   State<NRRichText> createState() => _NRRichTextState();
@@ -83,6 +85,7 @@ class _NRRichTextState extends State<NRRichText> {
     return _isLoading
         ? Container()
         : RichText(
+            textAlign: widget.isCenter ? TextAlign.center : TextAlign.left,
             text: TextSpan(
               children: textSpanList,
               style: widget.commonStyle,

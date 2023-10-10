@@ -1,8 +1,12 @@
 import 'package:get/get.dart';
+import 'package:user_core2/controller/app_controller.dart';
+import 'package:user_core2/controller/cart_controller.dart';
 import 'package:user_core2/controller/user_controller.dart';
 import 'package:user_core2/model/assets.dart';
+import 'package:user_core2/model/auth.dart';
 import 'package:user_core2/model/language.dart';
 import 'package:user_core2/model/order.dart';
+import 'package:user_core2/page/toss_payments_view.dart';
 import 'package:user_core2/service/order_service.dart';
 import 'package:user_core2/util/dialog.dart';
 
@@ -32,12 +36,10 @@ class OrderController extends GetxController {
     paymentMethod.value = "card";
     ePayCard.value = "TOSSPAY";
     shippingMessage.value = '';
-    orderType.value = 'S';
     coupon.value = null;
   }
 
   int getCouponDiscountAmount(int selectCartSumPrice) {
-    // TODO
     if (coupon.value == null) return 0;
     var couponDiscountAmount = 0;
     if (coupon.value!.type == 'F') {
@@ -68,7 +70,7 @@ class OrderController extends GetxController {
       }
       return response;
     } catch (err) {
-      showErrorDialog();
+      showBasicAlertDialog('주문에 실패하였습니다.');
       isLoading.value = false;
       return null;
     }
@@ -87,9 +89,74 @@ class OrderController extends GetxController {
       }
       return;
     } catch (err) {
-      showErrorDialog();
+      showBasicAlertDialog('주문 확정에 실패하였습니다.');
       isLoading.value = false;
       return;
+    }
+  }
+
+  Future<void> sendOrderRequest(
+      dynamic orderNo,
+      OrderController orderController,
+      CartController cartController,
+      int orderShippingFee,
+      dynamic addressId,
+      dynamic shippingFeeSettingId,
+      String? contact,
+      Map orderRequest,
+      detailAddress,
+      String? deliveryContact,
+      dynamic tenantId,
+      Function successMethod) async {
+    Customer customer = Get.find<UserController>().customer.value!;
+    OrderRequestResponse? response = await requestOrder(
+      OrderRequestBody(
+          data: OrderRequestBodyData(
+            brandId: Get.find<AppController>().appInfo.value!.brandId,
+            orderNo: orderNo,
+            orderType: orderType.value,
+            orderMethod: 'app',
+            orderShippingFee: orderShippingFee,
+            orderPriceAmount: cartController.selectedCartsSumPrice.value,
+            isUseDiscountCoupon: coupon.value != null,
+            orderDiscountAmount: getCouponDiscountAmount(
+                    cartController.selectedCartsSumPrice.value) +
+                point.value,
+            orderCouponDiscountAmount: getCouponDiscountAmount(
+                cartController.selectedCartsSumPrice.value),
+            orderCustomDiscountAmount: 0,
+            orderAdditionalPaymentAmount: point.value,
+            orderPaymentAmount:
+                cartController.selectedCartsSumPrice.value + orderShippingFee,
+            isOnline: true,
+            orderRequest: orderRequest,
+            detailAddress: detailAddress,
+            deliveryContact: deliveryContact ?? customer.contact,
+          ),
+          addressId: addressId,
+          shippingFeeSettingId: shippingFeeSettingId,
+          customer: Customer(
+              email: customer.email,
+              name: customer.name,
+              contact: contact ?? customer.contact,
+              id: customer.id),
+          tenantId: tenantId,
+          items: cartController.selectedCarts
+              .map((element) => OrderRequestItem(
+                  productId: element.product.id,
+                  quantity: element.quantity,
+                  options: element.options))
+              .toList()),
+    );
+    if (response != null && response.status && response.data != null) {
+      Get.to(() => TossPaymentsView(
+          controller: orderController,
+          amount: response.data!['order_payment_amount'] as int,
+          orderNo: response.data!['order_no'],
+          orderName: response.data!['data']['order_name'],
+          paymentMethod: orderController.paymentMethod.value,
+          successMethod: successMethod,
+          flowMode: 'DIRECT'));
     }
   }
 }

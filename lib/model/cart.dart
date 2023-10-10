@@ -14,7 +14,7 @@ class CartRequestBody {
       required this.cartType});
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> body = Map<String, dynamic>();
+    final Map<String, dynamic> body = {};
     body['product_id'] = productId;
     body['quantity'] = quantity;
     body['options'] =
@@ -32,7 +32,7 @@ class CartOption {
       {required this.id, required this.name, required this.childrenOptions});
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> body = Map<String, dynamic>();
+    final Map<String, dynamic> body = {};
     body['id'] = id;
     body['name'] = name;
     body['children_options'] = childrenOptions;

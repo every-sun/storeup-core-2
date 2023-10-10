@@ -10,7 +10,6 @@ class WishController extends GetxController {
 
   @override
   void onClose() {
-    print('wish controller close');
     isExist.value = false;
     isLoading.value = false;
     super.onClose();
@@ -40,7 +39,7 @@ class WishController extends GetxController {
       }
       return response.status;
     } catch (err) {
-      showErrorDialog();
+      showBasicAlertDialog('찜하기에 실패하였습니다.');
       isLoading.value = false;
       return false;
     }

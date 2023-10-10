@@ -11,8 +11,6 @@ class AuthController extends GetxController {
 
   @override
   void onInit() {
-    print('AuthController2 onInit');
-
     initRegisterRequestBody();
     super.onInit();
   }
@@ -60,8 +58,7 @@ class AuthController extends GetxController {
       }
       return result.status;
     } catch (err) {
-      print(err);
-      showErrorDialog();
+      showBasicAlertDialog('회원가입에 실패하였습니다.');
       isLoading.value = false;
       return false;
     }
@@ -77,7 +74,7 @@ class AuthController extends GetxController {
       }
       return result;
     } catch (err) {
-      showErrorDialog();
+      showBasicAlertDialog('로그인에 실패하였습니다.');
       isLoading.value = false;
       return null;
     }
@@ -93,7 +90,7 @@ class AuthController extends GetxController {
       }
       return result.status;
     } catch (err) {
-      showErrorDialog();
+      showBasicAlertDialog('아이디 중복체크에 실패하였습니다.');
       isLoading.value = false;
       return false;
     }
@@ -110,19 +107,20 @@ class AuthController extends GetxController {
       }
       return result;
     } catch (err) {
-      showErrorDialog();
+      showBasicAlertDialog('아이디 찾기에 실패하였습니다.');
       isLoading.value = false;
       return null;
     }
   }
 
-  Future<void> resetPassword(email, password, appName, successText) async {
+  Future<void> resetPassword(
+      email, password, String customerKey, successText) async {
     try {
       isLoading.value = true;
       var result = await AuthServices2.resetPassword(email, password);
       isLoading.value = false;
       if (result.status) {
-        await Get.find<UserController>().deleteInfo(appName, true);
+        await Get.find<UserController>().deleteCustomer(customerKey, true);
         Get.offAll(() => Get.find<AppController>().appInfo.value!.loginPage);
         showBasicAlertDialog(successText);
       } else {
@@ -130,7 +128,7 @@ class AuthController extends GetxController {
       }
       return;
     } catch (err) {
-      showErrorDialog();
+      showBasicAlertDialog('비밀번호 재설정에 실패하였습니다.');
       isLoading.value = false;
       return;
     }
@@ -149,7 +147,7 @@ class AuthController extends GetxController {
       }
       return;
     } catch (err) {
-      showErrorDialog();
+      showBasicAlertDialog('비밀번호 검증에 실패하였습니다.');
       isLoading.value = false;
       return;
     }

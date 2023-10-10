@@ -38,15 +38,13 @@ class AssetsController extends GetxController {
       }
     } catch (err) {
       isLoading.value = false;
-      showErrorDialog();
+      showBasicAlertDialog('쿠폰 발행에 실패하였습니다.');
       return;
     }
   }
 
   Future<void> getAvailableCoupons(
-      // TODO
-      int productSumPrice,
-      ShippingFeeResponseData shippingFee) async {
+      int productSumPrice, ShippingFeeResponseData shippingFee) async {
     if (userController.customer.value == null) return;
     try {
       isLoading.value = true;
@@ -84,7 +82,7 @@ class AssetsController extends GetxController {
       return;
     } catch (err) {
       isLoading.value = false;
-      showErrorDialog();
+      showBasicAlertDialog('사용 가능한 쿠폰을 조회하는데 실패하였습니다.');
       return;
     }
   }

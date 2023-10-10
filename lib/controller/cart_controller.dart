@@ -35,8 +35,6 @@ class CartController extends GetxController {
           deliveryTotal.value = count;
         }
       }
-      print('장바구니 개수/ total: ${total.value} / 배달 개수: ${deliveryTotal.value}');
-
       return;
     } catch (err) {
       return;
@@ -121,7 +119,7 @@ class CartController extends GetxController {
       await getCartTotal(body.cartType);
       return response;
     } catch (err) {
-      showErrorDialog();
+      showBasicAlertDialog('장바구니에 담는데 실패하였습니다.');
       isLoading.value = false;
       return null;
     }
@@ -141,7 +139,7 @@ class CartController extends GetxController {
       await getCartTotal('D');
       return response.status;
     } catch (err) {
-      showErrorDialog();
+      showBasicAlertDialog('장바구니를 삭제하는데 실패하였습니다.');
       isLoading.value = false;
       return false;
     }
@@ -220,7 +218,8 @@ class CartController extends GetxController {
         showBasicAlertDialog(response.message);
       }
     } catch (err) {
-      showErrorDialog();
+      showBasicAlertDialog('수량 조절에 실패하였습니다.');
+      return;
     }
   }
 

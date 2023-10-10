@@ -16,8 +16,6 @@ class BrandController extends GetxController {
       Get.put(ShippingAddressController());
   @override
   void onInit() {
-    print('BrandController onInit');
-
     setShippingFee();
     setCarrier();
     super.onInit();
@@ -133,7 +131,7 @@ class BrandController extends GetxController {
             : '택배 정보를 불러올 수 없습니다. 다시 시도해주세요.');
       }
     } catch (err) {
-      showErrorDialog();
+      showBasicAlertDialog('택배 정보를 가져오는데 실패하였습니다.');
       isLoading.value = false;
       return;
     }

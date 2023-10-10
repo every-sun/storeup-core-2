@@ -45,21 +45,19 @@ class ReviewController extends GetxController {
             await http.MultipartFile.fromPath('images[$i]', result!.path);
         request.files.add(file);
       }
-      var result = await request.send();
 
+      var result = await request.send();
       final resultResponse = await http.Response.fromStream(result);
       isLoading.value = false;
       BasicResponse response =
           BasicResponse.fromJson(jsonDecode(resultResponse.body));
-      print(jsonDecode(resultResponse.body));
       if (!response.status) {
         showBasicAlertDialog(response.message);
       }
       return response.status;
     } catch (err) {
-      print(err);
       isLoading.value = false;
-      showErrorDialog();
+      showBasicAlertDialog('리뷰 작성에 실패하였습니다.');
       return false;
     }
   }
@@ -76,9 +74,8 @@ class ReviewController extends GetxController {
       }
       return response.status;
     } catch (err) {
-      print(err);
       isLoading.value = false;
-      showErrorDialog();
+      showBasicAlertDialog('리뷰 수정에 실패하였습니다.');
       return false;
     }
   }
@@ -96,9 +93,8 @@ class ReviewController extends GetxController {
       }
       return;
     } catch (err) {
-      print(err);
       isLoading.value = false;
-      showErrorDialog();
+      showBasicAlertDialog('리뷰 삭제에 실패하였습니다.');
       return;
     }
   }

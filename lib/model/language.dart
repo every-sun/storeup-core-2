@@ -7,7 +7,7 @@ class Language {
       Language(ko: json['ko'] ?? (json['en'] ?? ''), en: json['en']);
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> body = Map<String, dynamic>();
+    final Map<String, dynamic> body = {};
     body['ko'] = ko;
     return body;
   }
@@ -20,5 +20,5 @@ class BasicResponse {
 
   factory BasicResponse.fromJson(Map<String, dynamic> json) => BasicResponse(
       message: json['message'] != null ? json['message'].toString() : '',
-      status: json['status']);
+      status: json['status'] ?? false);
 }

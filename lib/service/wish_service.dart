@@ -28,7 +28,6 @@ class WishServices2 {
           '${ServiceAPI().baseUrl}/customers/$customerId/wishes/all/delete'),
       headers: ServiceAPI().headerInfo,
     );
-    print(jsonDecode(response.body));
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
 

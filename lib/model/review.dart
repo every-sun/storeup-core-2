@@ -22,7 +22,7 @@ class ReviewRequestBody {
       this.images});
 
   Map<String, String> toJson() {
-    final Map<String, String> body = Map<String, String>();
+    final Map<String, String> body = {};
     body['brand_id'] = brandId.toString();
     body['customer_id'] = customerId.toString();
     body['model_type'] = modelType;
@@ -97,6 +97,7 @@ class Review {
   DateTime createdAt;
   List<dynamic> orderItems;
   Store? store;
+  Map? comment;
   Review(
       {required this.id,
       required this.contents,
@@ -105,7 +106,8 @@ class Review {
       required this.data,
       required this.createdAt,
       required this.orderItems,
-      required this.store});
+      required this.store,
+      required this.comment});
 
   factory Review.fromJson(Map<String, dynamic> json) => Review(
       id: json['id'],
@@ -121,6 +123,9 @@ class Review {
               json['order']['stores'] != null &&
               json['order']['stores'].isNotEmpty)
           ? Store.fromJson(json['order']['stores'][0])
+          : null,
+      comment: json['comments'] != null && json['comments'].isNotEmpty
+          ? json['comments'][json['comments'].length - 1]
           : null);
 }
 

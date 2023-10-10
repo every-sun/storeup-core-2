@@ -10,7 +10,6 @@ class ProductGroupController extends GetxController {
 
   @override
   void onInit() {
-    print('ProductGroupController onInit');
     setProductGroups();
     super.onInit();
   }
