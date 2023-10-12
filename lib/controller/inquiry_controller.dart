@@ -31,6 +31,7 @@ class InquiryController extends GetxController {
               '${ServiceAPI().baseUrl}/customers/${Get.find<UserController>().customer.value!.id}/inquiries/store'));
       request.headers.addAll(ServiceAPI().headerInfo);
       request.fields.addAll(body.toJson());
+
       for (var i = 0; i < imageController.images.length; i++) {
         var filePath = imageController.images[i].path;
         var lastIndex = filePath.lastIndexOf(RegExp(r'jp'));
@@ -47,6 +48,7 @@ class InquiryController extends GetxController {
       }
       var result = await request.send();
       final resultResponse = await http.Response.fromStream(result);
+
       isLoading.value = false;
       BasicResponse response =
           BasicResponse.fromJson(jsonDecode(resultResponse.body));

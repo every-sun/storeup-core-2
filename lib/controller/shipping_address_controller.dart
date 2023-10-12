@@ -16,6 +16,7 @@ class ShippingAddressController extends GetxController {
 
   @override
   void onInit() {
+    print('onInit');
     getDefaultAddress();
     getAddresses();
     super.onInit();

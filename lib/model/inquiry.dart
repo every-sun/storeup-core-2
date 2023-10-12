@@ -75,6 +75,7 @@ class Inquiry {
   Product? product;
   DateTime createdAt;
   Customer? customer;
+  Map? comment;
   Inquiry(
       {required this.id,
       required this.brandId,
@@ -89,7 +90,8 @@ class Inquiry {
       required this.data,
       required this.product,
       required this.createdAt,
-      required this.customer});
+      required this.customer,
+      required this.comment});
 
   factory Inquiry.fromJson(Map<dynamic, dynamic> json) => Inquiry(
       id: json['id'],
@@ -106,7 +108,9 @@ class Inquiry {
       product:
           json['product'] != null ? Product.fromJson(json['product']) : null,
       createdAt: DateTime.parse(json['created_at']),
-      customer: json['customer'] != null
-          ? Customer.fromJson(json['customer'])
+      customer:
+          json['customer'] != null ? Customer.fromJson(json['customer']) : null,
+      comment: json['comments'] != null && json['comments'].isNotEmpty
+          ? json['comments'][json['comments'].length - 1]
           : null);
 }

@@ -31,6 +31,7 @@ class ReviewController extends GetxController {
               '${ServiceAPI().baseUrl}/customers/${userController.customer.value!.id}/reviews/store'));
       request.headers.addAll(ServiceAPI().headerInfo);
       request.fields.addAll(body.toJson());
+
       for (var i = 0; i < imageController.images.length; i++) {
         var filePath = imageController.images[i].path;
         var lastIndex = filePath.lastIndexOf(RegExp(r'jp'));
@@ -45,9 +46,9 @@ class ReviewController extends GetxController {
             await http.MultipartFile.fromPath('images[$i]', result!.path);
         request.files.add(file);
       }
-
       var result = await request.send();
       final resultResponse = await http.Response.fromStream(result);
+
       isLoading.value = false;
       BasicResponse response =
           BasicResponse.fromJson(jsonDecode(resultResponse.body));

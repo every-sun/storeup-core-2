@@ -7,6 +7,8 @@ import 'package:user_core2/service/service.dart';
 class AssetsServices {
   static Future<CouponResponse> getCoupons(
       customerId, bool available, int page) async {
+    print(
+        '${ServiceAPI().baseUrl}/customers/$customerId/coupons?available=$available&page=$page');
     var response = await http.get(
         Uri.parse(
             '${ServiceAPI().baseUrl}/customers/$customerId/coupons?available=$available&page=$page'),

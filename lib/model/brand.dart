@@ -87,3 +87,55 @@ class CarrierResponseData {
           url: json['url'],
           defaultFee: json['default_fee']);
 }
+
+/* 판매자 정보 */
+class BrandConfigResponse {
+  bool status;
+  String message;
+  Config? data;
+  BrandConfigResponse(
+      {required this.status, required this.message, required this.data});
+  factory BrandConfigResponse.fromJson(Map<String, dynamic> json) =>
+      BrandConfigResponse(
+          status: json['status'],
+          message: json['message'] ?? '',
+          data: json['data'] != null ? Config.fromJson(json['data']) : null);
+}
+
+class Config {
+  dynamic id;
+  String brandName;
+  String contact;
+  String representation;
+  String mailOrderSalesNo;
+  String informationProtectionCharge;
+  String domain;
+  String address1;
+  String address2;
+  String zipcode;
+  int brandCalculateShippingFee;
+  Config(
+      {required this.id,
+      required this.brandName,
+      required this.contact,
+      required this.representation,
+      required this.mailOrderSalesNo,
+      required this.informationProtectionCharge,
+      required this.domain,
+      required this.address1,
+      required this.address2,
+      required this.zipcode,
+      required this.brandCalculateShippingFee});
+  factory Config.fromJson(Map<String, dynamic> json) => Config(
+      id: json['id'],
+      brandName: json['brand_name'] ?? '',
+      contact: json['contact'] ?? '',
+      representation: json['representation'] ?? '',
+      mailOrderSalesNo: json['mail_order_sales_no'] ?? '',
+      informationProtectionCharge: json['information_protection_charge'] ?? '',
+      domain: json['domain'] ?? '',
+      address1: json['address1'] ?? '',
+      address2: json['address2'] ?? '',
+      zipcode: json['zipcode'] ?? '',
+      brandCalculateShippingFee: json['brand_calculate_shipping_fee']);
+}

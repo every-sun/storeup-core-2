@@ -8,6 +8,7 @@ class AuthServices2 {
   static Future<SmsKeyResponse> getSmsKey(contact, brandId) async {
     var response = await http.get(Uri.parse(
         '${ServiceAPI().baseUrl}/sms/certification?contact=$contact&brand_id=$brandId'));
+    print(jsonDecode(response.body));
     return SmsKeyResponse.fromJson(jsonDecode(response.body));
   }
 
@@ -16,6 +17,7 @@ class AuthServices2 {
         Uri.parse('${ServiceAPI().baseUrl}/auth/register'),
         body: jsonEncode(body.toJson()),
         headers: ServiceAPI().headerInfo);
+    print(jsonDecode(response.body));
     return RegisterResponse.fromJson(jsonDecode(response.body));
   }
 

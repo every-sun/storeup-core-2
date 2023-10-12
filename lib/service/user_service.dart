@@ -60,4 +60,13 @@ class UserServices {
     );
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
+
+  static Future<BasicResponse> updateDeviceToken(
+      dynamic customerId, token) async {
+    var response = await http.put(
+        Uri.parse('${ServiceAPI().baseUrl}/customers/$customerId/token'),
+        headers: ServiceAPI().headerInfo,
+        body: jsonEncode({'device_token': token}));
+    return BasicResponse.fromJson(jsonDecode(response.body));
+  }
 }

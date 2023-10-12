@@ -6,7 +6,6 @@ import 'package:user_core2/util/dialog.dart';
 class ProductController extends GetxController {
   var sortValue = 'created_at'.obs;
   var sortDescending = 'DESC'.obs; // ASC: 오름차순, DESC: 내림차순
-  // var page = 1.obs;
 
   void sortProducts(value) {
     if (value == '최신순') {

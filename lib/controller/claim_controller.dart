@@ -14,6 +14,7 @@ class ClaimController extends GetxController {
 
   var isLoading = false.obs;
   var claimRequestBody = ClaimRequestBody(
+          reShipping: null,
           orderId: '',
           itemId: '',
           isCancelAll: false,
@@ -36,6 +37,7 @@ class ClaimController extends GetxController {
     isLoading.value = false;
     shippingRequest.value = '회수 장소 선택';
     claimRequestBody.value = ClaimRequestBody(
+        reShipping: null,
         orderId: '',
         isCancelAll: false,
         itemId: '',
@@ -101,11 +103,11 @@ class ClaimController extends GetxController {
       request.headers.addAll(ServiceAPI().headerInfo);
       request.fields.addAll({
         'order_id': claimRequestBody.value.orderId,
-        'is_cancel_all': false.toString(),
         'item_id': claimRequestBody.value.itemId,
+        'is_cancel_all': false.toString(),
         'claim_type': claimRequestBody.value.claimType,
         'claim_reason_type': claimRequestBody.value.claimReasonType,
-        'claim_subject': claimRequestBody.value.claimSubject,
+        'claim_subject': 'C',
         'quantity': claimRequestBody.value.quantity.toString(),
         'claim_reason': claimRequestBody.value.claimReason
       });
@@ -116,6 +118,24 @@ class ClaimController extends GetxController {
           'pickup[address1]': claimRequestBody.value.pickup!['address1'] ?? '',
           'pickup[address2]': claimRequestBody.value.pickup!['address2'] ?? '',
           'pickup[zipcode]': claimRequestBody.value.pickup!['zipcode'] ?? '',
+          'pickup[pickup_type]': 'B',
+          'pickup[pickup_request]':
+              claimRequestBody.value.pickup!['pickup_request'] ?? '',
+        });
+      } else {
+        request.fields.addAll({
+          'pickup[pickup_type]': 'C',
+        });
+      }
+      if (claimRequestBody.value.claimType == 'E' &&
+          claimRequestBody.value.reShipping != null) {
+        request.fields.addAll({
+          're_shipping[address1]':
+              claimRequestBody.value.reShipping!['address1'] ?? '',
+          're_shipping[address2]':
+              claimRequestBody.value.reShipping!['address2'] ?? '',
+          're_shipping[zipcode]':
+              claimRequestBody.value.reShipping!['zipcode'] ?? '',
         });
       }
       for (var i = 0; i < imageController.images.length; i++) {
@@ -134,6 +154,7 @@ class ClaimController extends GetxController {
       }
       var result = await request.send();
       final resultResponse = await http.Response.fromStream(result);
+      print(request.fields);
       isLoading.value = false;
       BasicResponse response =
           BasicResponse.fromJson(jsonDecode(resultResponse.body));
