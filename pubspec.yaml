@@ -26,6 +26,7 @@ dependencies:
   fluttertoast: ^8.2.1
   google_translator: ^1.0.0
   kpostal: ^0.5.1
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:

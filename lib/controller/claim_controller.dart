@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
 import 'package:user_core2/controller/image_controller.dart';
 import 'package:user_core2/model/claim.dart';
@@ -140,21 +139,18 @@ class ClaimController extends GetxController {
       }
       for (var i = 0; i < imageController.images.length; i++) {
         var filePath = imageController.images[i].path;
-        var lastIndex = filePath.lastIndexOf(RegExp(r'jp'));
-        var split = filePath.substring(0, (lastIndex - 1));
-        var outPath = '${split}_out${filePath.substring(lastIndex - 1)}';
-
-        var result = await FlutterImageCompress.compressAndGetFile(
-            filePath, outPath,
-            minHeight: 600, minWidth: 600, quality: 70);
-
-        var file =
-            await http.MultipartFile.fromPath('images[$i]', result!.path);
+        // var lastIndex = filePath.lastIndexOf(RegExp(r'jp'));
+        // var split = filePath.substring(0, (lastIndex - 1));
+        // var outPath = '${split}_out${filePath.substring(lastIndex - 1)}';
+        //
+        // var result = await FlutterImageCompress.compressAndGetFile(
+        //     filePath, outPath,
+        //     minHeight: 600, minWidth: 600, quality: 70);
+        var file = await http.MultipartFile.fromPath('images[$i]', filePath);
         request.files.add(file);
       }
       var result = await request.send();
       final resultResponse = await http.Response.fromStream(result);
-      print(request.fields);
       isLoading.value = false;
       BasicResponse response =
           BasicResponse.fromJson(jsonDecode(resultResponse.body));

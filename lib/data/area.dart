@@ -1,5 +1,5 @@
-List<Map<String, dynamic>> getAreaData() {
-  return [
+class Area {
+  static const data = [
     {
       '서울': [
         '강남구',

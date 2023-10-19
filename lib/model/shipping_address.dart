@@ -55,14 +55,14 @@ class ShippingAddress {
   factory ShippingAddress.fromJson(Map<String, dynamic> json) =>
       ShippingAddress(
           id: json['id'],
-          alias: json['alias'],
-          zipcode: json['zipcode'],
-          address1: json['address1'],
-          address2: json['address2'],
+          alias: json['alias'] ?? '',
+          zipcode: json['zipcode'] ?? '',
+          address1: json['address1'] ?? '',
+          address2: json['address2'] ?? '',
           gpsLat: json['gps_lat'] ?? '',
           gpsLon: json['gps_lon'] ?? '',
-          receiverName: json['receiver_name'],
-          receiverContact: json['receiver_contact'],
+          receiverName: json['receiver_name'] ?? '',
+          receiverContact: json['receiver_contact'] ?? '',
           regionChargingFee: json['region_charging_fee'],
           isAvailableRegion: json['is_available_region'],
           isDefaultAddress: json['is_default_address']);

@@ -30,7 +30,7 @@ class Board {
       required this.data});
   factory Board.fromJson(Map<String, dynamic> json) => Board(
       id: json['id'],
-      boardType: json['board_type'],
+      boardType: json['board_type'] ?? '',
       title: json['title'] ?? '',
       isDisplay: json['is_display'],
       isCentral: json['is_central'],
@@ -88,7 +88,7 @@ class Post {
         id: json['id'],
         boardId: json['board_id'],
         title: json['title'] ?? '',
-        postNo: json['post_no'],
+        postNo: json['post_no'] ?? '',
         writer: json['writer'] ?? '',
         isFixed: json['is_fixed'],
         createdAt: DateTime.parse(json['created_at']),

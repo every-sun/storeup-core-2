@@ -124,6 +124,7 @@ class Customer {
   String name;
   String contact;
   dynamic id;
+  dynamic globalId;
   String? deviceToken;
   dynamic refundAccount;
 
@@ -133,6 +134,7 @@ class Customer {
       required this.name,
       required this.contact,
       required this.id,
+      this.globalId,
       this.deviceToken,
       this.refundAccount});
   factory Customer.fromJson(Map<String, dynamic> json) => Customer(
@@ -141,6 +143,7 @@ class Customer {
       name: json['name'] ?? '',
       contact: json['contact'] ?? '',
       id: json['id'],
+      globalId: json['global_id'],
       deviceToken: json['device_token'],
       refundAccount: json['refund_account'] // TODO 환불계좌정보
       );
@@ -205,6 +208,7 @@ class LoginRequestBody {
     data['password'] = password;
     data['brand_id'] = brandId;
     data['device_token'] = deviceToken;
+    data['method'] = 'app';
     return data;
   }
 }

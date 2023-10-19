@@ -37,10 +37,10 @@ class DeliveryAddress {
   factory DeliveryAddress.fromJson(Map<String, dynamic> json) =>
       DeliveryAddress(
         id: json['id'],
-        newAddress: json['new_address'],
-        oldAddress: json['old_address'],
-        detailAddress: json['detail_address'],
-        region: json['region'],
+        newAddress: json['new_address'] ?? '',
+        oldAddress: json['old_address'] ?? '',
+        detailAddress: json['detail_address'] ?? '',
+        region: json['region'] ?? '',
         gpsLat: json['gps_lat'] ?? '',
         gpsLon: json['gps_lon'] ?? '',
         regionChargingFee: json['region_charging_fee'],

@@ -1,5 +1,5 @@
-List<Map<String, String>> getBankData() {
-  return [
+class Bank {
+  static const data = [
     {'name': '경남은행', 'icon': 'bank/bank-kn', 'code': '39'},
     {'name': '광주은행', 'icon': 'bank/bank-gj', 'code': '34'},
     {'name': '단위농협(지역농축협)', 'icon': 'bank/bank-nh', 'code': '12'},

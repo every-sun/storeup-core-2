@@ -7,7 +7,6 @@ import 'package:user_core2/service/service.dart';
 class BrandServices {
   /* 배송비 정보 */
   static Future<ShippingFeeResponse> getShippingFee(dynamic brandId) async {
-    print('${ServiceAPI().baseUrl}/brands/$brandId/config/shippingFee');
     var response = await http.get(
       Uri.parse('${ServiceAPI().baseUrl}/brands/$brandId/config/shippingFee'),
       headers: ServiceAPI().headerInfo,

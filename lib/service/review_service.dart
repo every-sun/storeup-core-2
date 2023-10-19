@@ -6,16 +6,14 @@ import 'package:user_core2/service/service.dart';
 
 class ReviewServices2 {
   static Future<ReviewResponse> getOrderItems(
-      // 나의 리뷰 가져오기 (isReviewed true = 리뷰가 달린 주문 아이템들 / false = 작성 가능한 주문 아이템들)
+      // 리뷰 작성 가능한 주문 아이템들
       customerId,
-      int page,
-      bool isReviewed) async {
+      int page) async {
     var response = await http.get(
       Uri.parse(
-          '${ServiceAPI().baseUrl}/customers/$customerId/items?is_reviewed=$isReviewed&page=$page'),
+          '${ServiceAPI().baseUrl}/customers/$customerId/items/reviews?&page=$page'),
       headers: ServiceAPI().headerInfo,
     );
-
     return ReviewResponse.fromJson(jsonDecode(response.body));
   }
 
@@ -59,13 +57,11 @@ class ReviewServices2 {
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
 
-  static Future<ModelReviewResponse> getOrderReviews(
-      // 주문에 달린 리뷰들 (사용자 배달 주문 리뷰 리스트)
-      customerId,
-      int page) async {
+  static Future<ModelReviewResponse> getReviews(
+      customerId, String type, int page) async {
     var response = await http.get(
         Uri.parse(
-            '${ServiceAPI().baseUrl}/customers/$customerId/reviews/orders?page=$page'),
+            '${ServiceAPI().baseUrl}/customers/$customerId/reviews?type=$type&page=$page'),
         headers: ServiceAPI().headerInfo);
     return ModelReviewResponse.fromJson(jsonDecode(response.body));
   }

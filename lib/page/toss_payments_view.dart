@@ -41,8 +41,6 @@ class TossPaymentsView extends StatelessWidget {
     if (paymentMethod == 'ePay' && controller.ePayCard.value != '') {
       url += '&flowMode=$flowMode&easyPay=${controller.ePayCard.value}';
     }
-
-    print(url);
     return Scaffold(
         body: SafeArea(
             child: Stack(

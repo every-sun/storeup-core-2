@@ -1,5 +1,4 @@
 import 'package:user_core2/model/order.dart';
-import 'package:user_core2/model/store.dart';
 
 class ReviewRequestBody {
   dynamic brandId;
@@ -95,8 +94,8 @@ class Review {
   bool isReplied;
   ReviewData? data;
   DateTime createdAt;
-  List<dynamic> orderItems;
-  Store? store;
+  Map? order;
+  OrderItem? orderItem;
   Map? comment;
   Review(
       {required this.id,
@@ -105,9 +104,9 @@ class Review {
       required this.isReplied,
       required this.data,
       required this.createdAt,
-      required this.orderItems,
-      required this.store,
-      required this.comment});
+      required this.order,
+      required this.comment,
+      required this.orderItem});
 
   factory Review.fromJson(Map<String, dynamic> json) => Review(
       id: json['id'],
@@ -116,17 +115,12 @@ class Review {
       isReplied: json['is_replied'],
       data: json['data'] != null ? ReviewData.fromJson(json['data']) : null,
       createdAt: DateTime.parse(json['created_at']),
-      orderItems: (json['order'] != null && json['order']['items'] != null)
-          ? json['order']['items']
-          : [],
-      store: (json['order'] != null &&
-              json['order']['stores'] != null &&
-              json['order']['stores'].isNotEmpty)
-          ? Store.fromJson(json['order']['stores'][0])
-          : null,
+      order: json['order'],
       comment: json['comments'] != null && json['comments'].isNotEmpty
           ? json['comments'][json['comments'].length - 1]
-          : null);
+          : null,
+      orderItem:
+          json['item'] != null ? OrderItem.fromJson(json['item']) : null);
 }
 
 class ReviewData {
