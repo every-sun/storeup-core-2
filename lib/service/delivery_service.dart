@@ -110,10 +110,10 @@ class DeliveryServices {
 
   /* 배달상점 검색 */
   static Future<StoreResponse> getDeliveryStoresBySearch(
-      brandId, keyword) async {
+      brandId, keyword, page) async {
     var response = await http.get(
       Uri.parse(
-          '${ServiceAPI().baseUrl}/brands/$brandId/deliveries/search?keyword=$keyword'),
+          '${ServiceAPI().baseUrl}/brands/$brandId/deliveries/search?keyword=$keyword&page=$page'),
       headers: ServiceAPI().headerInfo,
     );
     return StoreResponse.fromJson(jsonDecode(response.body));

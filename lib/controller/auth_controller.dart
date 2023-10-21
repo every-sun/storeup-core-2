@@ -28,7 +28,7 @@ class AuthController extends GetxController {
           password: '',
           passwordConfirmation: '',
           name: '',
-          brandId: 0,
+          brandId: Get.find<AppController>().appInfo.value!.brandId,
           contact: '',
           termsAndConditions: true,
           personalInformation: true,
@@ -120,7 +120,7 @@ class AuthController extends GetxController {
       var result = await AuthServices2.resetPassword(email, password);
       isLoading.value = false;
       if (result.status) {
-        await Get.find<UserController>().deleteCustomer(customerKey, true);
+        await Get.find<UserController>().deleteCustomer(customerKey);
         Get.offAll(() => Get.find<AppController>().appInfo.value!.loginPage);
         showBasicAlertDialog(successText);
       } else {

@@ -18,7 +18,7 @@ class UserController extends GetxController {
   }
 
   /* 사용자 정보 삭제 */
-  deleteCustomer(String customerKey, bool isLogout) async {
+  deleteCustomer(String customerKey) async {
     FlutterSecureStorage storage = const FlutterSecureStorage();
     await storage.delete(key: customerKey);
     customer.value = null;
@@ -26,12 +26,13 @@ class UserController extends GetxController {
 
   Future<void> updateCustomer(Map body, key, successMethod) async {
     try {
+      if (customer.value == null) return;
       isLoading.value = true;
-      BasicResponse response = await UserServices.updateCustomer(
-          body, Get.find<UserController>().customer.value!.id);
+      BasicResponse response =
+          await UserServices.updateCustomer(body, customer.value!.id);
       isLoading.value = false;
       if (response.status) {
-        await setCustomer(key, Get.find<UserController>().customer.value!.id);
+        await setCustomer(key, customer.value!.id);
         successMethod();
       } else {
         showBasicAlertDialog(response.message);
@@ -55,10 +56,10 @@ class UserController extends GetxController {
         customer.value = response.data;
         storage.write(key: key, value: jsonEncode(response.data!.toJson()));
       } else {
-        showBasicAlertDialog(response.message);
+        deleteCustomer(key);
       }
     } catch (err) {
-      showBasicAlertDialog('사용자 정보 업데이트에 실패하였습니다.');
+      showBasicAlertDialog('사용자 정보 업데이트 실패');
       return;
     }
   }
@@ -66,8 +67,8 @@ class UserController extends GetxController {
   Future<void> updateAgreementInfo(Map body, successMethod) async {
     try {
       isLoading.value = true;
-      BasicResponse response = await UserServices.updateAgreementInfo(
-          body, Get.find<UserController>().customer.value!.id);
+      BasicResponse response =
+          await UserServices.updateAgreementInfo(body, customer.value!.id);
       isLoading.value = false;
       if (response.status) {
         successMethod();
@@ -85,11 +86,11 @@ class UserController extends GetxController {
   Future<void> updateRefundAccount(Map body, key, successMethod) async {
     try {
       isLoading.value = true;
-      BasicResponse response = await UserServices.updateRefundAccount(
-          body, Get.find<UserController>().customer.value!.id);
+      BasicResponse response =
+          await UserServices.updateRefundAccount(body, customer.value!.id);
       isLoading.value = false;
       if (response.status) {
-        await setCustomer(key, Get.find<UserController>().customer.value!.id);
+        await setCustomer(key, customer.value!.id);
         successMethod();
       } else {
         showBasicAlertDialog(response.message);
@@ -105,11 +106,11 @@ class UserController extends GetxController {
   Future<void> resetRefundAccount(key, successMethod) async {
     try {
       isLoading.value = true;
-      BasicResponse response = await UserServices.resetRefundAccount(
-          Get.find<UserController>().customer.value!.id);
+      BasicResponse response =
+          await UserServices.resetRefundAccount(customer.value!.id);
       isLoading.value = false;
       if (response.status) {
-        await setCustomer(key, Get.find<UserController>().customer.value!.id);
+        await setCustomer(key, customer.value!.id);
         successMethod();
       } else {
         showBasicAlertDialog(response.message);

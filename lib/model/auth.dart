@@ -95,7 +95,7 @@ class RegisterResponse {
       this.customer});
   factory RegisterResponse.fromJson(Map<String, dynamic> json) =>
       RegisterResponse(
-          status: json['status'],
+          status: json['status'] ?? false,
           message: json['message'] ?? '',
           token: json['token'] ?? '',
           errors: json['errors'] != null
