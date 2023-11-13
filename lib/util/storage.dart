@@ -22,8 +22,8 @@ class Storage {
     valueList = json.decode(valueString);
 
     if (valueList.where((element) => element == productId).isNotEmpty) return;
-    if (valueList.length >= 20) {
-      valueList.removeAt(19);
+    if (valueList.length >= 30) {
+      valueList.removeAt(29);
     }
     valueList.insert(0, productId);
     storage.write(key: key, value: jsonEncode(valueList));
@@ -36,8 +36,8 @@ class Storage {
     List<CustomerNotification> notiList;
     notiList = notificationFromJson(notiString);
 
-    if (notiList.length >= 20) {
-      notiList.removeAt(19);
+    if (notiList.length >= 30) {
+      notiList.removeAt(29);
     }
     notiList.insert(0, notification);
     storage.write(key: key, value: jsonEncode(notiList));

@@ -1,14 +1,5 @@
 import 'dart:convert';
 
-// class DeliveryAddressResponse {
-//   Results results;
-//
-//   DeliveryAddressResponse({required this.results});
-//
-//   factory DeliveryAddressResponse.fromJson(Map<String, dynamic> json) =>
-//       DeliveryAddressResponse(results: Results.fromJson(json['results']));
-// }
-
 class JusoResults {
   List<Juso> jusoList;
 

@@ -56,7 +56,7 @@ class DeliveryProductsByCategory {
   bool isTemporarySoldOut;
   int stockQuantity;
   int safetyInventory;
-  DeliveryProduct product;
+  DeliveryProduct? product;
 
   DeliveryProductsByCategory({
     required this.id,
@@ -91,7 +91,9 @@ class DeliveryProductsByCategory {
           isTemporarySoldOut: json['is_temporary_sold_out'],
           stockQuantity: json['stock_quantity'],
           safetyInventory: json['safety_inventory'],
-          product: DeliveryProduct.fromJson(json['product']));
+          product: json['product'] != null
+              ? DeliveryProduct.fromJson(json['product'])
+              : null);
 }
 
 class DeliveryProduct {

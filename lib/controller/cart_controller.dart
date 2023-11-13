@@ -146,7 +146,7 @@ class CartController extends GetxController {
   }
 
   void check(isAdd, Cart cart, showToast) {
-    if (cartOutOfStockType(cart) != '') {
+    if (onlineCartOutOfStockType(cart) != '') {
       showToast();
       return;
     }
@@ -162,13 +162,12 @@ class CartController extends GetxController {
     if (selectedCarts.isEmpty) {
       List<Cart> values = [];
       for (var i = 0; i < carts.length; i++) {
-        if (cartOutOfStockType(carts[i]) == '') {
+        if (onlineCartOutOfStockType(carts[i]) == '') {
           values.add(carts[i]);
         }
       }
       if (values.length < carts.length) {
         showToast();
-        return;
       }
       selectedCarts.assignAll(values);
     } else {
@@ -193,7 +192,7 @@ class CartController extends GetxController {
   Future<void> deleteUnableCarts(List<Cart> carts, refreshMethod) async {
     List<dynamic> targets = [];
     for (var i = 0; i < carts.length; i++) {
-      if (cartOutOfStockType(carts[i]) != '') {
+      if (onlineCartOutOfStockType(carts[i]) != '') {
         targets.add(carts[i].id);
       }
     }

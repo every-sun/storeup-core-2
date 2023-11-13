@@ -258,12 +258,12 @@ class ProductCollection {
 /*----- 상품 컬렉션 -----*/
 
 class ImageData {
-  String thumbnail;
+  String? thumbnail;
   Map<dynamic, dynamic>? images;
   ImageData({required this.thumbnail, this.images});
   factory ImageData.fromJson(Map<dynamic, dynamic> json) => ImageData(
       thumbnail: (json['thumbnail'] != null && json['thumbnail'].isNotEmpty)
           ? json['thumbnail'].values.toList()[0]
-          : '',
+          : null,
       images: json['images']);
 }

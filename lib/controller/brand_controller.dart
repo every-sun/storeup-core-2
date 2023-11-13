@@ -12,12 +12,16 @@ class BrandController extends GetxController {
   var shippingFee = Rxn<ShippingFeeResponseData>();
   var deliveryFee = Rxn<ShippingFeeResponseData>();
   var carrier = Rxn<CarrierResponseData>();
+  var fixedShippingFee = 0.obs;
+
   final ShippingAddressController addressController =
       Get.put(ShippingAddressController());
+
   @override
-  void onInit() {
-    setShippingFee();
-    setCarrier();
+  void onInit() async {
+    await setShippingFee();
+    await setCarrier();
+    fixedShippingFee.value = getShippingFee('S', 0);
     super.onInit();
   }
 
@@ -37,9 +41,7 @@ class BrandController extends GetxController {
       if (response.status && response.data != null) {
         shippingFee.value = response.data;
       } else {
-        showBasicAlertDialog(response.message != ''
-            ? response.message
-            : '배송비 정보를 불러올 수 없습니다. 다시 시도해주세요.');
+        showBasicAlertDialog('배송비 정보를 불러올 수 없습니다. 다시 시도해주세요.');
       }
     } catch (err) {
       showBasicAlertDialog('배송비 정보를 불러올 수 없습니다. 다시 시도해주세요.');
@@ -49,14 +51,10 @@ class BrandController extends GetxController {
   }
 
   // 배송비 가져오기
-  int getShippingFee(
-    String orderType,
-    CartController cartController,
-  ) {
+  int getShippingFee(String orderType, int selectedCartsSumPrice) {
     if (shippingFee.value == null) return 0;
     if (shippingFee.value!.conditionType == 'P') {
-      if (cartController.selectedCartsSumPrice.value >=
-          shippingFee.value!.condition) {
+      if (selectedCartsSumPrice >= shippingFee.value!.condition) {
         return shippingFee.value!.conditionFee;
       } else {
         if (orderType == 'N' &&

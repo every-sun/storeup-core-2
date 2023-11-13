@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:user_core2/widget/text/notosans_text.dart';
+import 'package:user_core2/widget/basic_skeleton.dart';
 
 class BasicNetworkImage extends StatelessWidget {
   const BasicNetworkImage(
@@ -26,16 +26,8 @@ class BasicNetworkImage extends StatelessWidget {
             color: color,
             fadeOutDuration: const Duration(milliseconds: 200),
             fadeInDuration: const Duration(milliseconds: 100),
-            placeholder: (context, url) => Container(
-              color: const Color.fromRGBO(204, 204, 204, 0.3),
-              child: const Center(
-                child: NotoText(
-                  content: '로딩중',
-                  size: 10,
-                  color: 0xffcccccc,
-                ),
-              ),
-            ),
+            placeholder: (context, url) =>
+                BasicSkeleton(width: width, height: height ?? width, radius: 0),
             errorWidget: (context, url, error) => Container(
               color: const Color.fromRGBO(204, 204, 204, 0.3),
               child: const Center(

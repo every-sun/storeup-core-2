@@ -42,6 +42,7 @@ class Store {
   String texType;
   dynamic openingHours;
   dynamic regularHoliday;
+  bool isPublicHoliday;
   String? mediaUrl;
   dynamic addressData;
   dynamic bankAccountData;
@@ -65,6 +66,7 @@ class Store {
       required this.texType,
       required this.openingHours,
       required this.regularHoliday,
+      required this.isPublicHoliday,
       required this.mediaUrl,
       required this.addressData,
       required this.bankAccountData,
@@ -87,6 +89,7 @@ class Store {
       texType: json['tex_type'] ?? '',
       openingHours: json['opening_hours'],
       regularHoliday: json['regular_holiday'],
+      isPublicHoliday: json['is_public_holiday'],
       mediaUrl: (json['data'] != null && json['data']['store_image'] != null)
           ? json['data']['store_image'].values.toList()[0]
           : null,

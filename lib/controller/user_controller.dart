@@ -50,8 +50,10 @@ class UserController extends GetxController {
     customerId,
   ) async {
     try {
+      isLoading.value = true;
       FlutterSecureStorage storage = const FlutterSecureStorage();
       CustomerResponse response = await UserServices.getCustomer(customerId);
+      isLoading.value = false;
       if (response.status && response.data != null) {
         customer.value = response.data;
         storage.write(key: key, value: jsonEncode(response.data!.toJson()));
@@ -59,6 +61,7 @@ class UserController extends GetxController {
         deleteCustomer(key);
       }
     } catch (err) {
+      isLoading.value = false;
       showBasicAlertDialog('사용자 정보 업데이트 실패');
       return;
     }

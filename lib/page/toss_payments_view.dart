@@ -30,6 +30,7 @@ class TossPaymentsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     LoadingController loadingController = Get.put(LoadingController());
+
     var url =
         '${ServiceAPI().baseUrl}/payments/toss?method=$paymentMethod&orderId=$orderNo&amount=$amount&orderName=$orderName';
     if (controller.coupon.value != null) {
@@ -41,6 +42,7 @@ class TossPaymentsView extends StatelessWidget {
     if (paymentMethod == 'ePay' && controller.ePayCard.value != '') {
       url += '&flowMode=$flowMode&easyPay=${controller.ePayCard.value}';
     }
+    var isCanceled = false;
     return Scaffold(
         body: SafeArea(
             child: Stack(
@@ -57,17 +59,22 @@ class TossPaymentsView extends StatelessWidget {
             loadingController.isLoading.value = false;
           },
           onPageFinished: (url) {
-            if (url.contains('/success')) {
-              if (orderType == 'S' || orderType == 'N') {
-                successMethod();
-              }
+            if (url.contains('/success') && !isCanceled) {
+              successMethod();
+              isCanceled = true;
+              return;
             }
-            if (url.contains('/fail')) {
+            if (url.contains('/fail') && !isCanceled) {
               if (url.contains('/fail?code=PAY_PROCESS_CANCELED')) {
                 Get.close(1);
+                showBasicAlertDialog('결제를 취소하였습니다.');
+                isCanceled = true;
+                return;
               } else {
                 Get.close(1);
                 showBasicAlertDialog('결제를 실패하였습니다.');
+                isCanceled = true;
+                return;
               }
             }
           },
