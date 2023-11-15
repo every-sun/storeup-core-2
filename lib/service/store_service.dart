@@ -8,7 +8,6 @@ class StoreServices2 {
     var response = await http.get(
         Uri.parse('${ServiceAPI().baseUrl}/brands/$brandId/stores?page=$page'),
         headers: ServiceAPI().headerInfo);
-    print('${ServiceAPI().baseUrl}/brands/$brandId/stores?page=$page');
     return StoreResponse.fromJson(jsonDecode(response.body));
   }
 

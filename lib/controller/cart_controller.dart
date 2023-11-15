@@ -113,7 +113,7 @@ class CartController extends GetxController {
       BasicResponse response = await CartServices2.storeCart(
           Get.find<UserController>().customer.value!.id, body);
       isLoading.value = false;
-      if (body.cartType == 'O' && !response.status) {
+      if ((body.cartType == 'O' || body.cartType == 'N') && !response.status) {
         showBasicAlertDialog(response.message);
       }
       await getCartTotal(body.cartType);
@@ -146,7 +146,7 @@ class CartController extends GetxController {
   }
 
   void check(isAdd, Cart cart, showToast) {
-    if (onlineCartOutOfStockType(cart) != '') {
+    if (cartOutOfStockType(cart) != '') {
       showToast();
       return;
     }
@@ -162,7 +162,7 @@ class CartController extends GetxController {
     if (selectedCarts.isEmpty) {
       List<Cart> values = [];
       for (var i = 0; i < carts.length; i++) {
-        if (onlineCartOutOfStockType(carts[i]) == '') {
+        if (cartOutOfStockType(carts[i]) == '') {
           values.add(carts[i]);
         }
       }
@@ -192,7 +192,7 @@ class CartController extends GetxController {
   Future<void> deleteUnableCarts(List<Cart> carts, refreshMethod) async {
     List<dynamic> targets = [];
     for (var i = 0; i < carts.length; i++) {
-      if (onlineCartOutOfStockType(carts[i]) != '') {
+      if (cartOutOfStockType(carts[i]) != '') {
         targets.add(carts[i].id);
       }
     }

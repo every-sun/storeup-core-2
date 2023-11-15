@@ -3,7 +3,7 @@ import 'package:user_core2/model/delivery_product.dart';
 import 'package:user_core2/model/product.dart';
 
 /* 상품 리스트 */
-String onlineOutOfStockType(Product product) {
+String productOutOfStockType(Product product) {
   if (product.online == null) return '구매불가';
   if (!(product.isOnline || product.isNow)) return '구매불가';
   if (!product.online!.isPurchasable) return '구매불가';
@@ -23,8 +23,8 @@ String onlineOutOfStockType(Product product) {
 }
 
 /* 장바구니 */
-String onlineCartOutOfStockType(Cart cart) {
-  String result = onlineOutOfStockType(cart.product);
+String cartOutOfStockType(Cart cart) {
+  String result = productOutOfStockType(cart.product);
   if (result == '') {
     if (cart.product.online!.isManageStock &&
         cart.product.online!.stockQuantity < cart.quantity) {
