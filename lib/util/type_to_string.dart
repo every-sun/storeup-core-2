@@ -8,7 +8,7 @@ getInquiryType(str) {
       return 'E';
     case '주문/결제':
       return 'O';
-    case '반품/교환문의':
+    case '취소/반품/교환문의':
       return 'C';
     case '이벤트/쿠폰/적립금문의':
       return 'A';
@@ -27,7 +27,7 @@ getInquiryValue(type) {
     case 'O':
       return '주문/결제';
     case 'C':
-      return '반품/교환문의';
+      return '취소/반품/교환문의';
     case 'A':
       return '이벤트/쿠폰/적립금문의';
   }

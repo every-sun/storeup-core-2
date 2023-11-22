@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:user_core2/controller/app_controller.dart';
 
 void showBasicAlertDialog(title) {
-  Get.find<AppController>().appInfo.value!.showAlertDialog(title, null);
+  Get.find<AppController>().appInfo.value!.showAlertDialog(title);
 }
 
 void showConfirmDialog(title, method) {

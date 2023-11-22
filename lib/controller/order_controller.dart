@@ -16,7 +16,7 @@ class OrderController extends GetxController {
   var isLoading = false.obs;
   var paymentMethod = "card".obs;
   var ePayCard = "TOSSPAY".obs;
-  var orderType = "S".obs;
+  // var orderType = "S".obs;
   var shippingMessage = ''.obs;
   var coupon = Rxn<Coupon>();
   var point = 0.obs;
@@ -107,6 +107,7 @@ class OrderController extends GetxController {
       detailAddress,
       String? deliveryContact,
       dynamic tenantId,
+      String orderType,
       Function successMethod) async {
     Customer customer = Get.find<UserController>().customer.value!;
     OrderRequestResponse? response = await requestOrder(
@@ -114,7 +115,7 @@ class OrderController extends GetxController {
           data: OrderRequestBodyData(
             brandId: Get.find<AppController>().appInfo.value!.brandId,
             orderNo: orderNo,
-            orderType: orderType.value,
+            orderType: orderType == 'O' ? 'S' : orderType,
             orderMethod: 'app',
             orderShippingFee: orderShippingFee,
             orderPriceAmount: cartController.selectedCartsSumPrice.value,

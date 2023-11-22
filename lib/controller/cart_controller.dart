@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:user_core2/controller/app_controller.dart';
 import 'package:user_core2/controller/user_controller.dart';
 import 'package:user_core2/model/cart.dart';
 import 'package:user_core2/model/language.dart';
@@ -13,12 +14,33 @@ class CartController extends GetxController {
   var selectedCartsSumPrice = 0.obs;
   var total = 0.obs;
   var deliveryTotal = 0.obs;
+  var nowTypeTotal = 0.obs;
+  var onlineTypeTotal = 0.obs;
 
   @override
   onInit() {
     getCartTotal('O');
-    getCartTotal('D');
+    if (Get.find<AppController>().appInfo.value!.brandId == 2) {
+      getCartTotal('D');
+    }
     super.onInit();
+  }
+
+  Future<void> getCartTotalByProductType(type) async {
+    try {
+      CartResponse response = await CartServices2.getCarts(
+          Get.find<UserController>().customer.value!.id, type, 1, 0);
+      if (response.status && response.data != null) {
+        if (type == 'N') {
+          nowTypeTotal.value = response.data!.total;
+        } else {
+          onlineTypeTotal.value = response.data!.total;
+        }
+      }
+      return;
+    } catch (err) {
+      return;
+    }
   }
 
   Future<void> getCartTotal(type) async {
@@ -113,10 +135,16 @@ class CartController extends GetxController {
       BasicResponse response = await CartServices2.storeCart(
           Get.find<UserController>().customer.value!.id, body);
       isLoading.value = false;
-      if ((body.cartType == 'O' || body.cartType == 'N') && !response.status) {
-        showBasicAlertDialog(response.message);
+      if ((body.cartType == 'O' || body.cartType == 'N')) {
+        if (response.status) {
+          await getCartTotal('O');
+        } else {
+          showBasicAlertDialog(response.message);
+        }
       }
-      await getCartTotal(body.cartType);
+      if (body.cartType == 'D' && response.status) {
+        await getCartTotal('D');
+      }
       return response;
     } catch (err) {
       showBasicAlertDialog('장바구니에 담는데 실패하였습니다.');
@@ -125,7 +153,7 @@ class CartController extends GetxController {
     }
   }
 
-  Future<bool> deleteCarts(List<dynamic> cartIdList) async {
+  Future<bool> deleteCarts(List<dynamic> cartIdList, successMethod) async {
     if (Get.find<UserController>().customer.value == null) return false;
     try {
       isLoading.value = true;
@@ -134,9 +162,11 @@ class CartController extends GetxController {
       isLoading.value = false;
       if (!response.status) {
         showBasicAlertDialog(response.message);
+      } else {
+        await getCartTotal('O');
+        await getCartTotal('D');
+        successMethod();
       }
-      await getCartTotal('O');
-      await getCartTotal('D');
       return response.status;
     } catch (err) {
       showBasicAlertDialog('장바구니를 삭제하는데 실패하였습니다.');
@@ -145,9 +175,8 @@ class CartController extends GetxController {
     }
   }
 
-  void check(isAdd, Cart cart, showToast) {
+  void check(isAdd, Cart cart) {
     if (cartOutOfStockType(cart) != '') {
-      showToast();
       return;
     }
     if (isAdd) {
@@ -158,7 +187,7 @@ class CartController extends GetxController {
     updatePrice();
   }
 
-  void checkAll(carts, showToast) {
+  void checkAll(carts) {
     if (selectedCarts.isEmpty) {
       List<Cart> values = [];
       for (var i = 0; i < carts.length; i++) {
@@ -166,27 +195,11 @@ class CartController extends GetxController {
           values.add(carts[i]);
         }
       }
-      if (values.length < carts.length) {
-        showToast();
-      }
       selectedCarts.assignAll(values);
     } else {
       selectedCarts.clear();
     }
     updatePrice();
-  }
-
-  Future<void> deleteSelectedCarts(refreshMethod) async {
-    List<dynamic> targets = [];
-    for (var i = 0; i < selectedCarts.length; i++) {
-      targets.add(selectedCarts[i].id);
-    }
-    isLoading.value = true;
-    bool isSuccess = await deleteCarts(targets);
-    isLoading.value = false;
-    if (isSuccess) {
-      refreshMethod();
-    }
   }
 
   Future<void> deleteUnableCarts(List<Cart> carts, refreshMethod) async {
@@ -196,13 +209,13 @@ class CartController extends GetxController {
         targets.add(carts[i].id);
       }
     }
-    if (targets.isEmpty) return;
-    isLoading.value = true;
-    bool isSuccess = await deleteCarts(targets);
-    isLoading.value = false;
-    if (isSuccess) {
-      refreshMethod();
+    if (targets.isEmpty) {
+      showBasicAlertDialog('품절 또는 구매 불가능한 상품이 없습니다.');
+      return;
     }
+    isLoading.value = true;
+    await deleteCarts(targets, refreshMethod);
+    isLoading.value = false;
   }
 
   Future<void> updateQuantity(
@@ -217,7 +230,29 @@ class CartController extends GetxController {
         showBasicAlertDialog(response.message);
       }
     } catch (err) {
-      showBasicAlertDialog('수량 조절에 실패하였습니다.');
+      showBasicAlertDialog('수량 조절을 실패하였습니다.');
+      return;
+    }
+  }
+
+  Future<void> changeCartType(
+      List<dynamic> idList, Function successMethod, type) async {
+    try {
+      isLoading.value = true;
+      BasicResponse response = await CartServices2.changeCartType(
+          Get.find<UserController>().customer.value!.id,
+          {'from': type, 'items': idList});
+      isLoading.value = false;
+      if (response.status) {
+        successMethod();
+      } else {
+        showBasicAlertDialog(response.message);
+      }
+      await getCartTotalByProductType('O');
+      await getCartTotalByProductType('N');
+    } catch (err) {
+      isLoading.value = false;
+      showBasicAlertDialog('배송 방법 변경을 실패하였습니다.');
       return;
     }
   }
