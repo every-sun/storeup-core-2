@@ -37,8 +37,6 @@ class BrandServices {
       Uri.parse('${ServiceAPI().baseUrl}/brands/$brandId/mall/$type'),
       headers: ServiceAPI().headerInfo,
     );
-    print('${ServiceAPI().baseUrl}/brands/$brandId/mall/$type');
-    print(jsonDecode(response.body));
     return jsonDecode(response.body)['data'] != null
         ? List<Popup>.from(
             jsonDecode(response.body)['data'].map(((x) => Popup.fromJson(x))))

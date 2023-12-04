@@ -50,14 +50,20 @@ class CartResponse {
   bool status;
   String message;
   CartResponseData? data;
+  bool isDataHasMore;
   CartResponse(
-      {required this.status, required this.message, required this.data});
+      {required this.status,
+      required this.message,
+      required this.data,
+      required this.isDataHasMore});
   factory CartResponse.fromJson(Map<String, dynamic> json) => CartResponse(
       status: json['status'],
       message: json['message'] ?? '',
-      data: json['data'] != null
-          ? CartResponseData.fromJson(json['data'])
-          : null);
+      data:
+          json['data'] != null ? CartResponseData.fromJson(json['data']) : null,
+      isDataHasMore: json['data'] != null
+          ? (json['data']['next_page_url'] != null)
+          : false);
 }
 
 class CartResponseData {

@@ -60,20 +60,41 @@ class ReviewController extends GetxController {
     }
   }
 
-  Future<bool> editReview(id, contents) async {
+  Future<bool> updateReview(id, contents) async {
     try {
       if (isLoading.value) return false;
       isLoading.value = true;
-      BasicResponse response = await ReviewServices2.editReview(
-          userController.customer.value!.id, id, contents);
+      var request = http.MultipartRequest(
+          "POST",
+          Uri.parse(
+              '${ServiceAPI().baseUrl}/customers/${userController.customer.value!.id}/reviews/edit/$id'));
+      request.headers.addAll(ServiceAPI().headerInfo);
+      request.fields.addAll({
+        '_method': 'PUT',
+        'contents': contents,
+      });
+      for (var i = 0; i < imageController.deleteImagesId.length; i++) {
+        request.fields.addAll(
+            {'delete_images_id[$i]': imageController.deleteImagesId[i]});
+      }
+      for (var i = 0; i < imageController.images.length; i++) {
+        var filePath = imageController.images[i].path;
+        var file = await http.MultipartFile.fromPath('images[$i]', filePath);
+        request.files.add(file);
+      }
+      var result = await request.send();
+      final resultResponse = await http.Response.fromStream(result);
+
       isLoading.value = false;
+      BasicResponse response =
+          BasicResponse.fromJson(jsonDecode(resultResponse.body));
       if (!response.status) {
         showBasicAlertDialog(response.message);
       }
       return response.status;
     } catch (err) {
       isLoading.value = false;
-      showBasicAlertDialog('리뷰 수정에 실패하였습니다.');
+      showBasicAlertDialog('리뷰 수정을 실패하였습니다.');
       return false;
     }
   }

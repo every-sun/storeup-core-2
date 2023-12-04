@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:user_core2/global_variable.dart';
 import 'package:user_core2/model/product.dart';
 import 'package:user_core2/service/service.dart';
 
@@ -8,7 +9,7 @@ class ProductServices2 {
       groupId, orderBy, direction, page) async {
     var response = await http.get(
       Uri.parse(
-          '${ServiceAPI().baseUrl}/products/group/$groupId?order_by=$orderBy&direction=$direction&count=20&page=$page'),
+          '${ServiceAPI().baseUrl}/products/group/$groupId?order_by=$orderBy&direction=$direction&count=${GlobalVariable.count}&page=$page'),
       headers: ServiceAPI().headerInfo,
     );
     return ProductResponse.fromJson(jsonDecode(response.body));
@@ -19,7 +20,7 @@ class ProductServices2 {
       collectionId, orderBy, direction, page) async {
     var response = await http.get(
       Uri.parse(
-          '${ServiceAPI().baseUrl}/products/collection/$collectionId?order_by=$orderBy&direction=$direction&count=20&page=$page'),
+          '${ServiceAPI().baseUrl}/products/collection/$collectionId?order_by=$orderBy&direction=$direction&count=${GlobalVariable.count}&page=$page'),
       headers: ServiceAPI().headerInfo,
     );
     return ProductResponse.fromJson(jsonDecode(response.body));
@@ -30,7 +31,7 @@ class ProductServices2 {
       keyWord, brandId, orderBy, direction, page) async {
     var response = await http.get(
       Uri.parse(
-          '${ServiceAPI().baseUrl}/products/search?key_word=$keyWord&brand_id=$brandId&direction=$direction&order_by=$orderBy&count=20&page=$page'),
+          '${ServiceAPI().baseUrl}/products/search?key_word=$keyWord&brand_id=$brandId&direction=$direction&order_by=$orderBy&count=${GlobalVariable.count}&page=$page'),
       headers: ServiceAPI().headerInfo,
     );
     return ProductResponse.fromJson(jsonDecode(response.body));

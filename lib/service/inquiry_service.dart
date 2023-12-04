@@ -14,17 +14,6 @@ class InquiryServices {
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
 
-  static Future<BasicResponse> editInquiry(
-      customerId, dynamic id, title, contents, isPrivate) async {
-    var response = await http.put(
-        Uri.parse(
-            '${ServiceAPI().baseUrl}/customers/$customerId/inquiries/edit/$id'),
-        headers: ServiceAPI().headerInfo,
-        body: jsonEncode(
-            {'contents': contents, 'title': title, 'is_private': isPrivate}));
-    return BasicResponse.fromJson(jsonDecode(response.body));
-  }
-
   static Future<InquiryResponse> getInquiriesByProduct(
       productId, int page) async {
     var response = await http.get(

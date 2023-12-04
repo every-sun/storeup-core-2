@@ -8,15 +8,22 @@ class ProductResponse {
   bool status;
   String message;
   ProductResponseData? data;
+  bool isDataHasMore;
   ProductResponse(
-      {required this.status, required this.message, required this.data});
+      {required this.status,
+      required this.message,
+      required this.data,
+      required this.isDataHasMore});
   factory ProductResponse.fromJson(Map<String, dynamic> json) =>
       ProductResponse(
           status: json['status'],
           message: json['message'] ?? '',
           data: json['data'] != null
               ? ProductResponseData.fromJson(json['data'])
-              : null);
+              : null,
+          isDataHasMore: json['data'] != null
+              ? (json['data']['next_page_url'] != null)
+              : false);
 }
 
 class ProductResponseData {

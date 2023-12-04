@@ -5,7 +5,14 @@ import 'package:user_core2/util/dialog.dart';
 class ImageController extends GetxController {
   var images = <XFile>[].obs;
   final ImagePicker _picker = ImagePicker();
-  var existingImages = <dynamic>[].obs; // 리뷰 수정시 기존의 사진들
+  var existingImages = <dynamic>[].obs;
+  var deleteImagesId = <dynamic>[].obs;
+
+  @override
+  void onClose() {
+    initState();
+    super.onClose();
+  }
 
   Future<void> pickImage(int maximum) async {
     try {
@@ -22,5 +29,11 @@ class ImageController extends GetxController {
     } catch (err) {
       return;
     }
+  }
+
+  void initState() {
+    existingImages.clear();
+    deleteImagesId.clear();
+    images.clear();
   }
 }

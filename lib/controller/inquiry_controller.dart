@@ -62,27 +62,46 @@ class InquiryController extends GetxController {
     }
   }
 
-  Future<void> editInquiry(
+  Future<void> updateInquiry(
       dynamic id, title, contents, isPrivate, successMethod) async {
     try {
       if (isLoading.value) return;
       isLoading.value = true;
-      BasicResponse response = await InquiryServices.editInquiry(
-          Get.find<UserController>().customer.value!.id,
-          id,
-          title,
-          contents,
-          isPrivate);
+      var request = http.MultipartRequest(
+          "POST",
+          Uri.parse(
+              '${ServiceAPI().baseUrl}/customers/${Get.find<UserController>().customer.value!.id}/inquiries/edit/$id'));
+      request.headers.addAll(ServiceAPI().headerInfo);
+      request.fields.addAll({
+        '_method': 'PUT',
+        'title': title,
+        'contents': contents,
+        'is_private': isPrivate.toString(),
+      });
+      for (var i = 0; i < imageController.deleteImagesId.length; i++) {
+        request.fields.addAll(
+            {'delete_images_id[$i]': imageController.deleteImagesId[i]});
+      }
+      for (var i = 0; i < imageController.images.length; i++) {
+        var filePath = imageController.images[i].path;
+        var file = await http.MultipartFile.fromPath('images[$i]', filePath);
+        request.files.add(file);
+      }
+      var result = await request.send();
+      final resultResponse = await http.Response.fromStream(result);
+
       isLoading.value = false;
-      if (response.status) {
-        successMethod();
-      } else {
+      BasicResponse response =
+          BasicResponse.fromJson(jsonDecode(resultResponse.body));
+      if (!response.status) {
         showBasicAlertDialog(response.message);
+      } else {
+        successMethod();
       }
       return;
     } catch (err) {
       isLoading.value = false;
-      showBasicAlertDialog('문의 수정에 실패하였습니다.');
+      showBasicAlertDialog('문의 수정을 실패하였습니다.');
       return;
     }
   }

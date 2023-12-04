@@ -27,7 +27,6 @@ class ReviewServices2 {
     return ModelReviewResponse.fromJson(jsonDecode(response.body));
   }
 
-  //. 상점 리뷰
   static Future<ModelReviewResponse> getReviewsByStore(
       brandId, tenantId, int page) async {
     var response = await http.get(
@@ -44,16 +43,6 @@ class ReviewServices2 {
           '${ServiceAPI().baseUrl}/customers/$customerId/reviews/delete/$id'),
       headers: ServiceAPI().headerInfo,
     );
-    return BasicResponse.fromJson(jsonDecode(response.body));
-  }
-
-  static Future<BasicResponse> editReview(
-      customerId, dynamic id, contents) async {
-    var response = await http.put(
-        Uri.parse(
-            '${ServiceAPI().baseUrl}/customers/$customerId/reviews/edit/$id'),
-        headers: ServiceAPI().headerInfo,
-        body: jsonEncode({'contents': contents}));
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
 

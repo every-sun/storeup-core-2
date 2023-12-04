@@ -4,14 +4,20 @@ class WishResponse {
   bool status;
   String message;
   WishResponseData? data;
+  bool isDataHasMore;
   WishResponse(
-      {required this.status, required this.message, required this.data});
+      {required this.status,
+      required this.message,
+      required this.data,
+      required this.isDataHasMore});
   factory WishResponse.fromJson(Map<String, dynamic> json) => WishResponse(
       status: json['status'],
       message: json['message'] ?? '',
-      data: json['data'] != null
-          ? WishResponseData.fromJson(json['data'])
-          : null);
+      data:
+          json['data'] != null ? WishResponseData.fromJson(json['data']) : null,
+      isDataHasMore: json['data'] != null
+          ? (json['data']['next_page_url'] != null)
+          : false);
 }
 
 class WishResponseData {

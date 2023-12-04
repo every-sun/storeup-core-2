@@ -2,14 +2,21 @@ class StoreResponse {
   bool status;
   String message;
   StoreResponseData? data;
+  bool isDataHasMore;
   StoreResponse(
-      {required this.status, required this.message, required this.data});
+      {required this.status,
+      required this.message,
+      required this.data,
+      required this.isDataHasMore});
   factory StoreResponse.fromJson(Map<String, dynamic> json) => StoreResponse(
       status: json['status'],
       message: json['message'] ?? '',
       data: json['data'] != null
           ? StoreResponseData.fromJson(json['data'])
-          : null);
+          : null,
+      isDataHasMore: json['data'] != null
+          ? (json['data']['next_page_url'] != null)
+          : false);
 }
 
 class StoreResponseData {
