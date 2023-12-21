@@ -145,8 +145,7 @@ class Customer {
       id: json['id'],
       globalId: json['global_id'],
       deviceToken: json['device_token'],
-      refundAccount: json['refund_account'] // TODO 환불계좌정보
-      );
+      refundAccount: json['refund_account']);
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
     data['email'] = email;

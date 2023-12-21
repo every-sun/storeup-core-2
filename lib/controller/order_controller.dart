@@ -156,7 +156,11 @@ class OrderController extends GetxController {
           orderNo: response.data!['order_no'],
           orderName: response.data!['data']['order_name'],
           paymentMethod: orderController.paymentMethod.value,
-          successMethod: successMethod,
+          successMethod: () {
+            successMethod(orderController.paymentMethod.value == 'iCash'
+                ? response.data!['id']
+                : null);
+          },
           flowMode: 'DIRECT'));
     }
   }
