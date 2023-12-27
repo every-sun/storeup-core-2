@@ -65,6 +65,7 @@ class ClaimController extends GetxController {
       if (response.status && response.data != null) {
         showConfirmDialog(response.message, successMethod);
       } else {
+        Get.close(1);
         showBasicAlertDialog(response.message);
       }
     } catch (err) {
@@ -84,9 +85,7 @@ class ClaimController extends GetxController {
         successMethod();
         return;
       } else {
-        if (response.message.contains('이미 진행중인')) {
-          Get.close(1);
-        }
+        Get.close(1);
         showBasicAlertDialog(response.message);
       }
     } catch (err) {
@@ -158,9 +157,7 @@ class ClaimController extends GetxController {
       BasicResponse response =
           BasicResponse.fromJson(jsonDecode(resultResponse.body));
       if (!response.status) {
-        if (response.message.contains('이미 진행중인')) {
-          Get.close(1);
-        }
+        Get.close(1);
         showBasicAlertDialog(response.message);
       } else {
         successMethod();

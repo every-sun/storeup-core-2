@@ -42,8 +42,11 @@ class PostResponse {
   bool status;
   String message;
   PostResponseData? data;
-  PostResponse(
-      {required this.status, required this.message, required this.data});
+  PostResponse({
+    required this.status,
+    required this.message,
+    required this.data,
+  });
   factory PostResponse.fromJson(Map<String, dynamic> json) => PostResponse(
       status: json['status'],
       message: json['message'] ?? '',

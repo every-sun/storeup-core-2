@@ -95,11 +95,18 @@ class PointResponse {
   bool status;
   String message;
   PointResponseData? data;
+  bool isDataHasMore;
   PointResponse(
-      {required this.status, required this.message, required this.data});
+      {required this.status,
+      required this.message,
+      required this.data,
+      required this.isDataHasMore});
   factory PointResponse.fromJson(Map<String, dynamic> json) => PointResponse(
       status: json['status'],
       message: json['message'],
+      isDataHasMore: json['data'] != null
+          ? (json['data']['next_page_url'] != null)
+          : false,
       data: json['data'] != null
           ? PointResponseData.fromJson(json['data'])
           : null);

@@ -8,6 +8,7 @@ class PriceText extends StatelessWidget {
       required this.weight,
       required this.size,
       this.height,
+      this.spacing,
       this.lineThrough = false,
       this.color = 0xff000000})
       : super(key: key);
@@ -15,6 +16,7 @@ class PriceText extends StatelessWidget {
   final FontWeight weight;
   final double size;
   final int color;
+  final double? spacing;
   final double? height;
   final bool lineThrough;
 
@@ -37,6 +39,7 @@ class PriceText extends StatelessWidget {
           height: height,
           fontWeight: weight,
           fontSize: size,
+          letterSpacing: spacing,
           decoration: lineThrough ? TextDecoration.lineThrough : null,
           color: Color(color),
           overflow: TextOverflow.ellipsis),
