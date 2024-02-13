@@ -100,8 +100,8 @@ class ClaimController extends GetxController {
       isLoading.value = true;
 
       var request = http.MultipartRequest(
-          "POST", Uri.parse('${ServiceAPI().baseUrl}/claims'));
-      request.headers.addAll(ServiceAPI().headerInfo);
+          "POST", Uri.parse('${ServiceAPI.baseUrl}/claims'));
+      request.headers.addAll(ServiceAPI.headerInfo);
       request.fields.addAll({
         'order_id': claimRequestBody.value.orderId,
         'item_id': claimRequestBody.value.itemId,

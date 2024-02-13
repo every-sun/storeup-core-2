@@ -11,8 +11,8 @@ class ReviewServices2 {
       int page) async {
     var response = await http.get(
       Uri.parse(
-          '${ServiceAPI().baseUrl}/customers/$customerId/items/reviews?&page=$page'),
-      headers: ServiceAPI().headerInfo,
+          '${ServiceAPI.baseUrl}/customers/$customerId/items/reviews?&page=$page'),
+      headers: ServiceAPI.headerInfo,
     );
     return ReviewResponse.fromJson(jsonDecode(response.body));
   }
@@ -20,9 +20,8 @@ class ReviewServices2 {
   static Future<ModelReviewResponse> getReviewsByProduct(
       productId, int page) async {
     var response = await http.get(
-      Uri.parse(
-          '${ServiceAPI().baseUrl}/products/$productId/reviews?page=$page'),
-      headers: ServiceAPI().headerInfo,
+      Uri.parse('${ServiceAPI.baseUrl}/products/$productId/reviews?page=$page'),
+      headers: ServiceAPI.headerInfo,
     );
     return ModelReviewResponse.fromJson(jsonDecode(response.body));
   }
@@ -31,8 +30,8 @@ class ReviewServices2 {
       brandId, tenantId, int page) async {
     var response = await http.get(
       Uri.parse(
-          '${ServiceAPI().baseUrl}/brands/$brandId/stores/$tenantId/reviews?page=$page'),
-      headers: ServiceAPI().headerInfo,
+          '${ServiceAPI.baseUrl}/brands/$brandId/stores/$tenantId/reviews?page=$page'),
+      headers: ServiceAPI.headerInfo,
     );
     return ModelReviewResponse.fromJson(jsonDecode(response.body));
   }
@@ -40,8 +39,8 @@ class ReviewServices2 {
   static Future<BasicResponse> deleteReview(customerId, dynamic id) async {
     var response = await http.delete(
       Uri.parse(
-          '${ServiceAPI().baseUrl}/customers/$customerId/reviews/delete/$id'),
-      headers: ServiceAPI().headerInfo,
+          '${ServiceAPI.baseUrl}/customers/$customerId/reviews/delete/$id'),
+      headers: ServiceAPI.headerInfo,
     );
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
@@ -50,8 +49,8 @@ class ReviewServices2 {
       customerId, String type, int page) async {
     var response = await http.get(
         Uri.parse(
-            '${ServiceAPI().baseUrl}/customers/$customerId/reviews?type=$type&page=$page'),
-        headers: ServiceAPI().headerInfo);
+            '${ServiceAPI.baseUrl}/customers/$customerId/reviews?type=$type&page=$page'),
+        headers: ServiceAPI.headerInfo);
     return ModelReviewResponse.fromJson(jsonDecode(response.body));
   }
 }

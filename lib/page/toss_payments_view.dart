@@ -32,7 +32,7 @@ class TossPaymentsView extends StatelessWidget {
     LoadingController loadingController = Get.put(LoadingController());
 
     var url =
-        '${ServiceAPI().baseUrl}/payments/toss?method=$paymentMethod&orderId=$orderNo&amount=$amount&orderName=$orderName';
+        '${ServiceAPI.baseUrl}/payments/toss?method=$paymentMethod&orderId=$orderNo&amount=$amount&orderName=$orderName';
     if (controller.coupon.value != null) {
       url += '&couponId=${controller.coupon.value!.id}';
     }

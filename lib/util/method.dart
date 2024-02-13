@@ -1,7 +1,7 @@
 import 'dart:math';
 
 class ArrayMethod {
-  List<dynamic> shuffle(List<dynamic> array) {
+  static List<dynamic> shuffle(List<dynamic> array) {
     var random = Random();
     for (var i = array.length - 1; i > 0; i--) {
       var n = random.nextInt(i + 1);

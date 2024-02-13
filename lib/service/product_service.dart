@@ -9,8 +9,8 @@ class ProductServices2 {
       groupId, orderBy, direction, page) async {
     var response = await http.get(
       Uri.parse(
-          '${ServiceAPI().baseUrl}/products/group/$groupId?order_by=$orderBy&direction=$direction&count=${GlobalVariable.count}&page=$page'),
-      headers: ServiceAPI().headerInfo,
+          '${ServiceAPI.baseUrl}/products/group/$groupId?order_by=$orderBy&direction=$direction&count=${GlobalVariable.count}&page=$page'),
+      headers: ServiceAPI.headerInfo,
     );
     return ProductResponse.fromJson(jsonDecode(response.body));
   }
@@ -20,8 +20,8 @@ class ProductServices2 {
       collectionId, orderBy, direction, page) async {
     var response = await http.get(
       Uri.parse(
-          '${ServiceAPI().baseUrl}/products/collection/$collectionId?order_by=$orderBy&direction=$direction&count=${GlobalVariable.count}&page=$page'),
-      headers: ServiceAPI().headerInfo,
+          '${ServiceAPI.baseUrl}/products/collection/$collectionId?order_by=$orderBy&direction=$direction&count=${GlobalVariable.count}&page=$page'),
+      headers: ServiceAPI.headerInfo,
     );
     return ProductResponse.fromJson(jsonDecode(response.body));
   }
@@ -31,8 +31,8 @@ class ProductServices2 {
       keyWord, brandId, orderBy, direction, page) async {
     var response = await http.get(
       Uri.parse(
-          '${ServiceAPI().baseUrl}/products/search?key_word=$keyWord&brand_id=$brandId&direction=$direction&order_by=$orderBy&count=${GlobalVariable.count}&page=$page'),
-      headers: ServiceAPI().headerInfo,
+          '${ServiceAPI.baseUrl}/products/search?key_word=$keyWord&brand_id=$brandId&direction=$direction&order_by=$orderBy&count=${GlobalVariable.count}&page=$page'),
+      headers: ServiceAPI.headerInfo,
     );
     return ProductResponse.fromJson(jsonDecode(response.body));
   }
@@ -42,8 +42,8 @@ class ProductServices2 {
       brandId) async {
     var response = await http.get(
       Uri.parse(
-          '${ServiceAPI().baseUrl}/collections/main?brand_id=$brandId&page=1'),
-      headers: ServiceAPI().headerInfo,
+          '${ServiceAPI.baseUrl}/collections/main?brand_id=$brandId&page=1'),
+      headers: ServiceAPI.headerInfo,
     );
     return ProductCollectionResponse.fromJson(jsonDecode(response.body));
   }
@@ -51,8 +51,8 @@ class ProductServices2 {
   /* 상품 단일 조회 */
   static Future<Product> getProduct(productId, type) async {
     var response = await http.get(
-      Uri.parse('${ServiceAPI().baseUrl}/products/$productId?type=$type'),
-      headers: ServiceAPI().headerInfo,
+      Uri.parse('${ServiceAPI.baseUrl}/products/$productId?type=$type'),
+      headers: ServiceAPI.headerInfo,
     );
     return Product.fromJson(jsonDecode(response.body)['data']);
   }
@@ -62,8 +62,8 @@ class ProductServices2 {
       brandId, tenantId, type, orderBy, direction, page) async {
     var response = await http.get(
       Uri.parse(
-          '${ServiceAPI().baseUrl}/brands/$brandId/stores/$tenantId/products?type=$type&order_by=$orderBy&direction=$direction&page=$page'),
-      headers: ServiceAPI().headerInfo,
+          '${ServiceAPI.baseUrl}/brands/$brandId/stores/$tenantId/products?type=$type&order_by=$orderBy&direction=$direction&page=$page'),
+      headers: ServiceAPI.headerInfo,
     );
     return ProductResponse.fromJson(jsonDecode(response.body));
   }

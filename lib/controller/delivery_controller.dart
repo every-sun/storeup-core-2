@@ -49,13 +49,15 @@ class DeliveryController extends GetxController {
 
   Map getCategoryAndMenuGlobalKeys() {
     Map result = {'category': {}, 'menu': {}};
-    for (var i = 0; i < deliveryDetail['menus'].length; i++) {
-      result['menu'][deliveryDetail['menus'][i].name] =
-          GlobalKey<ScaffoldState>();
-      result['category'][deliveryDetail['menus'][i].name] = {
-        'key': GlobalKey<ScaffoldState>(),
-        'width': 0.0
-      };
+    if(deliveryDetail['menus']!=null && deliveryDetail['menus'].isNotEmpty){
+      for (var i = 0; i < deliveryDetail['menus'].length; i++) {
+        result['menu'][deliveryDetail['menus'][i].name] =
+            GlobalKey<ScaffoldState>();
+        result['category'][deliveryDetail['menus'][i].name] = {
+          'key': GlobalKey<ScaffoldState>(),
+          'width': 0.0
+        };
+      }
     }
     return result;
   }

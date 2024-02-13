@@ -6,8 +6,8 @@ import 'package:user_core2/service/service.dart';
 class BoardServices {
   static Future<BoardResponse> getBoards(dynamic brandId) async {
     var response = await http.get(
-      Uri.parse('${ServiceAPI().baseUrl}/brands/$brandId/boards'),
-      headers: ServiceAPI().headerInfo,
+      Uri.parse('${ServiceAPI.baseUrl}/brands/$brandId/boards'),
+      headers: ServiceAPI.headerInfo,
     );
     return BoardResponse.fromJson(jsonDecode(response.body));
   }
@@ -16,8 +16,8 @@ class BoardServices {
     // type=E, N
     var response = await http.get(
       Uri.parse(
-          '${ServiceAPI().baseUrl}/brands/$brandId/boards/default?type=$type'),
-      headers: ServiceAPI().headerInfo,
+          '${ServiceAPI.baseUrl}/brands/$brandId/boards/default?type=$type'),
+      headers: ServiceAPI.headerInfo,
     );
     return jsonDecode(response.body)['data'] != null
         ? Board.fromJson(jsonDecode(response.body)['data'])
@@ -31,8 +31,8 @@ class BoardServices {
   ) async {
     var response = await http.get(
       Uri.parse(
-          '${ServiceAPI().baseUrl}/brands/$brandId/boards/$boardId/posts?page=$page'),
-      headers: ServiceAPI().headerInfo,
+          '${ServiceAPI.baseUrl}/brands/$brandId/boards/$boardId/posts?page=$page'),
+      headers: ServiceAPI.headerInfo,
     );
     return PostResponse.fromJson(jsonDecode(response.body));
   }
@@ -44,8 +44,8 @@ class BoardServices {
   ) async {
     var response = await http.get(
       Uri.parse(
-          '${ServiceAPI().baseUrl}/brands/$brandId/boards/$boardId/posts/expired?page=$page'),
-      headers: ServiceAPI().headerInfo,
+          '${ServiceAPI.baseUrl}/brands/$brandId/boards/$boardId/posts/expired?page=$page'),
+      headers: ServiceAPI.headerInfo,
     );
     return List<Post>.from(
         jsonDecode(response.body)['data']['data'].map((x) => Post.fromJson(x)));
@@ -55,8 +55,8 @@ class BoardServices {
       dynamic brandId, dynamic boardId, dynamic postId) async {
     var response = await http.get(
       Uri.parse(
-          '${ServiceAPI().baseUrl}/brands/$brandId/boards/$boardId/posts/$postId'),
-      headers: ServiceAPI().headerInfo,
+          '${ServiceAPI.baseUrl}/brands/$brandId/boards/$boardId/posts/$postId'),
+      headers: ServiceAPI.headerInfo,
     );
     return PostDetail.fromJson(jsonDecode(response.body)['data']);
   }

@@ -54,13 +54,13 @@ class _NRRichTextState extends State<NRRichText> {
     }
     for (var i = 0; i < extractedText.length + 1; i++) {
       if (i < extractedText.length) {
-        if (CharacterMethod().getFont(extractedText[i]) == 'NotoSansKR') {
+        if (CharacterMethod.getFont(extractedText[i]) == 'NotoSansKR') {
           if (tempFont != 'NotoSansKR') {
             add();
             tempText = '';
             tempFont = 'NotoSansKR';
           }
-        } else if (CharacterMethod().getFont(extractedText[i]) == 'Roboto') {
+        } else if (CharacterMethod.getFont(extractedText[i]) == 'Roboto') {
           if (tempFont != 'Roboto') {
             add();
             tempText = '';

@@ -9,8 +9,8 @@ class UserServices {
   static Future<BasicResponse> updateCustomer(
       Map body, dynamic customerId) async {
     var response = await http.put(
-        Uri.parse('${ServiceAPI().baseUrl}/customers/$customerId'),
-        headers: ServiceAPI().headerInfo,
+        Uri.parse('${ServiceAPI.baseUrl}/customers/$customerId'),
+        headers: ServiceAPI.headerInfo,
         body: jsonEncode(body));
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
@@ -18,8 +18,8 @@ class UserServices {
   // 사용자 조회
   static Future<CustomerResponse> getCustomer(dynamic customerId) async {
     var response = await http.get(
-      Uri.parse('${ServiceAPI().baseUrl}/customers/$customerId'),
-      headers: ServiceAPI().headerInfo,
+      Uri.parse('${ServiceAPI.baseUrl}/customers/$customerId'),
+      headers: ServiceAPI.headerInfo,
     );
     return CustomerResponse.fromJson(jsonDecode(response.body));
   }
@@ -28,8 +28,8 @@ class UserServices {
   static Future<Map<dynamic, dynamic>> getAgreementInfo(
       dynamic customerId) async {
     var response = await http.get(
-      Uri.parse('${ServiceAPI().baseUrl}/customers/$customerId/agreement'),
-      headers: ServiceAPI().headerInfo,
+      Uri.parse('${ServiceAPI.baseUrl}/customers/$customerId/agreement'),
+      headers: ServiceAPI.headerInfo,
     );
     return jsonDecode(response.body)['data'];
   }
@@ -38,8 +38,8 @@ class UserServices {
   static Future<BasicResponse> updateAgreementInfo(
       Map body, dynamic customerId) async {
     var response = await http.put(
-        Uri.parse('${ServiceAPI().baseUrl}/customers/$customerId/agreement'),
-        headers: ServiceAPI().headerInfo,
+        Uri.parse('${ServiceAPI.baseUrl}/customers/$customerId/agreement'),
+        headers: ServiceAPI.headerInfo,
         body: jsonEncode(body));
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
@@ -47,16 +47,16 @@ class UserServices {
   static Future<BasicResponse> updateRefundAccount(
       Map body, dynamic customerId) async {
     var response = await http.put(
-        Uri.parse('${ServiceAPI().baseUrl}/customers/$customerId/account'),
-        headers: ServiceAPI().headerInfo,
+        Uri.parse('${ServiceAPI.baseUrl}/customers/$customerId/account'),
+        headers: ServiceAPI.headerInfo,
         body: jsonEncode(body));
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
 
   static Future<BasicResponse> resetRefundAccount(dynamic customerId) async {
     var response = await http.put(
-      Uri.parse('${ServiceAPI().baseUrl}/customers/$customerId/account/reset'),
-      headers: ServiceAPI().headerInfo,
+      Uri.parse('${ServiceAPI.baseUrl}/customers/$customerId/account/reset'),
+      headers: ServiceAPI.headerInfo,
     );
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
@@ -64,8 +64,8 @@ class UserServices {
   static Future<BasicResponse> updateDeviceToken(
       dynamic customerId, token) async {
     var response = await http.put(
-        Uri.parse('${ServiceAPI().baseUrl}/customers/$customerId/token'),
-        headers: ServiceAPI().headerInfo,
+        Uri.parse('${ServiceAPI.baseUrl}/customers/$customerId/token'),
+        headers: ServiceAPI.headerInfo,
         body: jsonEncode({'device_token': token}));
     return BasicResponse.fromJson(jsonDecode(response.body));
   }

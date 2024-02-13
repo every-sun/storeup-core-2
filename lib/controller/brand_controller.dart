@@ -53,23 +53,23 @@ class BrandController extends GetxController {
   // 배송비 가져오기
   int getShippingFee(String orderType, int selectedCartsSumPrice) {
     if (shippingFee.value == null) return 0;
-    if (orderType == 'S' || orderType == 'O') {
-      if (shippingFee.value!.conditionType == 'P') {
-        if (selectedCartsSumPrice >= shippingFee.value!.condition) {
-          return shippingFee.value!.conditionFee;
-        } else {
-          return shippingFee.value!.defaultFee;
-        }
-      } else if (shippingFee.value!.conditionType == 'F') {
-        return 0;
-      }
-    } else if (orderType == 'N') {
-      if (addressController.userDefaultAddress.value != null &&
-          addressController.userDefaultAddress.value!.isAvailableRegion) {
-        return addressController.userDefaultAddress.value!.regionChargingFee;
+
+    int defaultFee = shippingFee.value!.defaultFee;
+    if (orderType == 'N' &&
+        addressController.userDefaultAddress.value != null &&
+        addressController.userDefaultAddress.value!.isAvailableRegion) {
+      defaultFee =
+          addressController.userDefaultAddress.value!.regionChargingFee;
+    }
+
+    if (shippingFee.value!.conditionType == 'P') {
+      if (selectedCartsSumPrice >= shippingFee.value!.condition) {
+        return shippingFee.value!.conditionFee;
       } else {
-        return shippingFee.value!.defaultFee;
+        return defaultFee;
       }
+    } else if (shippingFee.value!.conditionType == 'F') {
+      return 0;
     }
     return 0;
   }

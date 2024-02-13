@@ -69,8 +69,8 @@ class DeliveryServices {
       customerId, newAddress, oldAddress, detailAddress) async {
     var response = await http.post(
         Uri.parse(
-            '${ServiceAPI().baseUrl}/customers/$customerId/delivery/address'),
-        headers: ServiceAPI().headerInfo,
+            '${ServiceAPI.baseUrl}/customers/$customerId/delivery/address'),
+        headers: ServiceAPI.headerInfo,
         body: jsonEncode({
           'new_address': newAddress,
           'old_address': oldAddress,
@@ -83,16 +83,16 @@ class DeliveryServices {
       customerId) async {
     var response = await http.get(
         Uri.parse(
-            '${ServiceAPI().baseUrl}/customers/$customerId/delivery/address'),
-        headers: ServiceAPI().headerInfo);
+            '${ServiceAPI.baseUrl}/customers/$customerId/delivery/address'),
+        headers: ServiceAPI.headerInfo);
     return DeliveryAddressResponse.fromJson(jsonDecode(response.body));
   }
 
   /* 배달 카테고리 조회 */
   static Future<DeliveryGroupResponse> getDeliveryGroups(brandId) async {
     var response = await http.get(
-      Uri.parse('${ServiceAPI().baseUrl}/brands/$brandId/deliveries/groups'),
-      headers: ServiceAPI().headerInfo,
+      Uri.parse('${ServiceAPI.baseUrl}/brands/$brandId/deliveries/groups'),
+      headers: ServiceAPI.headerInfo,
     );
     return DeliveryGroupResponse.fromJson(jsonDecode(response.body));
   }
@@ -102,8 +102,8 @@ class DeliveryServices {
       brandId, groupId, page) async {
     var response = await http.get(
       Uri.parse(
-          '${ServiceAPI().baseUrl}/brands/$brandId/deliveries/groups/$groupId?page=$page'),
-      headers: ServiceAPI().headerInfo,
+          '${ServiceAPI.baseUrl}/brands/$brandId/deliveries/groups/$groupId?page=$page'),
+      headers: ServiceAPI.headerInfo,
     );
     return StoreResponse.fromJson(jsonDecode(response.body));
   }
@@ -113,8 +113,8 @@ class DeliveryServices {
       brandId, keyword, page) async {
     var response = await http.get(
       Uri.parse(
-          '${ServiceAPI().baseUrl}/brands/$brandId/deliveries/search?keyword=$keyword&page=$page'),
-      headers: ServiceAPI().headerInfo,
+          '${ServiceAPI.baseUrl}/brands/$brandId/deliveries/search?keyword=$keyword&page=$page'),
+      headers: ServiceAPI.headerInfo,
     );
     return StoreResponse.fromJson(jsonDecode(response.body));
   }
@@ -122,9 +122,8 @@ class DeliveryServices {
   /* 메인페이지에서 배달 상점 랜덤으로 불러오기 */
   static Future<StoreResponse> getDeliveryStoresRandom(brandId, page) async {
     var response = await http.get(
-      Uri.parse(
-          '${ServiceAPI().baseUrl}/brands/$brandId/deliveries?page=$page'),
-      headers: ServiceAPI().headerInfo,
+      Uri.parse('${ServiceAPI.baseUrl}/brands/$brandId/deliveries?page=$page'),
+      headers: ServiceAPI.headerInfo,
     );
     return StoreResponse.fromJson(jsonDecode(response.body));
   }
@@ -134,8 +133,8 @@ class DeliveryServices {
       brandId, tenantId) async {
     var response = await http.get(
       Uri.parse(
-          '${ServiceAPI().baseUrl}/brands/$brandId/stores/$tenantId/deliveries/categories'),
-      headers: ServiceAPI().headerInfo,
+          '${ServiceAPI.baseUrl}/brands/$brandId/stores/$tenantId/deliveries/categories'),
+      headers: ServiceAPI.headerInfo,
     );
     return DeliveryProductsByCategoryResponse.fromJson(
         jsonDecode(response.body));
@@ -144,8 +143,8 @@ class DeliveryServices {
   /* 배달상품 단일조회 */
   static Future<DeliveryDetail> getDeliveryProduct(globalId) async {
     var response = await http.get(
-      Uri.parse('${ServiceAPI().baseUrl}/products/global/$globalId?type=D'),
-      headers: ServiceAPI().headerInfo,
+      Uri.parse('${ServiceAPI.baseUrl}/products/global/$globalId?type=D'),
+      headers: ServiceAPI.headerInfo,
     );
     return DeliveryDetail.fromJson(jsonDecode(response.body)['data']);
   }
@@ -154,13 +153,13 @@ class DeliveryServices {
       dynamic customerId, String type, int? page) async {
     // close, progress
     String url =
-        '${ServiceAPI().baseUrl}/orders/customer/$customerId/delivery/$type';
+        '${ServiceAPI.baseUrl}/orders/customer/$customerId/delivery/$type';
     if (type == 'close') {
       url += '?page=$page';
     }
     var response = await http.get(
       Uri.parse(url),
-      headers: ServiceAPI().headerInfo,
+      headers: ServiceAPI.headerInfo,
     );
     if (jsonDecode(response.body)['data'] == null) {
       return null;

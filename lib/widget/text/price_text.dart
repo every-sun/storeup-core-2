@@ -25,7 +25,7 @@ class PriceText extends StatelessWidget {
     return Text.rich(
       TextSpan(children: [
         TextSpan(
-            text: Converter().formatCurrency.format(price),
+            text: Converter.formatCurrency.format(price),
             style: const TextStyle(
               fontFamily: 'Roboto',
             )),

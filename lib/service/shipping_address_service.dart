@@ -9,8 +9,8 @@ class ShippingAddressServices2 {
       customerId, page) async {
     var response = await http.get(
       Uri.parse(
-          '${ServiceAPI().baseUrl}/address?customer_id=$customerId&page=$page'),
-      headers: ServiceAPI().headerInfo,
+          '${ServiceAPI.baseUrl}/address?customer_id=$customerId&page=$page'),
+      headers: ServiceAPI.headerInfo,
     );
     return ShippingAddressResponse.fromJson(jsonDecode(response.body));
   }
@@ -18,8 +18,8 @@ class ShippingAddressServices2 {
   static Future<BasicResponse> storeShippingAddress(
       ShippingAddressRequestBody body) async {
     var response = await http.post(
-      Uri.parse('${ServiceAPI().baseUrl}/address/store'),
-      headers: ServiceAPI().headerInfo,
+      Uri.parse('${ServiceAPI.baseUrl}/address/store'),
+      headers: ServiceAPI.headerInfo,
       body: jsonEncode(body.toJson()),
     );
     return BasicResponse.fromJson(jsonDecode(response.body));
@@ -28,8 +28,8 @@ class ShippingAddressServices2 {
   static Future<BasicResponse> editShippingAddress(
       addressId, ShippingAddressRequestBody body) async {
     var response = await http.put(
-      Uri.parse('${ServiceAPI().baseUrl}/address/edit/$addressId'),
-      headers: ServiceAPI().headerInfo,
+      Uri.parse('${ServiceAPI.baseUrl}/address/edit/$addressId'),
+      headers: ServiceAPI.headerInfo,
       body: jsonEncode(body.toJson()),
     );
     return BasicResponse.fromJson(jsonDecode(response.body));
@@ -37,15 +37,15 @@ class ShippingAddressServices2 {
 
   static Future<BasicResponse> deleteShippingAddress(addressId) async {
     var response = await http.delete(
-        Uri.parse('${ServiceAPI().baseUrl}/address/delete/$addressId'),
-        headers: ServiceAPI().headerInfo);
+        Uri.parse('${ServiceAPI.baseUrl}/address/delete/$addressId'),
+        headers: ServiceAPI.headerInfo);
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
 
   static Future<BasicResponse> setDefaultShippingAddress(addressId) async {
     var response = await http.put(
-      Uri.parse('${ServiceAPI().baseUrl}/address/default/edit/$addressId'),
-      headers: ServiceAPI().headerInfo,
+      Uri.parse('${ServiceAPI.baseUrl}/address/default/edit/$addressId'),
+      headers: ServiceAPI.headerInfo,
     );
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
@@ -54,8 +54,8 @@ class ShippingAddressServices2 {
       customerId) async {
     var response = await http.get(
       Uri.parse(
-          '${ServiceAPI().baseUrl}/address/default?customer_id=$customerId'),
-      headers: ServiceAPI().headerInfo,
+          '${ServiceAPI.baseUrl}/address/default?customer_id=$customerId'),
+      headers: ServiceAPI.headerInfo,
     );
     return DefaultShippingAddressResponse.fromJson(jsonDecode(response.body));
   }

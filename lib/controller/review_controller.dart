@@ -27,8 +27,8 @@ class ReviewController extends GetxController {
       var request = http.MultipartRequest(
           "POST",
           Uri.parse(
-              '${ServiceAPI().baseUrl}/customers/${userController.customer.value!.id}/reviews/store'));
-      request.headers.addAll(ServiceAPI().headerInfo);
+              '${ServiceAPI.baseUrl}/customers/${userController.customer.value!.id}/reviews/store'));
+      request.headers.addAll(ServiceAPI.headerInfo);
       request.fields.addAll(body.toJson());
 
       for (var i = 0; i < imageController.images.length; i++) {
@@ -67,8 +67,8 @@ class ReviewController extends GetxController {
       var request = http.MultipartRequest(
           "POST",
           Uri.parse(
-              '${ServiceAPI().baseUrl}/customers/${userController.customer.value!.id}/reviews/edit/$id'));
-      request.headers.addAll(ServiceAPI().headerInfo);
+              '${ServiceAPI.baseUrl}/customers/${userController.customer.value!.id}/reviews/edit/$id'));
+      request.headers.addAll(ServiceAPI.headerInfo);
       request.fields.addAll({
         '_method': 'PUT',
         'contents': contents,

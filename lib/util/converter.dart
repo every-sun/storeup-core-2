@@ -1,14 +1,14 @@
 import 'package:intl/intl.dart';
 
 class Converter {
-  final formatCurrency =
+  static final formatCurrency =
       NumberFormat.simpleCurrency(locale: "ko_KR", name: "", decimalDigits: 0);
 
-  String numberToPrice(int price) {
+  static String numberToPrice(int price) {
     return formatCurrency.format(price);
   }
 
-  String formatPhoneNumber(String contactNumber) {
+  static String formatPhoneNumber(String contactNumber) {
     contactNumber = contactNumber.replaceAll(RegExp(r'[^0-9]'), '');
     if (contactNumber.length == 10) {
       contactNumber = contactNumber.replaceFirstMapped(
@@ -45,7 +45,7 @@ class Converter {
     return contactNumber;
   }
 
-  String getCloseTimeString(value) {
+  static String getCloseTimeString(value) {
     //18:15
     var hour = value.split(':')[0];
     var minute = value.split(':')[1];
@@ -57,7 +57,7 @@ class Converter {
     }
   }
 
-  final Map weekData = {
+  static const Map weekData = {
     'mon': '월요일',
     'tue': '화요일',
     'wed': '수요일',
@@ -67,7 +67,7 @@ class Converter {
     'sun': '일요일'
   };
 
-  final List<Map> holidayData = [
+  static const List<Map> holidayData = [
     {
       'value': 1,
       'label': '첫째',
@@ -85,7 +85,7 @@ class Converter {
     {'value': 6, 'label': '마지막 주'}
   ];
 
-  String getOpeningHours(map) {
+  static String getOpeningHours(map) {
     String result = '';
     map.forEach((key, value) {
       if (value['is_all_day']) {
@@ -98,7 +98,7 @@ class Converter {
     return result.trim();
   }
 
-  String getWeekStringFromNumberArr(numberArr) {
+  static String getWeekStringFromNumberArr(numberArr) {
     numberArr.sort();
     if (numberArr.length >= 6) {
       return '매주 ';
@@ -116,7 +116,7 @@ class Converter {
     return result;
   }
 
-  String getRegularHolidayValue(value, isPublicHoliday) {
+  static String getRegularHolidayValue(value, isPublicHoliday) {
     String result = '';
     value.entries.forEach((v) => {
           if (v.value.isNotEmpty)

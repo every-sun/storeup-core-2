@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:user_core2/model/notification.dart';
 
 class Storage {
-  void initStorage() async {
+  static void initStorage() async {
     // 앱 삭제 후 처음 앱을 실행하면 데이터 제거
     final prefs = await SharedPreferences.getInstance();
     if (prefs.getBool('first_run') ?? true) {
@@ -14,7 +14,7 @@ class Storage {
     }
   }
 
-  void addRecentlyViewed(String key, dynamic productId) async {
+  static void addRecentlyViewed(String key, dynamic productId) async {
     FlutterSecureStorage storage = const FlutterSecureStorage();
     var valueString = await storage.read(key: key) ?? '[]';
 
@@ -29,7 +29,8 @@ class Storage {
     storage.write(key: key, value: jsonEncode(valueList));
   }
 
-  void addNotification(String key, CustomerNotification notification) async {
+  static void addNotification(
+      String key, CustomerNotification notification) async {
     FlutterSecureStorage storage = const FlutterSecureStorage();
     var notiString = await storage.read(key: key) ?? '[]';
 
