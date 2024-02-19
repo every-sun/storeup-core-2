@@ -15,22 +15,33 @@ class WishScrollController extends GetxController {
 
   @override
   void onInit() {
-    _getData();
+    fetch();
+    super.onInit();
+  }
+
+  @override
+  void onClose() {
+    scrollController.value.dispose();
+    super.onClose();
+  }
+
+  void fetch() {
+    getData();
     scrollController.value.addListener(() {
       if (scrollController.value.position.pixels ==
               scrollController.value.position.maxScrollExtent &&
           hasMore.value) {
-        _getData();
+        getData();
       }
     });
-    super.onInit();
   }
 
-  Future<void> _getData() async {
+  Future<void> getData() async {
     try {
       isLoading.value = true;
       WishResponse response = await WishServices2.getWishes(
           Get.find<UserController>().customer.value!.id, page.value);
+
       isLoading.value = false;
 
       if (response.status &&
@@ -62,6 +73,6 @@ class WishScrollController extends GetxController {
 
   Future<void> reload() async {
     initFetchState();
-    _getData();
+    getData();
   }
 }
