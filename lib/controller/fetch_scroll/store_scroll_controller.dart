@@ -73,7 +73,6 @@ class StoreScrollController extends GetxController {
       }
     } catch (err) {
       initFetchState();
-      print(err);
       showBasicAlertDialog('상점 목록 조회를 실패하였습니다.');
     }
   }

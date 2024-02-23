@@ -150,6 +150,7 @@ class OrderController extends GetxController {
               .toList()),
     );
     if (response != null && response.status && response.data != null) {
+      // TODO 테스트
       Get.to(() => TossPaymentsView(
           controller: orderController,
           amount: response.data!['order_payment_amount'] as int,

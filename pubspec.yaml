@@ -19,7 +19,6 @@ dependencies:
   cupertino_icons: ^1.0.2
   shared_preferences:
   flutter_secure_storage:
-  toss_payment: ^0.2.6
   url_launcher: ^6.1.7
   flutter_image_compress:
   cached_network_image: ^3.2.3
@@ -28,6 +27,7 @@ dependencies:
   kpostal: ^0.5.1
   shimmer: ^3.0.0
   webview_flutter: ^3.0.4
+  tosspayments_widget_sdk_flutter: ^1.0.3
 
 dev_dependencies:
   flutter_test:

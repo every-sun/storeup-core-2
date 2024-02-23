@@ -61,8 +61,8 @@ class UserController extends GetxController {
         deleteCustomer(key);
       }
     } catch (err) {
+      deleteCustomer(key);
       isLoading.value = false;
-      showBasicAlertDialog('사용자 정보 업데이트 실패');
       return;
     }
   }
