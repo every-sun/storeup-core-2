@@ -638,12 +638,6 @@
       "languageVersion": "2.18"
     },
     {
-      "name": "toss_payment",
-      "rootUri": "file:///Users/jodahye/.pub-cache/hosted/pub.dev/toss_payment-0.2.6",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
       "name": "tosspayments_webview_flutter",
       "rootUri": "file:///Users/jodahye/.pub-cache/hosted/pub.dev/tosspayments_webview_flutter-1.0.2",
       "packageUri": "lib/",
@@ -782,7 +776,7 @@
       "languageVersion": "2.18"
     }
   ],
-  "generated": "2024-02-23T05:44:29.689175Z",
+  "generated": "2024-02-23T07:40:15.832301Z",
   "generator": "pub",
   "generatorVersion": "3.0.5"
 }

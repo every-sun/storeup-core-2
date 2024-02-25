@@ -78,7 +78,7 @@ class StoreScrollController extends GetxController {
   }
 
   void initFetchState() {
-    isLoading.value = true;
+    isLoading.value = false;
     data.clear();
     hasMore.value = true;
     page.value = 1;

@@ -837,14 +837,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.1"
-  toss_payment:
-    dependency: "direct main"
-    description:
-      name: toss_payment
-      sha256: e322dfe69108bce6ba91ab67c20cb172d48b8d681335ef793393afd04703b7b0
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.6"
   tosspayments_webview_flutter:
     dependency: transitive
     description:

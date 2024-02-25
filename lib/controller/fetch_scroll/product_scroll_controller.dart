@@ -34,10 +34,11 @@ class ProductScrollController extends GetxController {
     }
   }
 
-  void fetchData(type, id, keyword, ScrollController scrollController) {
+  void fetchData(
+      type, id, keyword, ScrollController scrollController, scrollMethod) {
     reload(type, id, keyword);
-
     scrollController.addListener(() {
+      scrollMethod();
       if (scrollController.position.pixels ==
               scrollController.position.maxScrollExtent &&
           hasMore.value) {
@@ -97,7 +98,7 @@ class ProductScrollController extends GetxController {
   }
 
   void initFetchState() {
-    isLoading.value = true;
+    isLoading.value = false;
     data.clear();
     hasMore.value = true;
     page.value = 1;

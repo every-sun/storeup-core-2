@@ -51,7 +51,7 @@ class Converter {
     var minute = value.split(':')[1];
     if (int.parse(hour) > 24) {
       var stringHour = (int.parse(hour) - 24).toString();
-      return '${stringHour.length < 10 ? '0$stringHour' : stringHour}:$minute" (다음날)"';
+      return '${stringHour.length < 10 ? '0$stringHour' : stringHour}:$minute (다음날)';
     } else {
       return value;
     }

@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:toss_payment/feature/payments/webview/payment_webview.dart';
+import 'package:user_core2/page/basic_toss_web_view.dart';
 
 class ReceiptView extends StatelessWidget {
-  const ReceiptView({Key? key, required this.url}) : super(key: key);
+  const ReceiptView({Key? key, required this.url, required this.appbar})
+      : super(key: key);
   final String url;
-
+  final PreferredSizeWidget appbar;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(child: PaymentWebView(
-          onTapCloseButton: (){
-            Navigator.of(context).pop();
-          },
-          paymentRequestUrl: Uri.parse(url),
-        ))
-    );
+        appBar: appbar, body: SafeArea(child: BasicTossWebView(viewUrl: url)));
   }
 }
