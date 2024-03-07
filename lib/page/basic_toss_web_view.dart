@@ -30,28 +30,44 @@ class BasicTossWebView extends StatelessWidget {
       onPageStarted: onStartedFunction,
       onPageFinished: onFinishedFunction,
       navigationDelegate: (request) async {
-        Uri uri = Uri.parse(request.url);
-        // url 이 웹뷰에 유효하다면 해당 url 로 이동한다.
-        if (uri.scheme == 'http' ||
-            uri.scheme == 'https' ||
-            uri.scheme == 'about') {
-          return NavigationDecision.navigate;
-        }
+        try {
+          if (!request.url.contains('"')) {
+            Uri uri = Uri.parse(request.url);
+            if (uri.scheme == 'http' || // url 이 웹뷰에 유효하다면 해당 url 로 이동한다.
+                uri.scheme == 'https' ||
+                uri.scheme == 'about') {
+              return NavigationDecision.navigate;
+            }
 
-        if (Platform.isAndroid) {
-          log(request.url);
-          final appScheme = ConvertUrl(request.url); // Intent URL을 앱 스킴 URL로 변환
-
-          if (appScheme.isAppLink()) {
-            // 앱 스킴 URL인지 확인
-            appScheme.launchApp(
-                mode: LaunchMode
-                    .externalApplication); // 앱 설치 상태에 따라 앱 실행 또는 마켓으로 이동
+            if (Platform.isAndroid) {
+              final appScheme =
+                  ConvertUrl(request.url); // Intent URL을 앱 스킴 URL로 변환
+              if (appScheme.isAppLink()) {
+                // 앱 스킴 URL인지 확인
+                appScheme.launchApp(
+                    mode: LaunchMode
+                        .externalApplication); // 앱 설치 상태에 따라 앱 실행 또는 마켓으로 이동
+              }
+            } else {
+              launchFunction(uri);
+            }
+          } else {
+            if (Platform.isAndroid) {
+              final appScheme =
+                  ConvertUrl(request.url); // Intent URL을 앱 스킴 URL로 변환
+              if (appScheme.isAppLink()) {
+                // 앱 스킴 URL인지 확인
+                appScheme.launchApp(
+                    mode: LaunchMode
+                        .externalApplication); // 앱 설치 상태에 따라 앱 실행 또는 마켓으로 이동
+              }
+            }
           }
-        } else {
-          launchFunction(uri);
+          return NavigationDecision.prevent;
+        } catch (err) {
+          log(err.toString());
+          return NavigationDecision.prevent;
         }
-        return NavigationDecision.prevent;
       },
       javascriptMode: JavascriptMode.unrestricted,
     );

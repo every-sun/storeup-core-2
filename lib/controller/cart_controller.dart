@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:user_core2/controller/app_controller.dart';
 import 'package:user_core2/controller/user_controller.dart';
 import 'package:user_core2/model/cart.dart';
 import 'package:user_core2/model/language.dart';
@@ -12,56 +11,6 @@ class CartController extends GetxController {
   var isLoading = false.obs;
   var selectedCarts = <Cart>[].obs;
   var selectedCartsSumPrice = 0.obs;
-  var total = 0.obs;
-  var deliveryTotal = 0.obs;
-  var nowTypeTotal = 0.obs;
-  var onlineTypeTotal = 0.obs;
-
-  @override
-  onInit() {
-    getCartTotal('O');
-    if (Get.find<AppController>().appInfo.value!.brandId == 2) {
-      getCartTotal('D');
-    }
-    super.onInit();
-  }
-
-  Future<void> getCartTotalByProductType(type) async {
-    try {
-      CartResponse response = await CartServices2.getCarts(
-          Get.find<UserController>().customer.value!.id, type, 1, 0);
-      if (response.status && response.data != null) {
-        if (type == 'N') {
-          nowTypeTotal.value = response.data!.total;
-        } else {
-          onlineTypeTotal.value = response.data!.total;
-        }
-      }
-      return;
-    } catch (err) {
-      return;
-    }
-  }
-
-  Future<void> getCartTotal(type) async {
-    try {
-      if (Get.find<UserController>().customer.value == null) {
-        total.value = 0;
-        deliveryTotal.value = 0;
-      } else {
-        int count = await CartServices2.getCartTotal(
-            Get.find<UserController>().customer.value!.id, type);
-        if (type == 'O') {
-          total.value = count;
-        } else if (type == 'D') {
-          deliveryTotal.value = count;
-        }
-      }
-      return;
-    } catch (err) {
-      return;
-    }
-  }
 
   Map<String, List<ProductOption>> getDividedOption(
       List<ProductOption> options) {
@@ -128,7 +77,8 @@ class CartController extends GetxController {
     selectedCartsSumPrice.value = result;
   }
 
-  Future<BasicResponse?> saveCartItem(CartRequestBody body) async {
+  Future<BasicResponse?> saveCartItem(
+      CartRequestBody body, successMethod) async {
     if (Get.find<UserController>().customer.value == null) return null;
     try {
       isLoading.value = true;
@@ -137,13 +87,13 @@ class CartController extends GetxController {
       isLoading.value = false;
       if ((body.cartType == 'O' || body.cartType == 'N')) {
         if (response.status) {
-          await getCartTotal('O');
+          successMethod();
         } else {
           showBasicAlertDialog(response.message);
         }
       }
       if (body.cartType == 'D' && response.status) {
-        await getCartTotal('D');
+        successMethod();
       }
       return response;
     } catch (err) {
@@ -163,8 +113,6 @@ class CartController extends GetxController {
       if (!response.status) {
         showBasicAlertDialog(response.message);
       } else {
-        await getCartTotal('O');
-        await getCartTotal('D');
         successMethod();
       }
       return response.status;
@@ -248,8 +196,6 @@ class CartController extends GetxController {
       } else {
         showBasicAlertDialog(response.message);
       }
-      await getCartTotalByProductType('O');
-      await getCartTotalByProductType('N');
     } catch (err) {
       isLoading.value = false;
       showBasicAlertDialog('배송 방법 변경을 실패하였습니다.');

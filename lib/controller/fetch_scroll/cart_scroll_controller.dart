@@ -16,6 +16,23 @@ class CartScrollController extends GetxController {
   var page = 1.obs;
   var total = 0.obs;
 
+  Future<void> getCartTotal(type) async {
+    try {
+      if (Get.find<UserController>().customer.value == null) {
+        total.value = 0;
+      } else {
+        CartResponse response = await CartServices2.getCarts(
+            Get.find<UserController>().customer.value!.id, type, 1, 0);
+        if (response.data != null) {
+          total.value = response.data!.total;
+        }
+      }
+      return;
+    } catch (err) {
+      return;
+    }
+  }
+
   Future<dynamic> fetchData(type, ScrollController scrollController) async {
     reload(type);
 

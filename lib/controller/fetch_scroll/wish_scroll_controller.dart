@@ -6,30 +6,17 @@ import 'package:user_core2/service/wish_service.dart';
 import 'package:user_core2/util/dialog.dart';
 
 class WishScrollController extends GetxController {
-  var scrollController = ScrollController().obs;
   var data = <Wish>[].obs;
   var isLoading = false.obs;
   var hasMore = true.obs;
   var page = 1.obs;
   var total = 0.obs;
 
-  @override
-  void onInit() {
-    fetch();
-    super.onInit();
-  }
-
-  @override
-  void onClose() {
-    scrollController.value.dispose();
-    super.onClose();
-  }
-
-  void fetch() {
+  void fetch(ScrollController scrollController) {
     getData();
-    scrollController.value.addListener(() {
-      if (scrollController.value.position.pixels ==
-              scrollController.value.position.maxScrollExtent &&
+    scrollController.addListener(() {
+      if (scrollController.position.pixels ==
+              scrollController.position.maxScrollExtent &&
           hasMore.value) {
         getData();
       }

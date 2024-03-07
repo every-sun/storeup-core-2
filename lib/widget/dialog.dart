@@ -91,12 +91,14 @@ class BasicConfirmDialog extends StatelessWidget {
       required this.radius,
       this.titleFontSize = 16,
       this.buttonFontSize = 16,
+        this.cancelMethod,
       required this.buttonPadding,
       required this.titlePadding,
       required this.middleLineHeight})
       : super(key: key);
   final String title;
   final Function method;
+  final Function? cancelMethod;
   final String agreeTitle;
   final String cancelTitle;
   final int cancelButtonColor;
@@ -137,6 +139,9 @@ class BasicConfirmDialog extends StatelessWidget {
               child: TextButton(
                   onPressed: () {
                     Get.back();
+                    if(cancelMethod!=null){
+                      cancelMethod!();
+                    }
                   },
                   style: ButtonStyle(
                     padding:

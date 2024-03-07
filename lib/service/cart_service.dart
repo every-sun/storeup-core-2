@@ -46,8 +46,7 @@ class CartServices2 {
 
   static Future<BasicResponse> changeCartType(customerId, body) async {
     var response = await http.put(
-        Uri.parse(
-            '${ServiceAPI.baseUrl}/customers/$customerId/carts/shipping'),
+        Uri.parse('${ServiceAPI.baseUrl}/customers/$customerId/carts/shipping'),
         headers: ServiceAPI.headerInfo,
         body: jsonEncode(body));
     return BasicResponse.fromJson(jsonDecode(response.body));
