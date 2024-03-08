@@ -51,7 +51,7 @@ String deliveryCartOutOfStockType(Cart cart) {
       return '재고부족';
     }
   }
-  if (!cart.product.delivery!.isPurchasable) {
+  if (!cart.isPurchasable || !cart.product.delivery!.isPurchasable) {
     return '주문불가';
   }
   return '';
