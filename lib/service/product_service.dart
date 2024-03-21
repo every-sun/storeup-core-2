@@ -4,7 +4,7 @@ import 'package:user_core2/global_variable.dart';
 import 'package:user_core2/model/product.dart';
 import 'package:user_core2/service/service.dart';
 
-class ProductServices2 {
+class ProductServices {
   static Future<ProductResponse> getProductsByGroup(
       groupId, orderBy, direction, page) async {
     var response = await http.get(

@@ -10,7 +10,6 @@ import 'package:http/http.dart' as http;
 
 class ClaimController extends GetxController {
   ImageController imageController = Get.put(ImageController());
-
   var isLoading = false.obs;
   var claimRequestBody = ClaimRequestBody(
           reShipping: null,

@@ -4,7 +4,7 @@ import 'package:user_core2/model/language.dart';
 import 'package:user_core2/model/shipping_address.dart';
 import 'package:user_core2/service/service.dart';
 
-class ShippingAddressServices2 {
+class ShippingAddressServices {
   static Future<ShippingAddressResponse> getShippingAddresses(
       customerId, page) async {
     var response = await http.get(

@@ -5,10 +5,8 @@ import 'package:user_core2/model/review.dart';
 import 'package:user_core2/service/service.dart';
 
 class ReviewServices2 {
-  static Future<ReviewResponse> getOrderItems(
-      // 리뷰 작성 가능한 주문 아이템들
-      customerId,
-      int page) async {
+  /* 리뷰 작성 가능한 주문 아이템들 */
+  static Future<ReviewResponse> getOrderItems(customerId, int page) async {
     var response = await http.get(
       Uri.parse(
           '${ServiceAPI.baseUrl}/customers/$customerId/items/reviews?&page=$page'),

@@ -4,7 +4,7 @@ import 'package:user_core2/model/language.dart';
 import 'package:user_core2/model/order.dart';
 import 'package:user_core2/service/service.dart';
 
-class OrderServices2 {
+class OrderServices {
   static Future<OrderRequestResponse> requestOrder(
       OrderRequestBody body) async {
     var response = await http.post(
@@ -33,6 +33,7 @@ class OrderServices2 {
     return Order.fromJson(jsonDecode(response.body)['data']);
   }
 
+  // 구매 확정
   static Future<BasicResponse> requestOrderConfirm(
       dynamic customerId, itemId) async {
     var response = await http.get(
@@ -42,6 +43,7 @@ class OrderServices2 {
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
 
+  // 미결제 주문 삭제
   static Future<BasicResponse> deleteUnpaidOrder(orderId) async {
     var response = await http.delete(
       Uri.parse('${ServiceAPI.baseUrl}/orders/$orderId'),
@@ -50,6 +52,7 @@ class OrderServices2 {
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
 
+  // 다시담기
   static Future<BasicResponse> restoreToCart(dynamic customerId, itemId) async {
     var response = await http.post(
         Uri.parse('${ServiceAPI.baseUrl}/customers/$customerId/carts'),

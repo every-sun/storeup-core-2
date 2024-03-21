@@ -12,7 +12,7 @@ class BrandController extends GetxController {
   var shippingFee = Rxn<ShippingFeeResponseData>();
   var deliveryFee = Rxn<ShippingFeeResponseData>();
   var carrier = Rxn<CarrierResponseData>();
-  var fixedShippingFee = 0.obs;
+  var fixedShippingFee = 0.obs; // 기본 배송비
 
   final ShippingAddressController addressController =
       Get.put(ShippingAddressController());

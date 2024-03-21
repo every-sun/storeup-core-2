@@ -4,8 +4,9 @@ import 'package:user_core2/model/language.dart';
 import 'package:user_core2/service/service.dart';
 import 'package:user_core2/model/auth.dart';
 
-class AuthServices2 {
+class AuthServices {
   static Future<SmsKeyResponse> getSmsKey(contact, brandId) async {
+    // 가비아 코드 문자 전송
     var response = await http.get(Uri.parse(
         '${ServiceAPI.baseUrl}/sms/certification?contact=$contact&brand_id=$brandId'));
     return SmsKeyResponse.fromJson(jsonDecode(response.body));

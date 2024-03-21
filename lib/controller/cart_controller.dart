@@ -82,7 +82,7 @@ class CartController extends GetxController {
     if (Get.find<UserController>().customer.value == null) return null;
     try {
       isLoading.value = true;
-      BasicResponse response = await CartServices2.storeCart(
+      BasicResponse response = await CartServices.storeCart(
           Get.find<UserController>().customer.value!.id, body);
       isLoading.value = false;
       if ((body.cartType == 'O' || body.cartType == 'N')) {
@@ -107,7 +107,7 @@ class CartController extends GetxController {
     if (Get.find<UserController>().customer.value == null) return false;
     try {
       isLoading.value = true;
-      BasicResponse response = await CartServices2.deleteCarts(
+      BasicResponse response = await CartServices.deleteCarts(
           Get.find<UserController>().customer.value!.id, cartIdList);
       isLoading.value = false;
       if (!response.status) {
@@ -169,7 +169,7 @@ class CartController extends GetxController {
   Future<void> updateQuantity(
       isAdd, dynamic cartId, carts, quantity, successMethod) async {
     try {
-      BasicResponse response = await CartServices2.updateQuantity(
+      BasicResponse response = await CartServices.updateQuantity(
           Get.find<UserController>().customer.value!.id, cartId, quantity);
       if (response.status) {
         successMethod();
@@ -183,11 +183,12 @@ class CartController extends GetxController {
     }
   }
 
+  // 일반배송<->당일배달 변경
   Future<void> changeCartType(
       List<dynamic> idList, Function successMethod, type) async {
     try {
       isLoading.value = true;
-      BasicResponse response = await CartServices2.changeCartType(
+      BasicResponse response = await CartServices.changeCartType(
           Get.find<UserController>().customer.value!.id,
           {'from': type, 'items': idList});
       isLoading.value = false;

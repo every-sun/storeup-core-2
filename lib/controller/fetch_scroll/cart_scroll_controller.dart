@@ -21,7 +21,7 @@ class CartScrollController extends GetxController {
       if (Get.find<UserController>().customer.value == null) {
         total.value = 0;
       } else {
-        CartResponse response = await CartServices2.getCarts(
+        CartResponse response = await CartServices.getCarts(
             Get.find<UserController>().customer.value!.id, type, 1, 0);
         if (response.data != null) {
           total.value = response.data!.total;
@@ -51,7 +51,7 @@ class CartScrollController extends GetxController {
     try {
       isLoading.value = true;
 
-      CartResponse response = await CartServices2.getCarts(
+      CartResponse response = await CartServices.getCarts(
           Get.find<UserController>().customer.value!.id,
           type,
           type == 'D' ? 1 : page.value,
@@ -63,7 +63,7 @@ class CartScrollController extends GetxController {
           response.data != null &&
           response.data!.data.isNotEmpty) {
         if (type == 'D') {
-          store.value = await StoreServices2.getStore(
+          store.value = await StoreServices.getStore(
               Get.find<AppController>().appInfo.value!.brandId,
               response.data!.data[0].product.tenantId);
           data.value = response.data!.data;

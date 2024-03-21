@@ -277,7 +277,6 @@ class IdFindResponse {
 /* ----- 아이디 찾기 ----- */
 
 /* 가비아 인증번호 전송 */
-
 class SmsKeyResponse {
   bool status;
   String message;

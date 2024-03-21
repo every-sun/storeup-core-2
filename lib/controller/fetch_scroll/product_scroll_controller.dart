@@ -54,20 +54,20 @@ class ProductScrollController extends GetxController {
 
       late ProductResponse response;
       if (type == 'G') {
-        response = await ProductServices2.getProductsByGroup(
+        response = await ProductServices.getProductsByGroup(
             id, sortValue.value, sortDescending.value, page.value);
       } else if (type == 'C') {
-        response = await ProductServices2.getProductsByCollection(
+        response = await ProductServices.getProductsByCollection(
             id, sortValue.value, sortDescending.value, page.value);
       } else if (type == 'S') {
-        response = await ProductServices2.getProductsBySearch(
+        response = await ProductServices.getProductsBySearch(
             keyword,
             Get.find<AppController>().appInfo.value!.brandId,
             sortValue.value,
             sortDescending.value,
             page.value);
       } else if (type == 'SF') {
-        response = await ProductServices2.getProductsByStore(
+        response = await ProductServices.getProductsByStore(
             Get.find<AppController>().appInfo.value!.brandId,
             id,
             'O',

@@ -129,15 +129,14 @@ class DeliveryServices {
   }
 
   /* 배달상품 불러오기(배달상점 상세페이지) */
-  static Future<DeliveryProductsByCategoryResponse> getDeliveryProductsByStore(
+  static Future<DeliveryProductsByStoreResponse> getDeliveryProductsByStore(
       brandId, tenantId) async {
     var response = await http.get(
       Uri.parse(
           '${ServiceAPI.baseUrl}/brands/$brandId/stores/$tenantId/deliveries/categories'),
       headers: ServiceAPI.headerInfo,
     );
-    return DeliveryProductsByCategoryResponse.fromJson(
-        jsonDecode(response.body));
+    return DeliveryProductsByStoreResponse.fromJson(jsonDecode(response.body));
   }
 
   /* 배달상품 단일조회 */

@@ -14,6 +14,7 @@ class Storage {
     }
   }
 
+  // 최근 본 상품 저장
   static void addRecentlyViewed(String key, dynamic productId) async {
     FlutterSecureStorage storage = const FlutterSecureStorage();
     var valueString = await storage.read(key: key) ?? '[]';
@@ -29,6 +30,7 @@ class Storage {
     storage.write(key: key, value: jsonEncode(valueList));
   }
 
+  // 알림 저장
   static void addNotification(
       String key, CustomerNotification notification) async {
     FlutterSecureStorage storage = const FlutterSecureStorage();

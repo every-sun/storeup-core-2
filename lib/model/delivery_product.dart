@@ -1,47 +1,47 @@
 import 'package:user_core2/model/language.dart';
 import 'package:user_core2/model/product.dart';
 
-class DeliveryProductsByCategoryResponse {
+/* 배달 상점의 상품 리스트 */
+class DeliveryProductsByStoreResponse {
   bool status;
   String message;
-  List<DeliveryProductsByCategoryData>? data;
-  DeliveryProductsByCategoryResponse(
+  List<DeliveryProductsByStoreData>? data;
+  DeliveryProductsByStoreResponse(
       {required this.status, required this.message, required this.data});
-  factory DeliveryProductsByCategoryResponse.fromJson(
-          Map<String, dynamic> json) =>
-      DeliveryProductsByCategoryResponse(
+  factory DeliveryProductsByStoreResponse.fromJson(Map<String, dynamic> json) =>
+      DeliveryProductsByStoreResponse(
           status: json['status'],
           message: json['message'] ?? '',
           data: json['data'] != null
-              ? List<DeliveryProductsByCategoryData>.from(json['data']
-                  .map((x) => DeliveryProductsByCategoryData.fromJson(x)))
+              ? List<DeliveryProductsByStoreData>.from(json['data']
+                  .map((x) => DeliveryProductsByStoreData.fromJson(x)))
               : null);
 }
 
-class DeliveryProductsByCategoryData {
+class DeliveryProductsByStoreData {
   dynamic id;
   String name;
   String description;
-  List<DeliveryProductsByCategory> deliveries;
-  DeliveryProductsByCategoryData(
+  List<DeliveryProductsByStore> deliveries;
+  DeliveryProductsByStoreData(
       {required this.id,
       required this.name,
       required this.description,
       required this.deliveries});
-  factory DeliveryProductsByCategoryData.fromJson(Map<String, dynamic> json) =>
-      DeliveryProductsByCategoryData(
+  factory DeliveryProductsByStoreData.fromJson(Map<String, dynamic> json) =>
+      DeliveryProductsByStoreData(
           id: json['id'],
           name: json['name'] != null ? Language.fromJson(json['name']).ko : '',
           description: json['description'] != null
               ? Language.fromJson(json['description']).ko
               : '',
           deliveries: json['deliveries'] != null
-              ? List<DeliveryProductsByCategory>.from(json['deliveries']
-                  .map((x) => DeliveryProductsByCategory.fromJson(x)))
+              ? List<DeliveryProductsByStore>.from(json['deliveries']
+                  .map((x) => DeliveryProductsByStore.fromJson(x)))
               : []);
 }
 
-class DeliveryProductsByCategory {
+class DeliveryProductsByStore {
   dynamic id;
   int price;
   bool isDiscount;
@@ -58,7 +58,7 @@ class DeliveryProductsByCategory {
   int safetyInventory;
   DeliveryProduct? product;
 
-  DeliveryProductsByCategory({
+  DeliveryProductsByStore({
     required this.id,
     required this.price,
     required this.isDiscount,
@@ -75,8 +75,8 @@ class DeliveryProductsByCategory {
     required this.safetyInventory,
     required this.product,
   });
-  factory DeliveryProductsByCategory.fromJson(Map<String, dynamic> json) =>
-      DeliveryProductsByCategory(
+  factory DeliveryProductsByStore.fromJson(Map<String, dynamic> json) =>
+      DeliveryProductsByStore(
           id: json['id'],
           price: json['price'],
           isDiscount: json['is_discount'],
@@ -126,9 +126,10 @@ class DeliveryProduct {
         data: json['data'] != null ? ImageData.fromJson(json['data']) : null,
       );
 }
+/* ------------- 배달 상점의 상품 리스트 -------------------*/
 
+// 배달 상품 상세페이지(장바구니에 추가하는 페이지)
 class DeliveryDetail {
-  // 배달 상품 상세페이지(장바구니에 추가하는 페이지)
   dynamic id;
   dynamic globalId;
   dynamic tenantId;

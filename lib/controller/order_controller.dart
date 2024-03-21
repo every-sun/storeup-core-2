@@ -63,7 +63,7 @@ class OrderController extends GetxController {
   Future<OrderRequestResponse?> requestOrder(OrderRequestBody body) async {
     try {
       isLoading.value = true;
-      OrderRequestResponse response = await OrderServices2.requestOrder(body);
+      OrderRequestResponse response = await OrderServices.requestOrder(body);
       isLoading.value = false;
       if (!response.status) {
         showBasicAlertDialog(response.message);
@@ -79,7 +79,7 @@ class OrderController extends GetxController {
   Future<void> requestOrderConfirm(itemId, successMethod) async {
     try {
       isLoading.value = true;
-      BasicResponse response = await OrderServices2.requestOrderConfirm(
+      BasicResponse response = await OrderServices.requestOrderConfirm(
           Get.find<UserController>().customer.value!.id, itemId);
       isLoading.value = false;
       if (response.status) {

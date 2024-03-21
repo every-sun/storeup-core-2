@@ -26,7 +26,7 @@ class DeliveryController extends GetxController {
 
   Future<void> getDetail(tenantId) async {
     isLoading.value = true;
-    DeliveryProductsByCategoryResponse response =
+    DeliveryProductsByStoreResponse response =
         await DeliveryServices.getDeliveryProductsByStore(
             Get.find<AppController>().appInfo.value!.brandId, tenantId);
     ModelReviewResponse reviewResponse =
@@ -49,7 +49,7 @@ class DeliveryController extends GetxController {
 
   Map getCategoryAndMenuGlobalKeys() {
     Map result = {'category': {}, 'menu': {}};
-    if(deliveryDetail['menus']!=null && deliveryDetail['menus'].isNotEmpty){
+    if (deliveryDetail['menus'] != null && deliveryDetail['menus'].isNotEmpty) {
       for (var i = 0; i < deliveryDetail['menus'].length; i++) {
         result['menu'][deliveryDetail['menus'][i].name] =
             GlobalKey<ScaffoldState>();

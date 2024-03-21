@@ -44,6 +44,7 @@ class UserServices {
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
 
+  // 환불받을 계좌 정보 업데이트
   static Future<BasicResponse> updateRefundAccount(
       Map body, dynamic customerId) async {
     var response = await http.put(
@@ -53,6 +54,7 @@ class UserServices {
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
 
+  // 환불받을 계좌 정보 초기화
   static Future<BasicResponse> resetRefundAccount(dynamic customerId) async {
     var response = await http.put(
       Uri.parse('${ServiceAPI.baseUrl}/customers/$customerId/account/reset'),

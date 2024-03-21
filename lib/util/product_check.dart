@@ -75,7 +75,7 @@ String deliveryProductAddableCheck(DeliveryDetailInfo data) {
   return '';
 }
 
-String deliveryProductOutOfStockType(DeliveryProductsByCategory data) {
+String deliveryProductOutOfStockType(DeliveryProductsByStore data) {
   if (data.product == null) {
     return '주문불가';
   }

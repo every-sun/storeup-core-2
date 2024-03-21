@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class BasicStyle{
-  ButtonStyle basicButtonStyle(EdgeInsets padding){
+class BasicStyle {
+  static ButtonStyle basicButtonStyle(EdgeInsets padding) {
     return ButtonStyle(
       padding: MaterialStateProperty.all<EdgeInsets>(padding),
       minimumSize: MaterialStateProperty.all(const Size(0, 0)),
@@ -10,4 +10,3 @@ class BasicStyle{
     );
   }
 }
-

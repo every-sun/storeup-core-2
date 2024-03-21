@@ -40,6 +40,8 @@ class AssetsServices {
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
 
+  //-----------------------------------------------------------------------------------------
+
   static Future<PointResponse> getPointHistory(customerId, type, page) async {
     // type: A, I(적립), D(감소), E(소멸)
     var response = await http.get(

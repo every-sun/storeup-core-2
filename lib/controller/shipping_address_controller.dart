@@ -6,7 +6,7 @@ import 'package:user_core2/service/shipping_address_service.dart';
 import 'package:user_core2/util/dialog.dart';
 
 class ShippingAddressController extends GetxController {
-  final UserController userController = Get.find<UserController>();
+  UserController userController = Get.put(UserController());
 
   var isLoading = false.obs;
   var addresses = <ShippingAddress>[].obs;
@@ -31,7 +31,7 @@ class ShippingAddressController extends GetxController {
   Future<bool> saveAddress(ShippingAddressRequestBody body) async {
     try {
       isLoading.value = true;
-      var response = await ShippingAddressServices2.storeShippingAddress(body);
+      var response = await ShippingAddressServices.storeShippingAddress(body);
       isLoading.value = false;
       if (response.status) {
         await getDefaultAddress();
@@ -55,7 +55,7 @@ class ShippingAddressController extends GetxController {
     try {
       isLoading.value = true;
       var response =
-          await ShippingAddressServices2.editShippingAddress(addressId, body);
+          await ShippingAddressServices.editShippingAddress(addressId, body);
       isLoading.value = false;
       if (response.status) {
         await getDefaultAddress();
@@ -80,7 +80,7 @@ class ShippingAddressController extends GetxController {
     try {
       isLoading.value = true;
       ShippingAddressResponse response =
-          await ShippingAddressServices2.getShippingAddresses(
+          await ShippingAddressServices.getShippingAddresses(
               userController.customer.value!.id, page.value);
       dataHasMore.value = false;
       isLoading.value = false;
@@ -113,7 +113,7 @@ class ShippingAddressController extends GetxController {
     try {
       isLoading.value = true;
       var response =
-          await ShippingAddressServices2.setDefaultShippingAddress(address.id);
+          await ShippingAddressServices.setDefaultShippingAddress(address.id);
       isLoading.value = false;
       if (response.status) {
         userDefaultAddress.value = address;
@@ -134,7 +134,7 @@ class ShippingAddressController extends GetxController {
     try {
       isLoading.value = true;
       BasicResponse response =
-          await ShippingAddressServices2.deleteShippingAddress(addressId);
+          await ShippingAddressServices.deleteShippingAddress(addressId);
       isLoading.value = false;
       if (response.status) {
         initAddresses();
@@ -154,7 +154,7 @@ class ShippingAddressController extends GetxController {
     if (userController.customer.value == null) return false;
     try {
       isLoading.value = true;
-      var response = await ShippingAddressServices2.getDefaultShippingAddress(
+      var response = await ShippingAddressServices.getDefaultShippingAddress(
           userController.customer.value!.id);
       isLoading.value = false;
       if (response.status && response.data != null) {

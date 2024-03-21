@@ -1,5 +1,6 @@
 import 'package:user_core2/model/order.dart';
 
+/* 환불금액 정보 (취소, 반품 신청 시 dialog로 알려줌) */
 class RefundResponse {
   bool status;
   String message;
@@ -35,6 +36,9 @@ class RefundResponseData {
           chargingShippingFee: json['charging_shipping_fee']);
 }
 
+/*------------환불금액 정보------------*/
+
+/* claim 신청 */
 class ClaimRequestBody {
   dynamic orderId;
   bool isCancelAll;
@@ -73,6 +77,8 @@ class ClaimRequestBody {
     return body;
   }
 }
+
+/*------------claim 신청------------*/
 
 class ClaimResponse {
   bool status;

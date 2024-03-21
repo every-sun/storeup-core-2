@@ -46,12 +46,12 @@ class StoreScrollController extends GetxController {
             page.value);
       } else {
         if (keyword != null && keyword != '') {
-          response = await StoreServices2.getStoresBySearch(
+          response = await StoreServices.getStoresBySearch(
               Get.find<AppController>().appInfo.value!.brandId,
               keyword,
               page.value);
         } else {
-          response = await StoreServices2.getStores(
+          response = await StoreServices.getStores(
               Get.find<AppController>().appInfo.value!.brandId, page.value);
         }
       }

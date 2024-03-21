@@ -4,7 +4,7 @@ import 'package:user_core2/model/language.dart';
 import 'package:user_core2/model/wish.dart';
 import 'package:user_core2/service/service.dart';
 
-class WishServices2 {
+class WishServices {
   static Future<BasicResponse> storeWish(customerId, productId) async {
     var response = await http.post(
         Uri.parse('${ServiceAPI.baseUrl}/customers/$customerId/wishes/store'),
@@ -39,6 +39,7 @@ class WishServices2 {
     return WishResponse.fromJson(jsonDecode(response.body));
   }
 
+  // 상품이 사용자 찜 리스트에 포함되어있는지 bool 값으로 응답
   static Future<bool> checkWish(customerId, productId) async {
     var response = await http.get(
       Uri.parse(

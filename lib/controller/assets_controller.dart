@@ -43,7 +43,7 @@ class AssetsController extends GetxController {
     }
   }
 
-  Future<void> getAvailableCoupons(
+  Future<void> setAvailableCoupons(
       int productSumPrice, ShippingFeeResponseData shippingFee) async {
     if (userController.customer.value == null) return;
     try {

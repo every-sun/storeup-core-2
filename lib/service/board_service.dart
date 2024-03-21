@@ -24,6 +24,8 @@ class BoardServices {
         : null;
   }
 
+  //-------------------------------------------------------------------------------------------
+
   static Future<PostResponse> getPosts(
     dynamic brandId,
     dynamic boardId,

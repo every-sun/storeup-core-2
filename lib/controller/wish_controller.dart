@@ -18,10 +18,10 @@ class WishController extends GetxController {
       BasicResponse response;
       isLoading.value = true;
       if (isExist.value) {
-        response = await WishServices2.deleteWish(
+        response = await WishServices.deleteWish(
             Get.find<UserController>().customer.value!.id, productId);
       } else {
-        response = await WishServices2.storeWish(
+        response = await WishServices.storeWish(
             Get.find<UserController>().customer.value!.id, productId);
       }
       isLoading.value = false;
@@ -44,7 +44,7 @@ class WishController extends GetxController {
       isExist.value = false;
     } else {
       try {
-        bool value = await WishServices2.checkWish(
+        bool value = await WishServices.checkWish(
             Get.find<UserController>().customer.value!.id, productId);
         isExist.value = value;
       } catch (err) {

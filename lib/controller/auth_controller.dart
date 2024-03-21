@@ -51,7 +51,7 @@ class AuthController extends GetxController {
       isLoading.value = true;
       registerRequestBody.value!.data.brandId =
           Get.find<AppController>().appInfo.value!.brandId;
-      var result = await AuthServices2.register(registerRequestBody.value!);
+      var result = await AuthServices.register(registerRequestBody.value!);
       isLoading.value = false;
       if (!result.status) {
         showBasicAlertDialog(result.message);
@@ -67,7 +67,7 @@ class AuthController extends GetxController {
   Future<LoginResponse?> login(LoginRequestBody body) async {
     try {
       isLoading.value = true;
-      var result = await AuthServices2.login(body);
+      var result = await AuthServices.login(body);
       isLoading.value = false;
       if (!result.status) {
         showBasicAlertDialog(result.message);
@@ -83,7 +83,7 @@ class AuthController extends GetxController {
   Future<bool> emailUniqueCheck(email) async {
     try {
       isLoading.value = true;
-      var result = await AuthServices2.emailUniqueCheck(email);
+      var result = await AuthServices.emailUniqueCheck(email);
       isLoading.value = false;
       if (!result.status) {
         showBasicAlertDialog(result.message);
@@ -99,7 +99,7 @@ class AuthController extends GetxController {
   Future<IdFindResponse?> findId(name, contact) async {
     try {
       isLoading.value = true;
-      var result = await AuthServices2.findId(
+      var result = await AuthServices.findId(
           name, contact, Get.find<AppController>().appInfo.value!.brandId);
       isLoading.value = false;
       if (!result.status) {
@@ -117,7 +117,7 @@ class AuthController extends GetxController {
       email, password, String customerKey, successText) async {
     try {
       isLoading.value = true;
-      var result = await AuthServices2.resetPassword(email, password);
+      var result = await AuthServices.resetPassword(email, password);
       isLoading.value = false;
       if (result.status) {
         await Get.find<UserController>().deleteCustomer(customerKey);
@@ -137,7 +137,7 @@ class AuthController extends GetxController {
   Future<void> checkPassword(password, successMethod) async {
     try {
       isLoading.value = true;
-      var result = await AuthServices2.checkPassword(
+      var result = await AuthServices.checkPassword(
           Get.find<UserController>().customer.value!.email, password);
       isLoading.value = false;
       if (result.status) {

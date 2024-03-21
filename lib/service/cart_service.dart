@@ -4,7 +4,7 @@ import 'package:user_core2/model/cart.dart';
 import 'package:user_core2/model/language.dart';
 import 'package:user_core2/service/service.dart';
 
-class CartServices2 {
+class CartServices {
   static Future<BasicResponse> storeCart(
       customerId, CartRequestBody body) async {
     var response = await http.post(
@@ -62,6 +62,7 @@ class CartServices2 {
     return BasicResponse.fromJson(jsonDecode(response.body));
   }
 
+  /* 배달 장바구니 모두 비우기 (주문 성공 후) */
   static Future<BasicResponse> clearDeliveryCarts(customerId) async {
     var response = await http.delete(
       Uri.parse('${ServiceAPI.baseUrl}/customers/$customerId/carts/delivery'),

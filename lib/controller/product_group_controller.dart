@@ -24,9 +24,8 @@ class ProductGroupController extends GetxController {
   Future<void> setProductGroups() async {
     try {
       isLoading.value = true;
-      ProductGroupResponse result =
-          await ProductGroupServices2.getProductGroups(
-              Get.find<AppController>().appInfo.value!.brandId);
+      ProductGroupResponse result = await ProductGroupServices.getProductGroups(
+          Get.find<AppController>().appInfo.value!.brandId);
       if (result.status) {
         productGroups.value = result.data;
       }

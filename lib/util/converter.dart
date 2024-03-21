@@ -4,10 +4,12 @@ class Converter {
   static final formatCurrency =
       NumberFormat.simpleCurrency(locale: "ko_KR", name: "", decimalDigits: 0);
 
+  // 숫자 -> 가격
   static String numberToPrice(int price) {
     return formatCurrency.format(price);
   }
 
+  // 숫자 -> 연락처
   static String formatPhoneNumber(String contactNumber) {
     contactNumber = contactNumber.replaceAll(RegExp(r'[^0-9]'), '');
     if (contactNumber.length == 10) {
@@ -45,8 +47,9 @@ class Converter {
     return contactNumber;
   }
 
-  static String getCloseTimeString(value) {
-    //18:15
+  /* 상점에서 사용 */
+  static String _getCloseTimeString(value) {
+    // 18:15
     var hour = value.split(':')[0];
     var minute = value.split(':')[1];
     if (int.parse(hour) > 24) {
@@ -57,7 +60,7 @@ class Converter {
     }
   }
 
-  static const Map weekData = {
+  static const Map _weekData = {
     'mon': '월요일',
     'tue': '화요일',
     'wed': '수요일',
@@ -67,7 +70,7 @@ class Converter {
     'sun': '일요일'
   };
 
-  static const List<Map> holidayData = [
+  static const List<Map> _holidayData = [
     {
       'value': 1,
       'label': '첫째',
@@ -85,20 +88,7 @@ class Converter {
     {'value': 6, 'label': '마지막 주'}
   ];
 
-  static String getOpeningHours(map) {
-    String result = '';
-    map.forEach((key, value) {
-      if (value['is_all_day']) {
-        result += '${weekData[key]}: 24시간\n';
-      } else {
-        result +=
-            '${weekData[key]}: ${value['from']}~${getCloseTimeString(value['to'])}\n';
-      }
-    });
-    return result.trim();
-  }
-
-  static String getWeekStringFromNumberArr(numberArr) {
+  static String _getWeekStringFromNumberArr(numberArr) {
     numberArr.sort();
     if (numberArr.length >= 6) {
       return '매주 ';
@@ -106,7 +96,7 @@ class Converter {
     var result = '매월 ';
     for (var i = 0; i < numberArr.length; i++) {
       result +=
-          '${holidayData.firstWhere((e) => e['value'] == numberArr[i])['label']}주';
+          '${_holidayData.firstWhere((e) => e['value'] == numberArr[i])['label']}주';
       if (i != numberArr.length - 1) {
         result += ', ';
       }
@@ -116,13 +106,26 @@ class Converter {
     return result;
   }
 
+  static String getOpeningHours(map) {
+    String result = '';
+    map.forEach((key, value) {
+      if (value['is_all_day']) {
+        result += '${_weekData[key]}: 24시간\n';
+      } else {
+        result +=
+            '${_weekData[key]}: ${value['from']}~${_getCloseTimeString(value['to'])}\n';
+      }
+    });
+    return result.trim();
+  }
+
   static String getRegularHolidayValue(value, isPublicHoliday) {
     String result = '';
     value.entries.forEach((v) => {
           if (v.value.isNotEmpty)
             {
               result +=
-                  '${getWeekStringFromNumberArr(v.value) + weekData[v.key]}\n'
+                  '${_getWeekStringFromNumberArr(v.value) + _weekData[v.key]}\n'
             }
         });
     if (isPublicHoliday) {

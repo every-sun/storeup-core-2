@@ -26,7 +26,7 @@ class WishScrollController extends GetxController {
   Future<void> getData() async {
     try {
       isLoading.value = true;
-      WishResponse response = await WishServices2.getWishes(
+      WishResponse response = await WishServices.getWishes(
           Get.find<UserController>().customer.value!.id, page.value);
 
       isLoading.value = false;

@@ -13,8 +13,8 @@ class BoardController extends GetxController {
     super.onClose();
   }
 
+  // 이벤트 또는 공지사항 게시판 불러오기
   Future<void> getBoard(type, successMethod) async {
-    // 이벤트 또는 공지사항 게시판 불러오기
     try {
       Board? response = await BoardServices.getBoard(
           Get.find<AppController>().appInfo.value!.brandId, type);
